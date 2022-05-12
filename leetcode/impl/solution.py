@@ -104,7 +104,7 @@ class Solution(object):
 
             combinations = self.combinations(courses, k)
 
-            min_semester = 1 << 32 # MAXIMUM
+            min_semester = 1 << 32
             for k_courses in combinations:
                 remaining_courses = courses - k_courses
 
@@ -133,3 +133,55 @@ class Solution(object):
                 initial_courses += 1 << i
 
         return find_min_semester(initial_courses)
+
+    def convertToTitle(self, columnNumber: int) -> str:
+        """ Excel Sheet Column Title
+
+        Given an integer columnNumber, return its corresponding column title as it appears in an Excel sheet.
+
+        :param columnNumber:  Execel sheet
+        :type  columnNumber:  int
+
+        :return:  its corresponding column title
+        :rtype:  int
+
+        """
+
+        ans = ""
+        while columnNumber:
+            columnNumber -= 1
+            ans = chr(65 + columnNumber % 26) + ans
+            columnNumber //= 26
+        return ans
+
+    def dpma(self, i, j, memo, s, p):
+        if i < 0 and j < 0: # When pattern matches with string
+            return True
+        if i < 0 or j < 0:  # When pattern or string didnt match
+            if i < 0:
+                while j >= 0: # Special case : Still some more pattern remain but all of them are .*
+                    if p[j] != '*':
+                        return False
+                    j -=2
+                return True
+            return False
+        if (i,j) in memo: # Caching results in memo
+            return memo[i,j]
+        a = b = c = False
+        if p[j] == '*':
+            if p[j-1] == s[i] or p[j-1] == '.':
+                a = self.dpma(i-1, j, memo, s, p) # Match character
+            b = self.dpma(i, j-2, memo, s, p) # Skip character
+        else:
+            if p[j] == s[i] or p[j] == '.':
+                a = self.dpma(i-1, j-1, memo, s, p)
+            memo[i,j] = a or b or c
+        return a or b or c
+
+    def isMatch(self, s: str, p: str) -> bool:
+        memo = {}
+        return self.dpma(len(s)-1, len(p)-1, memo, s, p)
+
+
+
+    

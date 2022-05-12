@@ -65,6 +65,29 @@ class SolutionCase(unittest.TestCase):
         expected_output = 7
         self.assertEqual(sol.minNumberOfSemesters(n, dependencies, k), expected_output)
 
+    def test_convertToTitle(self):
+        """ 168. Excel Sheet Column Title """
+        sol = solution.Solution()
+
+        columnNumber = 1
+        expected_output = "A"
+        self.assertEqual(sol.convertToTitle(columnNumber), expected_output)
+
+        columnNumber = 28
+        expected_output = "AB"
+        self.assertEqual(sol.convertToTitle(columnNumber), expected_output)
+
+
+    def test_isMatch(self):
+        """ 10. Regular Expression Matching """
+        sol = solution.Solution()
+
+        s = "aa"
+        p = "a*"
+
+        expected_output = True
+        self.assertEqual(sol.isMatch(s, p), expected_output)
+
 
 if __name__ == '__main__':
     unittest.main()
