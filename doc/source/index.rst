@@ -10,6 +10,7 @@ Welcome to Python Common Algorithm's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   note
    guide
    api
 

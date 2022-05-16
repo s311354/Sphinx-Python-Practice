@@ -24,6 +24,7 @@ class SolutionCase(unittest.TestCase):
     def test_twoSum(self):
         """1. Two Sum"""
         sol = solution.Solution()
+
         nums = [2, 7, 11, 15]
         target = 9
 
@@ -77,16 +78,47 @@ class SolutionCase(unittest.TestCase):
         expected_output = "AB"
         self.assertEqual(sol.convertToTitle(columnNumber), expected_output)
 
-
     def test_isMatch(self):
         """ 10. Regular Expression Matching """
         sol = solution.Solution()
 
         s = "aa"
         p = "a*"
-
         expected_output = True
         self.assertEqual(sol.isMatch(s, p), expected_output)
+
+    def test_romanToInt(self):
+        """ 13. Roman to Integer """
+        sol = solution.Solution()
+
+        s = "III"
+        expected_output = 3
+        self.assertEqual(sol.romanToInt(s), expected_output)
+
+        s = "LVIII"
+        expected_output = 58
+        self.assertEqual(sol.romanToInt(s), expected_output)
+
+        s = "LV"
+        expected_output = 55
+        self.assertEqual(sol.romanToInt(s), expected_output)
+
+        s = "MCMXCIV"
+        expected_output = 1994
+        self.assertEqual(sol.romanToInt(s), expected_output)
+
+    def test_maxLength(self):
+        sol = solution.Solution()
+
+        arr = ["un", "iq", "ue"]
+        expected_output = 4
+        self.assertEqual(sol.maxLength(arr), expected_output)
+
+        arr = ["cha", "r", "act", "ers"]
+        expected_output = 6
+        self.assertEqual(sol.maxLength(arr), expected_output)
+
+
 
 
 if __name__ == '__main__':

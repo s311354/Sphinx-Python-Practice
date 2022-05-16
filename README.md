@@ -59,6 +59,7 @@ $ pip install .
 
 Please check the [`README`](doc/README.md) in [`doc`](doc/) for details.
 
+
 ## References
 * [Lei Mao's Sphinx Tutorial](https://github.com/leimao/Sphinx-Python-TriangleLib)
 * [Brandon Rhodes's Sphinx Tutorial Session at PyCon 2013](https://www.youtube.com/watch?v=QNHM7q2hLh8)
