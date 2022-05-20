@@ -108,6 +108,7 @@ class SolutionCase(unittest.TestCase):
         self.assertEqual(sol.romanToInt(s), expected_output)
 
     def test_maxLength(self):
+        """ 1239. Maximum Length of a Concatenated String with Unique Characters """
         sol = solution.Solution()
 
         arr = ["un", "iq", "ue"]
@@ -118,6 +119,67 @@ class SolutionCase(unittest.TestCase):
         expected_output = 6
         self.assertEqual(sol.maxLength(arr), expected_output)
 
+    def test_criticalConnections(self):
+        """ 1192. Critical Connections in a Network """
+        sol = solution.Solution()
+
+        n = 4
+        connections = [[0,1],[1,2],[2,0],[1,3]]
+        expected_output = [[1,3]]
+        self.assertEqual(sol.criticalConnections(n, connections), expected_output)
+
+        n = 2
+        connections = [[0,1]]
+        expected_output = [[0,1]]
+        self.assertEqual(sol.criticalConnections(n, connections), expected_output)
+
+    def test_arrayNesting(self):
+        """565. Array Nesting docstring for arrayNesting"""
+        sol = solution.Solution()
+
+        nums = [0,1,2]
+        expected_output = 1
+        self.assertEqual(sol.arrayNesting(nums), expected_output)
+
+        nums = [5,4,0,3,1,6,2]
+        expected_output = 4
+        self.assertEqual(sol.arrayNesting(nums), expected_output)
+
+    def test_findPeakElement(self):
+        """162. Find Peak Element docstring for findPeakElement"""
+        sol = solution.Solution()
+
+        nums = [1,2,3,1]
+        expected_output = 2
+        self.assertEqual(sol.findPeakElement(nums), expected_output)
+
+        nums = [1,2,1,3,5,6,4]
+        expected_output = 5
+        self.assertEqual(sol.findPeakElement(nums), expected_output)
+
+    def test_judgeCircle(self):
+        """657. Robot Return to Origin docstring for judgeCircle"""
+        sol = solution.Solution()
+
+        moves = "UD"
+        expected_output = True
+        self.assertEqual(sol.judgeCircle(moves), expected_output)
+
+        moves = "LL"
+        expected_output = False
+        self.assertEqual(sol.judgeCircle(moves), expected_output)
+
+    def test_longestStrChain(self):
+        """1048. Longest String Chain docstring for longestStrChain"""
+        sol = solution.Solution()
+
+        words = ["a","b","ba","bca","bda","bdca"]
+        expected_output = 4
+        self.assertEqual(sol.longestStrChain(words), expected_output)
+
+        words = ["xbc","pcxbcf","xb","cxbc","pcxbc"]
+        expected_output = 5
+        self.assertEqual(sol.longestStrChain(words), expected_output)
 
 
 

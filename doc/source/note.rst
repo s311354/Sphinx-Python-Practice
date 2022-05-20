@@ -4,6 +4,27 @@ Recap Python basic conception and alogrithm
 
 Welcome! This is the personal documentation for learning the basic conception of python.
 
+dataclasses - Data Classes
+--------------------------
+
+This module provides a decorator and functions for automatically adding generated special methods such as __init__() and __repr__() to user-defined classes.
+
+The example this code::
+
+    from dataclasses import dataclass
+
+    @dataclass
+    class InventoryItem:
+        """ Class for keeping track of an item in inventory. """
+        name: str
+        unit_price: float
+        quantity_on_hand: int = 0
+
+        def total_cost(self) -> float:
+            return self.unit_price * self.quantity_on_hand
+
+See the `Python dataclasses page <https://docs.python.org/3.7/library/dataclasses.html?highlight=class#module-dataclasses>`_ for more info.
+
 Container Datatypes
 --------------------------
 
@@ -57,7 +78,7 @@ The range type represents an immutable sequence of numbers and is commonly used 
 
 class range(stop), class range(start, stop[, step]) may be constructed in integers.
 
-Range example:
+Range example::
 
     >>> list(range(10))
     >>> list(range(1, 11))
@@ -93,7 +114,7 @@ class set([iterable]) can be created by several means:
 + Use a comma-separated list of elements within braces: {'jack', 'sjoerd'}
 + Use the type constructor: set(), set('foobar')
 
-The example all return a set equal to {'a', 'b'}
+The example all return a set equal to {'a', 'b'}::
 
     >>> a = {'a', 'b'}
     >>> b = set('a', 'b')

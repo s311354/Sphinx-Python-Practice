@@ -3,8 +3,17 @@ Use the Solution class to represent Leedcode problems
 """
 
 from typing import List
+from typing import Optional
 import collections
+from collections import defaultdict
+from collections import Counter
 from functools import lru_cache
+
+
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
 
 
 class Solution(object):
@@ -246,23 +255,172 @@ class Solution(object):
         """
         self.maxlen = 0
 
-        self.dfs_maxlength(arr, '', set(), 0)
+        def dfs_maxlength(arr, cur, visited, idx):
+            if idx == len(arr):
+                return
+            for i in range(idx, len(arr)):
+                if i in visited:
+                    continue
+
+                ## not unique
+                if len(cur) + len(arr[i]) != len(set(cur + arr[i])):
+                    continue
+                self.maxlen = max(self.maxlen, len(cur) + len(arr[i]))
+
+
+                visited.add(i)
+                dfs_maxlength(arr, cur + arr[i], visited, i + 1)
+                visited.remove(i)
+
+        dfs_maxlength(arr, '', set(), 0)
 
         return self.maxlen
 
-    def dfs_maxlength(self, arr, cur, visited, idx):
-        if idx == len(arr):
-            return
+    def criticalConnections(self, n: int, connections: List[List[int]]) -> List[List[int]]:
+        """ Critical Connections in a Network
 
-        for i in range(idx, len(arr)):
-            if i in visited:
+        :type  param:  Type
+
+        :return:  Description
+        :rtype:  Type
+
+        """
+
+        if not connections or n == 0:
+            return []
+        graph = defaultdict(list)
+        for x, y in connections:
+            graph[x].append(y)
+            graph[y].append(x)
+
+        visited = [False]*n
+        parent = [-1]*n
+        disc = [float("inf")]*n
+        low = [float("inf")]*n
+        time = [0]
+        res = []
+
+        def dfs_cirtical(node, time):
+            visited[node] = True
+            disc[node] = low[node] = time[0]
+            time[0] += 1
+            for neigh in graph[node]:
+                if not visited[neigh]:
+                    parent[neigh] = node
+                    dfs_cirtical(neigh, time)
+                    low[node] = min(low[node], low[neigh])
+                    if low[neigh] > disc[node]:
+                        res.append([node, neigh])
+                elif neigh != parent[node]:
+                    low[node] = min(low[node], disc[neigh])
+
+        for node in range(n):
+            if not visited[node]:
+                dfs_cirtical(node, time)
+
+        return res
+
+    def arrayNesting(self, nums: List[int]) -> int:
+        """ Array Nesting
+
+        :param param:  Description
+        :type  param:  Type
+
+        :return:  Description
+        :rtype:  Type
+
+        :raise e:  Description
+        """
+
+        ans = cnt = 0
+        for i, idx in enumerate(nums):
+            if idx < 0:
                 continue
+            while nums[idx] >= 0:
+                cnt, nums[idx], idx = cnt+1, -1, nums[idx]
+            else:
+                ans, cnt = max(ans, cnt), 0
+        return ans
 
-            if len(cur) + len(arr[i]) != len(set(cur + arr[i])):
-                continue
+    def findPeakElement(self, nums: List[int]) -> int:
+        """ Find Peak Element
 
-            self.maxlen = max(self.maxlen, len(cur) + len(arr[i]))
+        A peak element is an element that is strictly greater than its neighbors.
 
-            visited.add(i)
-            self.dfs_maxlength(arr, cur + arr[i], visited, i + 1)
-            visited.remove(i)
+        Given an integer array nums, find a peak element, and return its index. If the array contains multiple peaks, return the index to any of the peaks.
+
+        You may imagine that nums[-1] = nums[n] = -∞.
+
+        You must write an algorithm that runs in O(log n) time.
+
+        :param nums:  integer array
+        :type  nums:  int
+
+        :return:  peak element
+        :rtype:  int
+
+        """
+        start = 0
+        end = len(nums) - 1
+        while start < end:
+            mid = start + (end - start) // 2
+            if nums[mid] > nums[mid + 1]:
+                end = mid
+            else:
+                start = mid + 1
+        return start
+
+    def judgeCircle(self, moves: str) -> bool:
+        """ Robot Return to Origin
+
+        There is a robot starting at the position (0, 0), the origin, on a 2D plane. Given a sequence of its moves, judge if this robot ends up at (0, 0) after it completes its moves.
+
+        You are given a string moves that represents the move sequence of the robot where moves[i] represents its ith move. Valid moves are 'R' (right), 'L' (left), 'U' (up), and 'D' (down).
+
+        Return true if the robot returns to the origin after it finishes all of its moves, or false otherwise.
+
+        Note: The way that the robot is "facing" is irrelevant. 'R' will always make the robot move to the right once, 'L' will always make it move left, etc. Also, assume that the magnitude of the robot's movement is the same for each move.
+
+        :param moves:  the represents the move sequence of the robot 
+        :type  moves:  str
+
+        :return:  whether or not the robot returns to the origin after it finishes all of its moves
+        :rtype:  bool
+
+        """
+
+        d = Counter(moves)
+        return d['U'] == d['D'] and d['L'] == d['R']
+
+    def longestStrChain(self, words: List[str]) -> int:
+        """ Longest String Chain
+
+        :param words:  an array of words where each word consists of lowercase English letters.
+        :type  words:  List[str]
+
+        :return:  the length of the longest possible word chain with words choosen from the given list of words
+        :rtype:   int
+
+        """
+
+        if not words:
+            return 0
+
+        if len(words) == 1:
+            return 1
+
+        words = sorted(words, key=lambda elem: len(elem))
+
+        ref = {word: 1 for word in words}
+
+        for word in words:
+            for index in range(len(word)):
+                newWord = word[:index] + word[index+1:]
+                if newWord in ref:
+                    ref[word] = max(ref[word], ref[newWord] + 1)
+            if word not in ref:
+                ref[word] = 1
+
+        ls = sorted(ref.items(), key=lambda elem: elem[1], reverse=True)
+
+        return ls[0][1]
