@@ -131,7 +131,12 @@ class SolutionCase(unittest.TestCase):
         n = 2
         connections = [[0,1]]
         expected_output = [[0,1]]
-        self.assertEqual(sol.criticalConnections(n, connections), expected_output)
+#         self.assertEqual(sol.criticalConnections(n, connections), expected_output)
+
+        n = 6
+        connections = [[0,1],[1,2],[2,0],[1,3],[3,4],[4,5],[5,3]]
+        expected_output = [[1,3]]
+#         self.assertEqual(sol.criticalConnections(n, connections), expected_output)
 
     def test_arrayNesting(self):
         """565. Array Nesting docstring for arrayNesting"""
@@ -180,6 +185,230 @@ class SolutionCase(unittest.TestCase):
         words = ["xbc","pcxbcf","xb","cxbc","pcxbc"]
         expected_output = 5
         self.assertEqual(sol.longestStrChain(words), expected_output)
+
+    def test_lengthOfLongestSubstring(self):
+        """3. Longest Substring Without Repeating Characters docstring for lengthOfLongestSubstring"""
+        sol = solution.Solution()
+
+        s = "abcabcbb"
+        expected_output = 3
+        self.assertEqual(sol.lengthOfLongestSubstring(s), expected_output)
+
+        s = "bbbbb"
+        expected_output = 1
+        self.assertEqual(sol.lengthOfLongestSubstring(s), expected_output)
+
+        s = "pwwkew"
+        expected_output = 3
+        self.assertEqual(sol.lengthOfLongestSubstring(s), expected_output)
+
+    def test_minimumCardPickup(self):
+        """2260. Minimum Consecutive Cards to Pick Up docstring for minimumCardPickup"""
+        sol = solution.Solution()
+
+        cards = [3,4,2,3,4,7]
+        expected_output = 4
+        self.assertEqual(sol.minimumCardPickup(cards), expected_output)
+
+        cards = [1, 0, 5, 3]
+        expected_output = -1
+        self.assertEqual(sol.minimumCardPickup(cards), expected_output)
+
+    def test_findCircleNum(self):
+        """547. Number of Provinces docstring for findCircleNum"""
+        sol = solution.Solution()
+
+        isConnected = [[1,1,0],[1,1,0],[0,0,1]]
+        expected_output = 2
+        self.assertEqual(sol.findCircleNum(isConnected), expected_output)
+
+        isConnected = [[1,0,0],[0,1,0],[0,0,1]]
+        expected_output = 3
+        self.assertEqual(sol.findCircleNum(isConnected), expected_output)
+
+    def test_canFinish(self):
+        """207. Course Schedule docstring for canFinish"""
+        sol = solution.Solution()
+
+        numCourses = 2
+        prerequisites = [[1,0],[0,1]]
+        expected_output = False
+        self.assertEqual(sol.canFinish(numCourses, prerequisites), expected_output)
+
+        numCourses = 2
+        prerequisites = [[1,0]]
+        expected_output = True
+        self.assertEqual(sol.canFinish(numCourses, prerequisites), expected_output)
+
+    def test_lengthOfLIS(self):
+        """300. Longest Increasing Subsequence docstring for lengthOfLIS"""
+        sol = solution.Solution()
+
+        nums = [10,9,2,5,3,7,101,18]
+        expected_output = 4
+        self.assertEqual(sol.lengthOfLIS(nums), expected_output)
+
+        nums = [0,1,0,3,2,3]
+        expected_output = 4
+#         self.assertEqual(sol.lengthOfLIS(nums), expected_output)
+
+        nums = [7,7,7,7,7,7,7]
+        expected_output = 1
+        self.assertEqual(sol.lengthOfLIS(nums), expected_output)
+
+    def test_originalDigits(self):
+        """423. Reconstruct Original Digits from English docstring for originalDigits"""
+        sol = solution.Solution()
+
+        s = "owoztneoer"
+        expected_output = "012"
+        self.assertEqual(sol.originalDigits(s), expected_output)
+
+        s = "fviefuro"
+        expected_output = "45"
+        self.assertEqual(sol.originalDigits(s), expected_output)
+
+    def test_strongPasswordChecker(self):
+        """420. Strong Password Checker docstring for strongPasswordChecker"""
+        sol = solution.Solution()
+
+        password = "1337C0d3"
+        expected_output = 0
+        self.assertEqual(sol.strongPasswordChecker(password), expected_output)
+
+        password = "aA1"
+        expected_output = 3
+        self.assertEqual(sol.strongPasswordChecker(password), expected_output)
+
+    def test_maxProfit(self):
+        """188. Best Time to Buy and Sell Stock IV docstring for maxProfit"""
+        sol = solution.Solution()
+
+        k = 2
+        prices = [2,4,1]
+        expected_output = 2
+        self.assertEqual(sol.maxProfit(k, prices), expected_output)
+
+        k = 2
+        prices = [3,2,6,5,0,3]
+        expected_output = 7
+        self.assertEqual(sol.maxProfit(k, prices), expected_output)
+
+    def test_searchRange(self):
+        """34. Find First and Last Position of Element in Sorted Array docstring for searchRange"""
+        sol = solution.Solution()
+
+        nums = [5,7,7,8,8,10]
+        target = 8
+        expected_output = [3, 4]
+        self.assertEqual(sol.searchRange(nums, target), expected_output)
+
+        nums = [5,7,7,8,8,10]
+        target = 6
+        expected_output = [-1, -1]
+        self.assertEqual(sol.searchRange(nums, target), expected_output)
+
+    def test_maxSubArray(self):
+        """53. Maximum Subarray docstring for maxSubArray"""
+        sol = solution.Solution()
+
+        nums = [-2,1,-3,4,-1,2,1,-5,4]
+        expected_output = 6
+        self.assertEqual(sol.maxSubArray(nums), expected_output)
+
+        nums = [5,4,-1,7,8]
+        expected_output = 23
+        self.assertEqual(sol.maxSubArray(nums), expected_output)
+
+        nums = [1]
+        expected_output = 1
+        self.assertEqual(sol.maxSubArray(nums), expected_output)
+
+    def test_minPathSum(self):
+        """64. Minimum Path Sum docstring for minPathSum"""
+        sol = solution.Solution()
+
+        grid = [[1,3,1],[1,5,1],[4,2,1]]
+        expected_output = 7
+        self.assertEqual(sol.minPathSum(grid), expected_output)
+        grid = [[1,2,3],[4,5,6]]
+        expected_output = 12
+        self.assertEqual(sol.minPathSum(grid), expected_output)
+
+    def test_simplifyPath(self):
+        """71. Simplify Path docstring for simplifyPath"""
+        sol = solution.Solution()
+
+        path = "/home/"
+        expected_output = "/home"
+        self.assertEqual(sol.simplifyPath(path), expected_output)
+
+        path = "/../"
+        expected_output = "/"
+        self.assertEqual(sol.simplifyPath(path), expected_output)
+
+        path = "/home//foo/"
+        expected_output = "/home/foo"
+        self.assertEqual(sol.simplifyPath(path), expected_output)
+
+    def test_subsets(self):
+        """78. Subsets docstring for subsets"""
+        sol = solution.Solution()
+
+        nums = [1,2,3]
+        expected_output = [[],[1],[1,2],[1,2,3],[1,3],[2],[2,3],[3]]
+        self.assertEqual(sol.subsets(nums), expected_output)
+
+
+        nums = [0]
+        expected_output = [[],[0]]
+        self.assertEqual(sol.subsets(nums), expected_output)
+
+    def test_numDecodings(self):
+        """91. Decode Ways docstring for numDecodings"""
+        sol = solution.Solution()
+
+        s = "12"
+        expected_output = 2
+        self.assertEqual(sol.numDecodings(s), expected_output)
+
+        s = "226"
+        expected_output = 3
+        self.assertEqual(sol.numDecodings(s), expected_output)
+
+        s = "06"
+        expected_output = 0
+        self.assertEqual(sol.numDecodings(s), expected_output)
+
+    def test_getMinimumDays(self):
+        """Interview docstring for getMinimumDays"""
+        sol = solution.Solution()
+
+        parcels = [4, 2, 3, 4]
+        expected_output = 3
+        self.assertEqual(sol.getMinimumDays(parcels), expected_output)
+
+        parcels = [5, 2, 2, 5, 1]
+        expected_output = 3
+        self.assertEqual(sol.getMinimumDays(parcels), expected_output)
+
+        parcels = [5, 2, 2, 5, 1, 3]
+        expected_output = 4
+        self.assertEqual(sol.getMinimumDays(parcels), expected_output)
+
+    def test_longestNiceSubstring(self):
+        """1763. Longest Nice Substring docstring for longestNiceSubstring"""
+        sol = solution.Solution()
+
+        s = "YazaAay"
+        expected_output = "aAa"
+        self.assertEqual(sol.longestNiceSubstring(s), expected_output)
+
+        s = "abABB"
+        expected_output = "abABB"
+        self.assertEqual(sol.longestNiceSubstring(s), expected_output)
+
+
 
 
 
