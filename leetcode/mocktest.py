@@ -9,6 +9,13 @@ except ImportError:
     from impl import solution
 
 
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+
 class SolutionCase(unittest.TestCase):
     """
     A :class:`~leetcode.mocktest.SolutionCase` object is the unittest module.
@@ -224,7 +231,7 @@ class SolutionCase(unittest.TestCase):
 
         isConnected = [[1,0,0],[0,1,0],[0,0,1]]
         expected_output = 3
-        self.assertEqual(sol.findCircleNum(isConnected), expected_output)
+#         self.assertEqual(sol.findCircleNum(isConnected), expected_output)
 
     def test_canFinish(self):
         """207. Course Schedule docstring for canFinish"""
@@ -280,19 +287,19 @@ class SolutionCase(unittest.TestCase):
         expected_output = 3
         self.assertEqual(sol.strongPasswordChecker(password), expected_output)
 
-    def test_maxProfit(self):
+    def test_maxProfitIV(self):
         """188. Best Time to Buy and Sell Stock IV docstring for maxProfit"""
         sol = solution.Solution()
 
         k = 2
         prices = [2,4,1]
         expected_output = 2
-        self.assertEqual(sol.maxProfit(k, prices), expected_output)
+        self.assertEqual(sol.maxProfitIV(k, prices), expected_output)
 
         k = 2
         prices = [3,2,6,5,0,3]
         expected_output = 7
-        self.assertEqual(sol.maxProfit(k, prices), expected_output)
+        self.assertEqual(sol.maxProfitIV(k, prices), expected_output)
 
     def test_searchRange(self):
         """34. Find First and Last Position of Element in Sorted Array docstring for searchRange"""
@@ -331,6 +338,7 @@ class SolutionCase(unittest.TestCase):
         grid = [[1,3,1],[1,5,1],[4,2,1]]
         expected_output = 7
         self.assertEqual(sol.minPathSum(grid), expected_output)
+
         grid = [[1,2,3],[4,5,6]]
         expected_output = 12
         self.assertEqual(sol.minPathSum(grid), expected_output)
@@ -409,7 +417,120 @@ class SolutionCase(unittest.TestCase):
         self.assertEqual(sol.longestNiceSubstring(s), expected_output)
 
 
+    def test_containDuplicate(self):
+        """217. Contains Duplicate  docstring for containDuplicate"""
+        sol = solution.Solution()
 
+        nums = [1,2,3,1]
+        expected_output = True
+        self.assertEqual(sol.containDuplicate(nums), expected_output)
+
+
+        nums = [1,1,1,3,3,4,3,2,4,2]
+        expected_output = True
+        self.assertEqual(sol.containDuplicate(nums), expected_output)
+
+    def test_moveZeroes(self):
+        """283. Move Zeroes  docstring for moveZeroes"""
+        sol = solution.Solution()
+
+        nums = [0,1,0,3,12]
+        expected_output = [1,3,12,0,0]
+        self.assertEqual(sol.moveZeroes(nums), expected_output)
+
+        nums = [0]
+        expected_output = [0]
+        self.assertEqual(sol.moveZeroes(nums), expected_output)
+
+    def test_isValidSudoku(self):
+        """36. Valid Sudoku docstring for isValidSudoku"""
+        sol = solution.Solution()
+
+        board = [["5","3",".",".","7",".",".",".","."]
+                ,["6",".",".","1","9","5",".",".","."]
+                ,[".","9","8",".",".",".",".","6","."]
+                ,["8",".",".",".","6",".",".",".","3"]
+                ,["4",".",".","8",".","3",".",".","1"]
+                ,["7",".",".",".","2",".",".",".","6"]
+                ,[".","6",".",".",".",".","2","8","."]
+                ,[".",".",".","4","1","9",".",".","5"]
+                ,[".",".",".",".","8",".",".","7","9"]]
+        expected_output = True
+        self.assertEqual(sol.isValidSudoku(board), expected_output)
+
+        board = [["8","3",".",".","7",".",".",".","."]
+            ,["6",".",".","1","9","5",".",".","."]
+            ,[".","9","8",".",".",".",".","6","."]
+            ,["8",".",".",".","6",".",".",".","3"]
+            ,["4",".",".","8",".","3",".",".","1"]
+            ,["7",".",".",".","2",".",".",".","6"]
+            ,[".","6",".",".",".",".","2","8","."]
+            ,[".",".",".","4","1","9",".",".","5"]
+            ,[".",".",".",".","8",".",".","7","9"]]
+        expected_output = False
+        self.assertEqual(sol.isValidSudoku(board), expected_output)
+
+    def test_halvesAreAlike(self):
+        """1704. Determine if String Halves Are Alike docstring for halvesAreAlike"""
+        sol = solution.Solution()
+
+        s = "book"
+        expected_output = True
+        self.assertEqual(sol.halvesAreAlike(s), expected_output)
+
+        s = "textbook"
+        expected_output = False
+        self.assertEqual(sol.halvesAreAlike(s), expected_output)
+
+    def test_maxProfitII(self):
+        """122. Best Time to Buy and Sell Stock II docstring for maxProfitII"""
+        sol = solution.Solution()
+
+        prices = [7,1,5,3,6,4]
+        expected_output = 7
+        self.assertEqual(sol.maxProfitII(prices), expected_output)
+
+        prices = [1,2,3,4,5]
+        expected_output = 4
+        self.assertEqual(sol.maxProfitII(prices), expected_output)
+
+    def test_maxProfit(self):
+        """ 121. Best Time to Buy and Sell Stock """
+        sol = solution.Solution()
+
+        prices = [7,1,5,3,6,4]
+        expected_output = 5
+        self.assertEqual(sol.maxProfit(prices), expected_output)
+
+        prices = [7,6,4,3,1]
+        expected_output = 0
+        self.assertEqual(sol.maxProfit(prices), expected_output)
+
+    def test_maxProfitwithfee(self):
+        """714. Best Time to Buy and Sell Stock with Transaction Fee """
+        sol = solution.Solution()
+
+        prices = [1,3,2,8,4,9]
+        fee = 2
+        expected_output = 8
+        self.assertEqual(sol.maxProfitwithfee(prices, fee), expected_output)
+
+        prices = [1,3,7,5,10,3]
+        fee = 3
+        expected_output = 6
+        self.assertEqual(sol.maxProfitwithfee(prices, fee), expected_output)
+
+    def test_minDeletionSize(self):
+        """docstring for minDeletionSize"""
+        sol = solution.Solution()
+
+        strs = ["cba","daf","ghi"]
+        expected_output = 1
+        self.assertEqual(sol.minDeletionSize(strs), expected_output)
+
+        strs = ["zyx","wvu","tsr"]
+        expected_output = 3
+        self.assertEqual(sol.minDeletionSize(strs), expected_output)
 
 
 if __name__ == '__main__':

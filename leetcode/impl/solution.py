@@ -25,7 +25,7 @@ class Solution(object):
     """
 
     def twoSum(self, nums: List[int], target: int) -> List[int]:
-        """ Two Sum
+        """ 1. Two Sum (Easy)
 
         Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
         You may assume that each input would have exactly one solution, and you may not use the same element twice.
@@ -34,7 +34,7 @@ class Solution(object):
         :param num:  array of integers
         :type  num:  List[int]
         :param target:  integer target
-        :type  target:  int
+        :type  target:  inEasyt
 
         :return:  indices of the two numbers such that they add up to target
         :rtype:   List[int]
@@ -51,7 +51,7 @@ class Solution(object):
                 return [store[rest], i]
 
     def minNumberOfSemesters(self, n: int, dependencies: List[List[int]], k: int) -> int:
-        """ Parallel Courses II (HARD)
+        """ 1496. Parallel Courses II (HARD)
 
         You are given an integer n, which indicates that there are n courses labeled from 1 to n. You are also given an array relations where relations[i] = [prevCoursei, nextCoursei], representing a prerequisite relationship between course prevCoursei and course nextCoursei: course prevCoursei has to be taken before course nextCoursei. Also, you are given the integer k.
 
@@ -146,7 +146,7 @@ class Solution(object):
         return helper(current_number=number, num_ones=self.count1(number), remain_1s=k)
 
     def convertToTitle(self, columnNumber: int) -> str:
-        """ Excel Sheet Column Title
+        """ 168. Excel Sheet Column Title (Medium)
 
         Given an integer columnNumber, return its corresponding column title as it appears in an Excel sheet.
 
@@ -166,7 +166,7 @@ class Solution(object):
         return ans
 
     def isMatch(self, s: str, p: str) -> bool:
-        """ Regular Expression Matching (HARD)
+        """ 10. Regular Expression Matching (HARD)
 
         Given an input string s and a pattern p, implement regular expression matching with support for '.' and '*' where:
 
@@ -204,7 +204,7 @@ class Solution(object):
         return dp[len_s][len_p]
 
     def romanToInt(self, s: str) -> int:
-        """ Roman numerals are represented by seven different symbols: I, V, X, L, C, D and M.
+        """ 13. Roman numerals are represented by seven different symbols: I, V, X, L, C, D and M. (Easy)
 
         Symbol       Value
         I             1
@@ -249,7 +249,7 @@ class Solution(object):
         return total
 
     def maxLength(self, arr: List[str]) -> int:
-        """ Maximum Length of a Concatencated String with Unique Characters
+        """ 1239. Maximum Length of a Concatencated String with Unique Characters (Medium)
 
         You are given an array of strings arr. A string s is formed by the concatenation of a subsequence of arr that has unique characters that has unique characters.
 
@@ -288,7 +288,7 @@ class Solution(object):
         return self.maxlen
 
     def criticalConnections(self, n: int, connections: List[List[int]]) -> List[List[int]]:
-        """ Critical Connections in a Network (HARD)
+        """ 1192. Critical Connections in a Network (HARD)
 
         There are n servers numbered from 0 to n - 1 connected by undirected server-to-server connections forming a network where connections[i] = [ai, bi] represents a connection between servers ai and bi. Any server can reach other servers directly or indirectly through the network.
 
@@ -375,7 +375,7 @@ class Solution(object):
         return results
 
     def arrayNesting(self, nums: List[int]) -> int:
-        """ Array Nesting
+        """ 565. Array Nesting (Medium)
 
         You are given an integer array nums of length n where nums is a permutation of the numbers in the range [0, n - 1].
 
@@ -405,7 +405,7 @@ We stop adding right before a duplicate element occurs in s[k].
         return ans
 
     def findPeakElement(self, nums: List[int]) -> int:
-        """ Find Peak Element
+        """ 162. Find Peak Element (Medium)
 
         A peak element is an element that is strictly greater than its neighbors.
 
@@ -436,7 +436,7 @@ We stop adding right before a duplicate element occurs in s[k].
         return start
 
     def judgeCircle(self, moves: str) -> bool:
-        """ Robot Return to Origin
+        """ 657. Robot Return to Origin (Easy)
 
         There is a robot starting at the position (0, 0), the origin, on a 2D plane. Given a sequence of its moves, judge if this robot ends up at (0, 0) after it completes its moves.
 
@@ -457,7 +457,16 @@ We stop adding right before a duplicate element occurs in s[k].
         return d['U'] == d['D'] and d['L'] == d['R']
 
     def longestStrChain(self, words: List[str]) -> int:
-        """ Longest String Chain
+        """ 1048. Longest String Chain (Medium)
+
+        You are given an array of words where each word consists of lowercase English letters.
+
+        wordA is a predecessor of wordB if and only if we can insert exactly one letter anywhere in wordA without changing the order of the other characters to make it equal to wordB.
+
+        For example, "abc" is a predecessor of "abac", while "cba" is not a predecessor of "bcad".
+A word chain is a sequence of words [word1, word2, ..., wordk] with k >= 1, where word1 is a predecessor of word2, word2 is a predecessor of word3, and so on. A single word is trivially a word chain with k == 1.
+
+        Return the length of the longest possible word chain with words chosen from the given list of words.
 
         :param words:  an array of words where each word consists of lowercase English letters.
         :type  words:  List[str]
@@ -473,6 +482,7 @@ We stop adding right before a duplicate element occurs in s[k].
         if len(words) == 1:
             return 1
 
+        # sorted array of words
         words = sorted(words, key=lambda elem: len(elem))
 
         ref = {word: 1 for word in words}
@@ -480,17 +490,16 @@ We stop adding right before a duplicate element occurs in s[k].
         for word in words:
             for index in range(len(word)):
                 newWord = word[:index] + word[index+1:]
+
                 if newWord in ref:
                     ref[word] = max(ref[word], ref[newWord] + 1)
-            if word not in ref:
-                ref[word] = 1
 
-        ls = sorted(ref.items(), key=lambda elem: elem[1], reverse=True)
+        lengthwordchain = sorted(ref.items(), key=lambda elem: elem[1])
 
-        return ls[0][1]
+        return lengthwordchain[-1][1]
 
     def lengthOfLongestSubstring(self, s: str) -> int:
-        """ Longest Substring Without Repeating Characters
+        """ 3. Longest Substring Without Repeating Characters (Medium)
 
         Given a string s, find the length of the longest substring without repeating characters.
 
@@ -499,17 +508,16 @@ We stop adding right before a duplicate element occurs in s[k].
 
         :return:  the length of the longest substring without repeating characters
         :rtype:  int
-
         """
-
         maxCount = 0
 
         for i in range(len(s)):
             subStr = s[i]
             currentCount = 1
+
+            # Substring
             for j in range(i+1, len(s)):
-                if(s[j] in subStr):
-                    break
+                if(s[j] in subStr): break
                 subStr += s[j]
                 currentCount += 1
 
@@ -529,23 +537,22 @@ We stop adding right before a duplicate element occurs in s[k].
 
         :return:  the minimum number of consecutive cards
         :rtype:  int
-
         """
-
-        d = {}
+        matchedcard = {}
         ans = math.inf
 
+        # Pair of matching cards among picked cards
         for i in range(len(cards)):
-            if cards[i] in d:
+            if cards[i] in matchedcard:
                 # number of consecutive cards
-                ans = min(i - d[cards[i]] + 1, ans)
+                ans = min(i - matchedcard[cards[i]] + 1, ans)
 
-            d[cards[i]] = i
+            matchedcard[cards[i]] = i
 
         return ans if ans != math.inf else -1
 
     def findCircleNum(self, isConnected: List[List[int]]) -> int:
-        """ Number of Provinces
+        """ 547. Number of Provinces (Medium)
 
         There are n cities. Some of them are connected, while some are not. If city a is connected directly with city b, and city b is connected directly with city c, then city a is connected indirectly with city c.
 
@@ -560,29 +567,28 @@ We stop adding right before a duplicate element occurs in s[k].
 
         :return:  the total number of provinces
         :rtype:  int
-
         """
-
         rows = len(isConnected)
-        seen = set()
+        group = set()
 
-        def dfs_connected(r):
-            for idx, val in enumerate(isConnected[r]):
-                if val == 1 and idx not in seen:
-                    seen.add(idx)
+        def dfs_connected(node):
+            for idx, val in enumerate(isConnected[node]):
+                # a group of directly connected cities
+                if val == 1 and idx not in group:
+                    group.add(idx)
                     dfs_connected(idx)
 
         count = 0
 
-        for i in range(rows):
-            if i not in seen:
-                dfs_connected(i)
+        for node in range(rows):
+            if node not in group:
+                dfs_connected(node)
                 count += 1
 
         return count
 
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
-        """ Course Schedule
+        """ 207. Course Schedule (Medium)
 
         There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1. You are given an array prerequisites where prerequisites[i] = [ai, bi] indicates that you must take course bi first if you want to take course ai.
 
@@ -596,10 +602,8 @@ We stop adding right before a duplicate element occurs in s[k].
         :param prerequisites:  array prerequisites
         :type  prerequisites:  List[List[int]]
 
-
         :return:  whether or not you can finish all courses.
         :rtype:  bool
-
         """
         def dfs_course(course: int, graph: dict, marks: dict) -> bool:
 
@@ -612,11 +616,11 @@ We stop adding right before a duplicate element occurs in s[k].
                 elif marks[neighbor] == 1:
                     return False
 
+            # finish the prerequisites and course
             marks[course] = 2
             return True
 
         graph = {n: [] for n in range(numCourses)}
-
         marks = {n: 0 for n in range(numCourses)}
 
         # create graph
@@ -631,7 +635,7 @@ We stop adding right before a duplicate element occurs in s[k].
         return True
 
     def lengthOfLIS(self, nums: List[int]) -> int:
-        """ Longest Increasing Subsequence
+        """ 300. Longest Increasing Subsequence (Medium)
 
         Given an integer array nums, return the length of the longest strictly increasing subsequence.
 
@@ -646,18 +650,18 @@ We stop adding right before a duplicate element occurs in s[k].
         """
         size = len(nums)
 
-        len_LIS = [1 for _ in range(size)]
+        len_subseq = [1 for _ in range(size)]
 
         # for each subsequence ending at index i
         for i in range(size):
             for k in range(i):
                 if nums[k] < nums[i]:
-                    len_LIS[i] = max(len_LIS[i], len_LIS[k] + 1)
+                    len_subseq[i] = max(len_subseq[i], len_subseq[k] + 1)
 
-        return max(len_LIS)
+        return max(len_subseq)
 
     def originalDigits(self, s: str) -> str:
-        """ Reconstruct Original Digits from English
+        """ 423. Reconstruct Original Digits from English (Medium)
 
         Given a string s containing an out-of-order English representation of digits 0-9, return the digits in ascending order.
 
@@ -687,8 +691,8 @@ We stop adding right before a duplicate element occurs in s[k].
 
         ans = ""
 
-        for k, v in c:
-            ans += (str(k) * v)
+        for idx, val in c:
+            ans += (str(idx) * val)
 
         return ans
 
@@ -766,8 +770,8 @@ We stop adding right before a duplicate element occurs in s[k].
 
             return max(c_swaps, r_swaps) + (n - 20)
 
-    def maxProfit(self, k: int, prices: List[int]) -> int:
-        """ Best Time to Buy and Sell Stock IV (HARD)
+    def maxProfitIV(self, k: int, prices: List[int]) -> int:
+        """ 188. Best Time to Buy and Sell Stock IV (HARD)
 
         You are given an integer array prices where prices[i] is the price of a given stock on the ith day, and an integer k.
 
@@ -789,22 +793,18 @@ We stop adding right before a duplicate element occurs in s[k].
 
         dp = [[0 for _ in range(n)] for _ in range(k+1)]
 
-        # Update by each transction as well as each trading day
         for trans_k in range(1, k+1):
-            # Balance before 1st transaction must be zero and Buy stock on first day means -prices[0]
             cur_balance_with_buy = 0 - prices[0]
 
             for day_d in range(1, n):
-                # Either we have finished all k transactions before, or just sell out stock and finished k-th transaction today
                 dp[trans_k][day_d] = max(dp[trans_k][day_d-1], cur_balance_with_buy + prices[day_d])
 
-                # Either keep holding the stock we bought before, or just buy in today
                 cur_balance_with_buy = max(cur_balance_with_buy, dp[trans_k-1][day_d-1] - prices[day_d] )
 
         return dp[k][n-1]
 
     def minPathSum(self, grid: List[List[int]]) -> int:
-        """ Minimum Path Sum
+        """ 64. Minimum Path Sum (Medium)
 
         Given a m x n grid filled with non-negative numbers, find a path from top left to bottom right, which minimizes the sum of all numbers along its path.
 
@@ -817,27 +817,29 @@ We stop adding right before a duplicate element occurs in s[k].
         :rtype:  int
 
         """
-        def dp(row, col):
+        def dp_path(row, col):
             if row == 0 and col == 0:
                 return grid[0][0]
 
             if row < 0 or col < 0:
-                return float('inf')
+                return math.inf
 
+            # Top Left
             if (row, col) in pathsum:
                 return pathsum[(row, col)]
 
             # Up or Left
-            pathsum[(row, col)] = min(dp(row-1, col), dp(row, col-1)) + grid[row][col]
+            pathsum[(row, col)] = min(dp_path(row-1, col), dp_path(row, col-1)) + grid[row][col]
 
             return pathsum[(row, col)]
 
         pathsum = {}
 
-        return dp(len(grid)-1, len(grid[0])-1)
+        # begin from bottom right
+        return dp_path(len(grid)-1, len(grid[0])-1)
 
     def searchRange(self, nums: List[int], target: int) -> List[int]:
-        """  Find First and Last Position of Element in Sorted Array
+        """ 34. Find First and Last Position of Element in Sorted Array (Medium)
 
         Given an array of integers nums sorted in non-decreasing order, find the starting and ending position of a given target value.
 
@@ -852,21 +854,23 @@ We stop adding right before a duplicate element occurs in s[k].
         :rtype:  List[int]
 
         """
-        l = []
-        r = nums[::-1]
+        elem = []
+        reverse = nums[::-1]
 
         if target in nums:
-            l.append(nums.index(target))
-            a = r.index(target) + 1
-            l.append(len(nums) - a)
+            # first position
+            elem.append(nums.index(target))
+            # last position
+            a = reverse.index(target) + 1
+            elem.append(len(nums) - a)
         else:
-            l.append(-1)
-            l.append(-1)
+            elem.append(-1)
+            elem.append(-1)
 
-        return l
+        return elem
 
     def maxSubArray(self, nums: List[int]) -> int:
-        """docstring for maxSubArray"""
+        """ 53. Maximum Subarray docstring for maxSubArray (Easy)"""
         """ Given an integer array nums, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.
 
         A subarray is a contiguous part of an array.
@@ -1016,7 +1020,7 @@ We stop adding right before a duplicate element occurs in s[k].
         :type  s:  str
 
         :return:  the longest substring
-        :rtype:  str
+        :rtype:   str
         """
         def helper(start, end):
             chars = set(s[start: end])
@@ -1030,5 +1034,220 @@ We stop adding right before a duplicate element occurs in s[k].
             return s[start:end]
 
         return helper(0, len(s))
+
+    def containDuplicate(self, nums: List[int]) -> bool:
+        """ Contains Duplicate docstring for containDuplicate"""
+        """ Given an integer array nums, return true if any value appears at least twice in the array, and return false if every element is distinct.
+
+        :param List[int]:  an integer array nums
+        :type  List[int]:  List[int]
+
+        :return:  Whether if any value appears at least twice in the array
+        :rtype:   bool
+        """
+        dict = {}
+
+        for i in range(0, len(nums)):
+            if nums[i] in dict:
+                return True
+            else:
+                dict[nums[i]] = i
+
+        return False
+
+    def moveZeroes(self, nums: List[int]) -> List[int]:
+        """Move Zeroes docstring for fname"""
+        """ Given an integer array nums, move all 0's to the end of it while maintaining the relative order of the non-zero elements.
+
+        Note that you must do this in-place without making a copy of the array.
+
+        :param nums:  integer array nums
+        :type  nums:  List[int]
+
+        :return:  integer array nums that being move all o's to the end of it while maintaing the relative order of the non-zero elements
+        :rtype:  List[int]
+        """
+        slow = fast = 0
+
+        while fast < len(nums):
+            if nums[fast] == 0:
+                fast += 1
+            else:
+                # swap
+                nums[slow], nums[fast] = nums[fast], nums[slow]
+                slow += 1
+                fast += 1
+
+        return nums
+
+    def isValidSudoku(self, board: List[List[str]]) -> bool:
+        """ Valid Sudoku
+
+        Determine if a 9 x 9 Sudoku board is valid. Only the filled cells need to be validated according to the following rules:
+
+        Each row must contain the digits 1-9 without repetition.
+        Each column must contain the digits 1-9 without repetition.
+        Each of the nine 3 x 3 sub-boxes of the grid must contain the digits 1-9 without repetition.
+        Note:
+
+        A Sudoku board (partially filled) could be valid but is not necessarily solvable.
+        Only the filled cells need to be validated according to the mentioned rules.
+
+        :param board:  Sudoku board
+        :type  board:  List[List[str]]
+
+        :return:  Determine if Sudoku board is valid
+        :rtype:  bool
+        """
+        def checkbox(row, col):
+            """docstring for checkbox"""
+            hashmap = {}
+            for i in range(row, row+3):
+                for j in range(col, col+3):
+                    if(board[i][j] != '.'):
+                        if(board[i][j] in hashmap):
+                            return False
+                        else:
+                            hashmap[board[i][j]] = 1
+            return True
+
+        def checkhorizontalline(row):
+            """docstring for checkhorizontalline"""
+            hashmap = {}
+            for i in range(9):
+                if board[row][i] == '.':
+                    continue
+                elif(board[row][i] != '' and board[row][i] in hashmap):
+                    return False
+                else:
+                    hashmap[board[row][i]] = 1
+            return True
+
+        def checkverticalline(col):
+            """docstring for checkverticalline"""
+            hashmap = {}
+            for i in range(9):
+                if board[i][col] == '.':
+                    continue
+                elif(board[i][col] != '' and board[i][col] in hashmap):
+                    return False
+                else:
+                    hashmap[board[i][col]] = 1
+            return True
+        for i in range(9):
+            if (not checkverticalline(i) or not checkhorizontalline(i)):
+                return False
+        for i in range(0, 9, 3):
+            for j in range(0, 9, 3):
+                if(not checkbox(i, j)):
+                    return False
+        return True
+
+    def halvesAreAlike(self, s: str) -> bool:
+        """Determine if String Halves Are Alike docstring for halvesAreAlike"""
+        """ You are given a string s of even length. Split this string into two halves of equal lengths, and let a be the first half and b be the second half.
+
+        Two strings are alike if they have the same number of vowels ('a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'). Notice that s contains uppercase and lowercase letters.
+
+        Return true if a and b are alike. Otherwise, return false.
+
+        :param s:  string
+        :type  s:  str
+
+        :return:  Determine if string halves are alike
+        :rtype:  bool
+        """
+        def countVowels(s):
+            vowel = set("aeiouAEIOU")
+            return sum(1 for char in s if char in vowel)
+        size = len(s)
+        midpoint = size//2
+        a, b = s[:midpoint], s[midpoint:]
+        return countVowels(a) == countVowels(b)
+
+    def maxProfitII(self, prices: List[int]) -> int:
+        """Best Time to Buy and Sell Stock II docstring for maxProfit"""
+        """
+        You are given an integer array prices where prices[i] is the price of a given stock on the ith day.
+
+        On each day, you may decide to buy and/or sell the stock. You can only hold at most one share of the stock at any time. However, you can buy it then immediately sell it on the same day.
+
+        Find and return the maximum profit you can achieve.
+
+        :param prices:  integer array prices
+        :type  prices:  List[int]
+
+        :return:  the maximum profit you can achieve
+        :rtype:  int
+        """
+        total = 0
+        start = prices[0]
+        for price in prices[1:]:
+            if price > start:
+                total += price - start
+            start = price
+        return total
+
+    def maxProfit(self, prices: List[int]) -> int:
+        """ Best Time to Buy and Sell Stock  """
+        """ You are given an array prices where prices[i] is the price of a given stock on the ith day.
+
+        You want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future to sell that stock.
+
+        Return the maximum profit you can achieve from this transaction. If you cannot achieve any profit, return 0.
+
+        :param prices:  integer array prices
+        :type  prices:  List[int]
+
+        :return:  maximum profit you can achieve from this transaction
+        :rtype:  int
+        """
+        dp_hold, dp_not_hold = -float('inf'), 0
+
+        for stock_price in prices:
+
+            # either keep in hold, or just buy today with stock price
+            dp_hold = max(dp_hold, - stock_price)
+
+            # either keep in not holding, or just sell today with stock price
+            dp_not_hold = max(dp_not_hold, dp_hold + stock_price)
+
+        # max profit must be in not-hold state
+        return dp_not_hold
+
+    def maxProfitwithfee(self, prices: List[int], fee: int) -> int:
+        """ Best Time to Buy and Sell Stock with Transaction Fee """
+        """ You are given an array prices where prices[i] is the price of a given stock on the ith day, and an integer fee representing a transaction fee.
+
+Find the maximum profit you can achieve. You may complete as many transactions as you like, but you need to pay the transaction fee for each transaction.
+
+Note: You may not engage in multiple transactions simultaneously (i.e., you must sell the stock before you buy again).
+
+        :param prices:  integer array prices
+        :type  prices:  Lint[int]
+
+        :param fee:  transaction fee
+        :type  fee:  int
+
+        :return:  the maximum profit you can achieve
+        :rtype:  int
+        """
+        dp_hold, dp_sell = -float('inf'), 0
+
+        for stock_price in prices:
+            dp_sell = max(dp_sell, dp_hold + stock_price)
+            dp_hold = max(dp_hold, dp_sell - stock_price - fee)
+
+        return dp_sell if prices else 0
+
+    def minDeletionSize(self, strs: List[str]) -> int:
+        count = 0
+        for i in range(len(strs[0])):
+            temp = ""
+            for j in range(len(strs)):
+                temp += strs[j][i]
+            if ''.join(sorted(temp)) != temp:
+                count += 1
+        return count
 
 
