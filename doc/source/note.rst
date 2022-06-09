@@ -185,6 +185,54 @@ The example using enumerate objects that have a List::
 
 See the `Python enumerate page <https://docs.python.org/3.7/library/functions.html?highlight=enumerate#enumerate>`_ for more info.
 
+Supporting for type hits (TypeVar, List, Optional)
+----------------------------------------------------------
+
+TypeVar
+^^^^^^^^
+
+Type variable
+
+The example using TypeVar::
+
+    >>> from typing import TypeVar
+    >>> T = TypeVar('T', int, float)
+    >>> def vec2(x: T, y: T) -> List[T]: return [x, y]
+    >>> vec2(1, 2.2)
+    [1, 2.2]
+
+See the `Python TypeVar page <https://docs.python.org/3.7/library/typing.html?highlight=optional#typing.TypeVar>`_ for more info.
+
+List
+^^^^^^
+
+Generic version of list. Useful for annotating return types. To annotate argument it is preferred to use an abstract collection type such as Sequence of Iterable.
+
+The example using List::
+
+    >>> from typing import List
+    >>> Vector = List[float]
+    >>> def scale(scalar: float, vector: Vector) -> Vector: return [scalar * num for num in vector]
+    >>> scale(2.0, [1.0, -4.2, 5.4])
+    [2.0, -8.4, 10.8]
+
+See the `Python List page <https://docs.python.org/3.7/library/typing.html?highlight=optional#typing.List>`_ for more info.
+
+
+Optional
+^^^^^^^^^
+
+Optional type is equivalent to Union[X, None]
+
+The example using Optional::
+
+    >>> from typing import Optional
+    >>> def test(a: Optional[dict] = None) -> None: print(a)
+    >>> test({'a': 1234})
+    {'a': 1234}
+
+See the `Python Optional page <https://docs.python.org/3.7/library/typing.html?highlight=optional#typing.Optional>`_ for more info.
+
 Expressions (lambda)
 ----------------------------------------------------------
 
