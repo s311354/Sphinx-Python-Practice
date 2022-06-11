@@ -28,9 +28,18 @@ Solutions list
     64, :func:`~leetcode.impl.solution.Solution.minPathSum`, Medium, ,
     34, :func:`~leetcode.impl.solution.Solution.searchRange`, Medium, ,
     53, :func:`~leetcode.impl.solution.Solution.maxSubArray`, Easy, ,
-
-
-
+    71, :func:`~leetcode.impl.solution.Solution.simplifyPath`, Medium, ,
+    78, :func:`~leetcode.impl.solution.Solution.subsets`, Medium, ,
+    91, :func:`~leetcode.impl.solution.Solution.numDecodings`, Medium, ,
+    1763, :func:`~leetcode.impl.solution.Solution.longestNiceSubstring`, Easy, ,
+    217, :func:`~leetcode.impl.solution.Solution.containDuplicate`, Easy, ,
+    283, :func:`~leetcode.impl.solution.Solution.moveZeroes`, Easy, ,
+    36, :func:`~leetcode.impl.solution.Solution.isValidSudoku`, Medium, ,
+    1704, :func:`~leetcode.impl.solution.Solution.halvesAreAlike`, Easy, ,
+    122, :func:`~leetcode.impl.solution.Solution.maxProfitII`, Medium, ,
+    121, :func:`~leetcode.impl.solution.Solution.maxProfit`, Easy, ,
+    714, :func:`~leetcode.impl.solution.Solution.maxProfitwithfee`, Medium, ,
+    944, :func:`~leetcode.impl.solution.Solution.minDeletionSize`, Easy, ,
 
 
 .. mdinclude:: ../../README.md

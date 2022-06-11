@@ -16,6 +16,52 @@ class ListNode:
         self.val = val
         self.next = next
 
+    def insert(self, data):
+        """docstring for insert"""
+        if self.val:
+            if self.next is None:
+                self.next = ListNode(data)
+            else:
+                self.next.insert(data)
+        else:
+            self.val = data
+
+    def PrintListNode(self):
+        if self.next:
+            self.next.PrintListNode()
+        return self.val
+#         print(self.val)
+
+
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+    def insert(self, data):
+        """docstring for insert"""
+        if self.val:
+            if data < self.val:
+                if self.left is None:
+                    self.left = TreeNode(data)
+                else:
+                    self.left.insert(data)
+            elif data > self.val:
+                if self.right is None:
+                    self.right = TreeNode(data)
+                else:
+                    self.right.insert(data)
+        else:
+            self.val = data
+
+    def PrintTree(self):
+        if self.left:
+            self.left.PrintTree()
+        print(self.val),
+        if self.right:
+            self.right.PrintTree()
+
 
 class Solution(object):
     """
@@ -893,7 +939,7 @@ A word chain is a sequence of words [word1, word2, ..., wordk] with k >= 1, wher
         return curr_max
 
     def simplifyPath(self, path: str) -> str:
-        """ Simplify Path
+        """ 71. Simplify Path (Medium)
 
         Given a string path, which is an absolute path (starting with a slash '/') to a file or directory in a Unix-style file system, convert it to the simplified canonical path.
 
@@ -929,7 +975,7 @@ A word chain is a sequence of words [word1, word2, ..., wordk] with k >= 1, wher
         return '/' + '/'.join(stack)
 
     def subsets(self, nums: List[int]) -> List[List[int]]:
-        """ Subsets
+        """ 78. Subsets (Medium)
 
         Given an integer array nums of unique elements, return all possible subsets (the power set).
 
@@ -941,20 +987,20 @@ A word chain is a sequence of words [word1, word2, ..., wordk] with k >= 1, wher
         :return:  all possible subsets (the power set)
         :rtype:  List[List[int]]
         """
-        results = []
+        subset = []
 
         def recurse(start_index, current_subset):
-            results.append(list(current_subset))
+            subset.append(list(current_subset))
 
             for split_index in range(start_index, len(nums)):
                 recurse(split_index + 1, current_subset + [nums[split_index]])
 
         recurse(0, [])
 
-        return results
+        return subset
 
     def numDecodings(self, s: str) -> int:
-        """ Decode Ways
+        """ 91. Decode Ways (Medium)
 
         A message containing letters from A-Z can be encoded into numbers using the following mapping:
 
@@ -979,16 +1025,18 @@ A word chain is a sequence of words [word1, word2, ..., wordk] with k >= 1, wher
             return 0
 
         dp = [0 for x in range(len(s) + 1)]
-        dp[0] = 1
 
+        dp[0] = 1
         if s[0] == 0:
             dp[1] = 0
         else:
             dp[1] = 1
 
         for i in range(2, len(s) + 1):
+
             if 0 < int(s[i-1:i]) <= 9:
                 dp[i] = dp[i - 1] + dp[i]
+
             if 10 <= int(s[i-2:i]) <= 26:
                 dp[i] = dp[i - 2] + dp[i]
 
@@ -1010,8 +1058,7 @@ A word chain is a sequence of words [word1, word2, ..., wordk] with k >= 1, wher
         return cut
 
     def longestNiceSubstring(self, s: str) -> str:
-        """ Longest Nice Substring
-
+        """ 1763. Longest Nice Substring (Easy)
         A string s is nice if, for every letter of the alphabet that s contains, it appears both in uppercase and lowercase. For example, "abABB" is nice because 'A' and 'a' appear, and 'B' and 'b' appear. However, "abA" is not because 'b' appears, but 'B' does not.
 
         Given a string s, return the longest substring of s that is nice. If there are multiple, return the substring of the earliest occurrence. If there are none, return an empty string.
@@ -1022,21 +1069,26 @@ A word chain is a sequence of words [word1, word2, ..., wordk] with k >= 1, wher
         :return:  the longest substring
         :rtype:   str
         """
-        def helper(start, end):
+        def dfs_substring(start: int, end: int) -> str:
             chars = set(s[start: end])
 
             for i in range(start, end):
+
+                # Nice substring (conditions)
                 if s[i].upper() in chars and s[i].lower() in chars:
                     continue
-                s1 = helper(start, i)
-                s2 = helper(i + 1, end)
+
+                s1 = dfs_substring(start, i) # left-side nice substring
+                s2 = dfs_substring(i + 1, end) # right-side nice substring
                 return s1 if len(s1) >= len(s2) else s2
+
+            # longest nice substring
             return s[start:end]
 
-        return helper(0, len(s))
+        return dfs_substring(0, len(s))
 
     def containDuplicate(self, nums: List[int]) -> bool:
-        """ Contains Duplicate docstring for containDuplicate"""
+        """ 217. Contains Duplicate docstring for containDuplicate"""
         """ Given an integer array nums, return true if any value appears at least twice in the array, and return false if every element is distinct.
 
         :param List[int]:  an integer array nums
@@ -1045,6 +1097,17 @@ A word chain is a sequence of words [word1, word2, ..., wordk] with k >= 1, wher
         :return:  Whether if any value appears at least twice in the array
         :rtype:   bool
         """
+        """
+        dict = []
+
+        for i in range(0, len(nums)):
+            if nums[i] in dict:
+                return True
+            else:
+                dict.append(nums[i])
+        return False
+        """
+
         dict = {}
 
         for i in range(0, len(nums)):
@@ -1056,7 +1119,7 @@ A word chain is a sequence of words [word1, word2, ..., wordk] with k >= 1, wher
         return False
 
     def moveZeroes(self, nums: List[int]) -> List[int]:
-        """Move Zeroes docstring for fname"""
+        """ 283. Move Zeroes docstring for fname (Easy)"""
         """ Given an integer array nums, move all 0's to the end of it while maintaining the relative order of the non-zero elements.
 
         Note that you must do this in-place without making a copy of the array.
@@ -1081,7 +1144,7 @@ A word chain is a sequence of words [word1, word2, ..., wordk] with k >= 1, wher
         return nums
 
     def isValidSudoku(self, board: List[List[str]]) -> bool:
-        """ Valid Sudoku
+        """ 36. Valid Sudoku (Medium)
 
         Determine if a 9 x 9 Sudoku board is valid. Only the filled cells need to be validated according to the following rules:
 
@@ -1121,6 +1184,7 @@ A word chain is a sequence of words [word1, word2, ..., wordk] with k >= 1, wher
                     return False
                 else:
                     hashmap[board[row][i]] = 1
+
             return True
 
         def checkverticalline(col):
@@ -1133,18 +1197,22 @@ A word chain is a sequence of words [word1, word2, ..., wordk] with k >= 1, wher
                     return False
                 else:
                     hashmap[board[i][col]] = 1
+
             return True
+
         for i in range(9):
             if (not checkverticalline(i) or not checkhorizontalline(i)):
                 return False
+
         for i in range(0, 9, 3):
             for j in range(0, 9, 3):
                 if(not checkbox(i, j)):
                     return False
+
         return True
 
     def halvesAreAlike(self, s: str) -> bool:
-        """Determine if String Halves Are Alike docstring for halvesAreAlike"""
+        """ 1704. Determine if String Halves Are Alike docstring for halvesAreAlike (Easy)"""
         """ You are given a string s of even length. Split this string into two halves of equal lengths, and let a be the first half and b be the second half.
 
         Two strings are alike if they have the same number of vowels ('a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'). Notice that s contains uppercase and lowercase letters.
@@ -1160,13 +1228,15 @@ A word chain is a sequence of words [word1, word2, ..., wordk] with k >= 1, wher
         def countVowels(s):
             vowel = set("aeiouAEIOU")
             return sum(1 for char in s if char in vowel)
+
         size = len(s)
         midpoint = size//2
         a, b = s[:midpoint], s[midpoint:]
+
         return countVowels(a) == countVowels(b)
 
     def maxProfitII(self, prices: List[int]) -> int:
-        """Best Time to Buy and Sell Stock II docstring for maxProfit"""
+        """ 122. Best Time to Buy and Sell Stock II docstring for maxProfit (Medium)"""
         """
         You are given an integer array prices where prices[i] is the price of a given stock on the ith day.
 
@@ -1189,7 +1259,7 @@ A word chain is a sequence of words [word1, word2, ..., wordk] with k >= 1, wher
         return total
 
     def maxProfit(self, prices: List[int]) -> int:
-        """ Best Time to Buy and Sell Stock  """
+        """ 121. Best Time to Buy and Sell Stock (Easy) """
         """ You are given an array prices where prices[i] is the price of a given stock on the ith day.
 
         You want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future to sell that stock.
@@ -1202,7 +1272,7 @@ A word chain is a sequence of words [word1, word2, ..., wordk] with k >= 1, wher
         :return:  maximum profit you can achieve from this transaction
         :rtype:  int
         """
-        dp_hold, dp_not_hold = -float('inf'), 0
+        dp_hold, dp_not_hold = -math.inf, 0
 
         for stock_price in prices:
 
@@ -1216,7 +1286,7 @@ A word chain is a sequence of words [word1, word2, ..., wordk] with k >= 1, wher
         return dp_not_hold
 
     def maxProfitwithfee(self, prices: List[int], fee: int) -> int:
-        """ Best Time to Buy and Sell Stock with Transaction Fee """
+        """ 714. Best Time to Buy and Sell Stock with Transaction Fee (Medium)"""
         """ You are given an array prices where prices[i] is the price of a given stock on the ith day, and an integer fee representing a transaction fee.
 
 Find the maximum profit you can achieve. You may complete as many transactions as you like, but you need to pay the transaction fee for each transaction.
@@ -1232,22 +1302,424 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         :return:  the maximum profit you can achieve
         :rtype:  int
         """
-        dp_hold, dp_sell = -float('inf'), 0
+        dp_hold, dp_sell = -math.inf, 0
 
         for stock_price in prices:
             dp_sell = max(dp_sell, dp_hold + stock_price)
             dp_hold = max(dp_hold, dp_sell - stock_price - fee)
 
-        return dp_sell if prices else 0
+        return dp_sell
 
     def minDeletionSize(self, strs: List[str]) -> int:
+        """ 944. Delete Columns to Make Sorted """
+        """ You are given an array of n strings strs, all of the same length.
+
+            The strings can be arranged such that there is one on each line, making a grid. For example, strs = ["abc", "bce", "cae"] can be arranged as:
+
+            abc
+            bce
+            cae
+
+            You want to delete the columns that are not sorted lexicographically. In the above example (0-indexed), columns 0 ('a', 'b', 'c') and 2 ('c', 'e', 'e') are sorted while column 1 ('b', 'c', 'a') is not, so you would delete column 1.
+            Return the number of columns that you will delete.
+
+        :param strs:  array of n string
+        :type  strs:  List[str]
+
+        :return:  the number of columns that you will delete
+        :rtype:  int
+        """
+
         count = 0
+
         for i in range(len(strs[0])):
             temp = ""
             for j in range(len(strs)):
                 temp += strs[j][i]
             if ''.join(sorted(temp)) != temp:
                 count += 1
+
         return count
+
+    def isMatch(self, s: str, p: str) -> bool:
+        """ 44. Wildcard Matching (Medium) """
+        """ Given an input string (s) and a pattern (p), implement wildcard pattern matching with support for '?' and '*' where:
+        
+        '?' Matches any single character.
+        '*' Matches any sequence of characters (including the empty sequence).
+        The matching should cover the entire input string (not partial).
+
+        :param s:  input string
+        :type  s:  str
+
+        :param p:  pattern
+        :type  p:  str
+
+        :return:  whether or not input staring and pattern are matched
+        :rtype:  bool
+        """
+
+        dp = [[False] * (len(s)+1) for i in range(len(p)+1)]
+
+        dp[0][0] = True
+
+        for i in range(1, len(dp)):
+            if p[i-1] == '*':
+                dp[i][0] = dp[i-1][0]
+
+        for i in range(1, len(dp)):
+            for j in range(1, len(dp[0])):
+
+                if(p[i-1] == s[j-1] or p[i-1] == "?"):
+                    dp[i][j] = dp[i-1][j-1]
+
+                if(p[i-1] == "*"):
+                    dp[i][j] = dp[i-1][j] or dp[i][j-1]
+
+        return dp[-1][-1]
+
+    def minimumLines(self, stockPrices: List[List[int]]) -> int:
+        """ 2280. Minimum Lines to Represent a Line Chart (Medium) """
+        """ You are given a 2D integer array stockPrices where stockPrices[i] = [dayi, pricei] indicates the price of the stock on day dayi is pricei. A line chart is created from the array by plotting the points on an XY plane with the X-axis representing the day and the Y-axis representing the price and connecting adjacent points. One such example is shown below:
+
+        Return the minimum number of lines needed to represent the line chart.
+
+        :param stockPrices:  2D integer array stockPrices
+        :type  stockPrices:  List[List[int]]
+
+        :return:  the minimum number of lines needed to represent the line chart
+        :rtype:  int
+        """
+
+        if len(stockPrices) == 1:
+            return 0
+        if len(stockPrices) == 2:
+            return 1
+        n = len(stockPrices)
+        lines = n-1
+
+        stockPrices.sort()
+        for i in range(1,n-1):
+            a , b , c = stockPrices[i-1] , stockPrices[i] , stockPrices[i+1]
+            if (b[0]-a[0])*(c[1] - b[1]) == (c[0]-b[0])*(b[1] - a[1]):
+                lines -= 1
+
+        return lines
+
+    def nextGreaterElement(self, nums1: List[int], nums2: List[int]) -> List[int]:
+        """ Next Greater Element I  """
+        """ The next greater element of some element x in an array is the first greater element that is to the right of x in the same array.
+
+        You are given two distinct 0-indexed integer arrays nums1 and nums2, where nums1 is a subset of nums2.
+
+        For each 0 <= i < nums1.length, find the index j such that nums1[i] == nums2[j] and determine the next greater element of nums2[j] in nums2. If there is no next greater element, then the answer for this query is -1.
+
+        Return an array ans of length nums1.length such that ans[i] is the next greater element as described above.
+
+        :param nums1:  integer arrays
+        :type  nums1:  List[int]
+
+        :param nums2:  integer arrays
+        :type  nums2:  List[int]
+
+        :return:  an array is the next greater element
+        :rtype:  Line[int]
+        """
+        ans = []
+        for i in nums1:
+            i_index = nums2.index(i)
+            for j in range(i_index, len(nums2)):
+                if nums2[j] > i:
+                    ans.append(nums2[j])
+                    break
+            else:
+                ans.append(-1)
+
+        return ans
+
+    def nextGreaterElementsII(self, nums: List[int]) -> List[int]:
+        """ 503. Next Greater Element II (Medium)  """
+        """ Given a circular integer array nums (i.e., the next element of nums[nums.length - 1] is nums[0]), return the next greater number for every element in nums.
+
+        The next greater number of a number x is the first greater number to its traversing-order next in the array, which means you could search circularly to find its next greater number. If it doesn't exist, return -1 for this number.
+
+        :param nums:  circular integer array
+        :type  nums:  List[int]
+
+        :return:  the next greater number for every element in nums
+        :rtype:  List[int]
+        """
+        s = []
+        size = len(nums)
+        res = [-1 for i in range(size)]
+
+        for i in range(2 * size):
+            i = i % size
+            while len(s) != 0 and nums[s[-1]] < nums[i]:
+                item = s.pop()
+                res[item] = nums[i]
+            s.append(i)
+        return res
+
+    def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
+        """ 739. Daily Temperatures (Medium) """
+        """ Given an array of integers temperatures represents the daily temperatures, return an array answer such that answer[i] is the number of days you have to wait after the ith day to get a warmer temperature. If there is no future day for which this is possible, keep answer[i] == 0 instead.
+
+        :param temperatures:  an array of integers temperatures
+        :type  temperatures:  List[int]
+
+        :return: an array is the number of days you have to wait after the ith day to get warmer temperature.
+        :rtype:  List[int]
+        """
+        stack = []
+        res = [0] * len(temperatures)
+        for i, temp in enumerate(temperatures):
+            while stack and temp > stack[-1][0]:
+                res[stack[-1][1]] = i - stack[-1][1]
+                stack.pop()
+            stack.append((temp, i))
+        return res
+
+    def totalStrength(self, strength: List[int]) -> int:
+        """ 2281. Sum of Total Strength of Wizards (Hard) """
+        """ As the ruler of a kingdom, you have an army of wizards at your command.
+
+        You are given a 0-indexed integer array strength, where strength[i] denotes the strength of the ith wizard. For a contiguous group of wizards (i.e. the wizards' strengths form a subarray of strength), the total strength is defined as the product of the following two values:
+
+        The strength of the weakest wizard in the group.
+        The total of all the individual strengths of the wizards in the group.
+        Return the sum of the total strengths of all contiguous groups of wizards. Since the answer may be very large, return it modulo 109 + 7.
+
+        A subarray is a contiguous non-empty sequence of elements within an array.
+
+        :param strength:  integer array strength
+        :type  strength:  Lint[int]
+
+        :return:  the sum of the total strengths of all contiguous groups of wizards
+        :rtype:  int
+        """
+        res, ac, mod, stack, acc = 0, 0, 10 ** 9 + 7, [-1], [0]
+        strength += [0]
+
+        for r, a in enumerate(strength):
+            ac += a
+            acc.append(ac + acc[-1])
+            while stack and strength[stack[-1]] > a:
+                i = stack.pop()
+                j = stack[-1]
+                lacc = acc[i] - acc[max(j, 0)]
+                racc = acc[r] - acc[i]
+                ln, rn = i - j, r - i
+                res += strength[i] * (racc * ln - lacc * rn) % mod
+            stack.append(r)
+        return res % mod
+
+    def isSameTree(self, p: Optional[TreeNode], q: Optional[TreeNode]) -> bool:
+        """ 100. Same Tree (Easy) """
+        """ Given the roots of two binary trees p and q, write a function to check if they are the same or not.
+
+        Two binary trees are considered the same if they are structurally identical, and the nodes have the same value.
+
+        :param p:  binary tree
+        :type  p:  Optional[TreeNode]
+
+        :param q:  binary tree
+        :type  q:  Optional[TreeNode]
+
+        :return:  Whether two binary trees are considered the same
+        :rtype:  bool
+        """
+        def is_same(node1, node2):
+            if not node1 and not node2:
+                return True
+            if not node1 or not node2:
+                return False
+            if node1.val != node2.val:
+                return False
+            return is_same(node1.left, node2.left) and is_same(node1.right, node2.right)
+
+        return is_same(p, q)
+
+    def minSwaps(self, nums: List[int]) -> int:
+        """ 2134. Minimum Swaps to Group All 1's Together II """
+        """ A swap is defined as taking two distinct positions in an array and swapping the values in them.
+
+        A circular array is defined as an array where we consider the first element and the last element to be adjacent.
+
+        Given a binary circular array nums, return the minimum number of swaps required to group all 1's present in the array together at any location.
+
+        :param nums:  circular array
+        :type  nums:  Lint[int]
+
+        :return:  the minimum number of swaps required to group all 1's present in the array together at any location
+        :rtype:  int
+        """
+        n, ones = len(nums), sum(nums)
+        window = max_window = sum(nums[i] for i in range(ones))
+
+        for i in range(n - 1):
+            # shift window
+            window += nums[(i + ones) % n] - nums[i]
+            max_window = max(max_window, window)
+
+        return ones - max_window
+
+    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+        """ 56. Merge Intervals (Medium) """
+        """ Given an array of intervals where intervals[i] = [starti, endi], merge all overlapping intervals, and return an array of the non-overlapping intervals that cover all the intervals in the input
+
+        :param param:  array of intervals
+        :type  param:  List[List[int]]
+
+        :return:  an array of the non-overlapping intervals that cover all the intervals in the input
+        :rtype:  Lint[Lint[int]]
+        """
+        if len(intervals) == 1:
+            return intervals
+
+        intervals = sorted(intervals, key=lambda x: x[0])
+
+        ans = []
+        cur = intervals[0]
+
+        for i in range(1, len(intervals)):
+            if cur[1] < intervals[i][0]:
+                ans.append(cur)
+                cur = intervals[i]
+            elif cur[1] <= intervals[i][1]:
+                cur[1] = intervals[i][1]
+
+        ans.append(cur)
+
+        return ans
+
+    def searchInsert(self, nums: List[int], target: int) -> int:
+        """ 35. Search Insert Position """
+        """ Given a sorted array of distinct integers and a target value, return the index if the target is found. If not, return the index where it would be if it were inserted in order.
+
+        You must write an algorithm with O(log n) runtime complexity.
+
+        :param nums:  sorted array of distinct integers
+        :type  nums:  List[int]
+
+        :return:  the index where it would be if it were inserted in order
+        :rtype:  int
+        """
+        start = 0
+        end = len(nums) - 1
+
+        while start <= end:
+            middle = start + (end - start)//2
+
+            if nums[middle] < target:
+                start = middle + 1
+            elif nums[middle] > target:
+                end = middle - 1
+            elif nums[middle] == target:
+                return middle
+
+        return start
+
+    def findLucky(self, arr: List[int]) -> int:
+        """ 1394. Find Lucky Integer in an Array """
+        """ Given an array of integers arr, a lucky integer is an integer that has a frequency in the array equal to its value.
+
+        Return the largest lucky integer in the array. If there is no lucky integer return -1.
+
+        :param arr:  an array of integers
+        :type  arr:  Lint[int]
+
+        :return:  the largest lucky integer
+        :rtype:  int
+        """
+        frequency = Counter(arr)
+        lucky = []
+
+        for n in frequency:
+            if n == frequency[n]:
+                lucky.append(frequency[n])
+
+        return max(lucky) if len(lucky) > 0 else -1
+
+    def isValid(self, s: str) -> bool:
+        """ 20. Valid Parentheses """
+        """ Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
+
+        An input string is valid if:
+
+        Open brackets must be closed by the same type of brackets.
+        Open brackets must be closed in the correct order.
+
+        :param s:  string containing just characters
+        :type  s:  str
+
+        :return:  determine if the input string is valid
+        :rtype:  bool
+        """
+        stack = []
+        for char in s:
+            if len(stack):
+                if (char == ")" and stack[-1] == "(") or (char == "]" and stack[-1] == "[") or (char == "}" and stack[-1] == "{"):
+                    stack.pop()
+                    continue
+
+            stack.append(char)
+
+        return len(stack) == 0
+
+    def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
+        """ 21. Merge Two Sorted Lists """
+        """ You are given the heads of two sorted linked lists list1 and list2.
+
+        Merge the two lists in a one sorted list. The list should be made by splicing together the nodes of the first two lists.
+
+        Return the head of the merged linked list.
+
+        :param list1:  sorted linked list
+        :type  list1:  Optional[ListNode]
+
+        :param list2:  sorted linked list
+        :type  list2:  Optional[ListNode]
+
+        :return:  the head of the merged two lists
+        :rtype:  Optional[ListNode]
+        """
+        if list1 and list2:
+            a, b = list1, list2
+            if b.val < a.val:
+                a, b = b, a
+            a.next = self.mergeTwoLists(a.next, b)
+            return a
+
+        return list1 or list2
+
+    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
+        """ 19. Remove Nth Node From End of List """
+        """ Given the head of a linked list, remove the nth node from the end of the list and return its head.
+
+        :param param:  the head of a linked list
+        :type  param:  Optional[ListNode]
+
+        :return:  the head of a linked list that removed the nth node from the end of the list
+        :rtype:  Optional[ListNode]
+        """
+        dummyNode = ListNode()
+        dummyNode.next = head
+
+        slow = dummyNode
+        fast = dummyNode
+
+        for i in range(n):
+            fast = fast.next
+
+        while fast.next is not None:
+            slow = slow.next
+            fast = fast.next
+
+        slow.next = slow.next.next
+
+        return dummyNode.next
+
+
 
 
