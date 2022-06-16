@@ -9,6 +9,14 @@ Dataclasses - Data Classes
 
 This module provides a decorator and functions for automatically adding generated special methods such as __init__() and __repr__() to user-defined classes.
 
+The dataclass() decorator examines the class to find fields. A field is defined as class variable that has a type annotation.
+
+The parameters to dataclass() are:
+
++ The __init_()  method is automatically added to the class: it is not directly specified in the InventoryItem definition.
+
++ The __repr__() method compute the "offical" string representation of an object. This is typeically used for debugging, so it is important that the representation is information-rich and unambiguous.
+
 The example this code::
 
     from dataclasses import dataclass
@@ -22,6 +30,11 @@ The example this code::
 
         def total_cost(self) -> float:
             return self.unit_price * self.quantity_on_hand
+
+        def __init__(self, name: str, unit_price: float, quantity_on_hand: int=0):
+            self.name = name
+            self.unit_price = unit_price
+            self.quantity_on_hand = quantity_on_hand
 
 See the `Python dataclasses page <https://docs.python.org/3.7/library/dataclasses.html?highlight=class#module-dataclasses>`_ for more info.
 
@@ -106,6 +119,10 @@ There are the operations that dictionaries support:
 
 + items(): Return the value for key if key is in the dictionary, else default.
 
++ setdefault(key[, default]): If key is in the dictionary, return its value. If not, insert key with a value of default and return default.
+
++ values(): Return a new view of the dictionary's values.
+
 See the `Python dict page <https://docs.python.org/3.7/library/stdtypes.html#mapping-types-dict>`_ for more info.
 
 Set Types - set, frozenset
@@ -151,6 +168,11 @@ The example using list as the default_factory::
     >>> sorted(d.items())
     [('blue', [2, 4]), ('red', [1]), ('yellow', [1, 3])]
 
+
+Note:
+
++ Using a defaultdict to handle missing keys can be faster than using dict.setdefault().
+
 See the `Python defaultdict object page <https://docs.python.org/3.7/library/collections.html?highlight=collections%20defaultdict#defaultdict-objects>`_ for more info.
 
 Counter objects
@@ -167,6 +189,38 @@ The example using Counter objects that have a dictionary::
     Counter({'egg': 1, 'ham': 1})
 
 See the `Python Counter object page <https://docs.python.org/3.7/library/collections.html?highlight=collections%20defaultdict#counter-objects>`_ for more info.
+
+Built-in Types (str)
+----------------
+
+The principle built-in types are numerics, sequences, mapping, class, instance and exceptions.
+
+Text Sequence Type - (str)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Textual data in Python is handled with str objects, or strings.
+
+str(object='') return a string version of object. If object is not provided, returns the empty string. Otherwise, the behavior of str() depends on whether encoding or errors is given.
+
+
+The standard library covers a number of other modules that provide various text related utilities:
+
++ str.upper(): return a copy of the string with all the cased characters coverted to uppercase.
+
++ str.lower(): return a copy of the string with all the cased characters coverted to lowercase.
+
++ str.find(sub[, start[, end]]): return the lowest index in the string where substring sub is found within the slice s[start:end].
+
++ str.isdigit(): return True if all characters in the string are digits and there is at least one characters, False otherwise.
+
++ str.split(sep=None, maxsplit=-1): return a list of the words in the string, using sep as the delimiter string.
+
++ str.strip([chars]): return a copy of the string with the leading and trailing characters removed::
+
+    >>> '   spacious   '.strip()
+    spacious
+
+See the `Python str page <https://docs.python.org/3.7/library/stdtypes.html?highlight=strip#str>`_ for more info.
 
 Built-in Functions (enumerate)
 ----------------------------------------------------------

@@ -1,6 +1,12 @@
 Readme File
 ===========
 
+Official Big-O Cheat Sheet
+------------------------------
+
+.. image:: images/bigo_cheat.png
+    :width: 1000
+
 Solutions list 
 ---------------------
 
@@ -18,7 +24,7 @@ Solutions list
     1192, :func:`~leetcode.impl.solution.Solution.criticalConnections`, Hard, ,
     565, :func:`~leetcode.impl.solution.Solution.arrayNesting`, Medium, ,
     162, :func:`~leetcode.impl.solution.Solution.findPeakElement`, Medium, O(log N) ,
-    657, :func:`~leetcode.impl.solution.Solution.judgeCircle`, Easy, O(N) ,
+    657, :func:`~leetcode.impl.solution.Solution.judgeCircle`, Easy, O(N) , O(N)
     1048, :func:`~leetcode.impl.solution.Solution.longestStrChain`, Medium, ,
     3, :func:`~leetcode.impl.solution.Solution.lengthOfLongestSubstring`, Medium, ,
     2260, :func:`~leetcode.impl.solution.Solution.minimumCardPickup`, Medium, ,

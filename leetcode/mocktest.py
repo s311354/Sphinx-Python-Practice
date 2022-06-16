@@ -121,6 +121,12 @@ class SolutionCase(unittest.TestCase):
         expected_output = 6
         self.assertEqual(sol.maxLength(arr), expected_output)
 
+        arr = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p"]
+        expected_output = 16
+        self.assertEqual(sol.maxLength(arr), expected_output)
+
+
+
     def test_criticalConnections(self):
         """ 1192. Critical Connections in a Network """
         sol = solution.Solution()
@@ -282,7 +288,7 @@ class SolutionCase(unittest.TestCase):
         expected_output = 3
         self.assertEqual(sol.strongPasswordChecker(password), expected_output)
 
-    def test_maxProfitIV(self):
+    def testmaxProfitIV(self):
         """188. Best Time to Buy and Sell Stock IV docstring for maxProfit"""
         sol = solution.Solution()
 
@@ -359,12 +365,11 @@ class SolutionCase(unittest.TestCase):
         sol = solution.Solution()
 
         nums = [1,2,3]
-        expected_output = [[],[1],[1,2],[1,2,3],[1,3],[2],[2,3],[3]]
+        expected_output = [[1, 2, 3], [1, 2], [1, 3], [1], [2, 3], [2], [3], []]
         self.assertEqual(sol.subsets(nums), expected_output)
 
-
         nums = [0]
-        expected_output = [[],[0]]
+        expected_output = [[0],[]]
         self.assertEqual(sol.subsets(nums), expected_output)
 
     def test_numDecodings(self):
@@ -720,6 +725,173 @@ class SolutionCase(unittest.TestCase):
             expected_output.insert(output[item])
 
         self.assertEqual(sol.removeNthFromEnd(List1, n).PrintListNode(), expected_output.PrintListNode())
+
+    def test_coinChange(self):
+        """docstring for coinChange"""
+        sol = solution.Solution()
+
+        coins = [1,2,5]
+        amount = 11
+        expected_output = 3
+        self.assertEqual(sol.coinChange(coins, amount), expected_output)
+
+    def test_countBits(self):
+        """ 338. Counting Bits docstring for countBits"""
+        sol = solution.Solution()
+
+        n = 2
+        expected_output = [0,1,1]
+#         self.assertEqual(sol.countBits(n), expected_output)
+
+        n = 5
+        expected_output = [0,1,1,2,1,2]
+#         self.assertEqual(sol.countBits(n), expected_output)
+
+        n = 7
+        expected_output = [0,1,1,2,1,2,2,3]
+        self.assertEqual(sol.countBits(n), expected_output)
+
+    def test_getSum(self):
+        """docstring for getSum"""
+        sol = solution.Solution()
+
+        a, b = 2, 3
+        expected_output = 5
+        self.assertEqual(sol.getSum(a, b), expected_output)
+
+    def test_numIslands(self):
+        """ 200. Number of Islands docstring for numIslands"""
+        sol = solution.Solution()
+
+        grid = [
+              ["1","1","1","1","0"],
+              ["1","1","0","1","0"],
+              ["1","1","0","0","0"],
+              ["0","0","0","0","0"]
+            ]
+        expected_output = 1
+        self.assertEqual(sol.numIslands(grid), expected_output)
+
+        grid = [
+              ["1","1","0","0","0"],
+              ["1","1","0","0","0"],
+              ["0","0","1","0","0"],
+              ["0","0","0","1","1"]
+            ]
+        expected_output = 3
+        self.assertEqual(sol.numIslands(grid), expected_output)
+
+    def test_strStr(self):
+        """docstring for strStr"""
+        sol = solution.Solution()
+
+        haystack = "hello"
+        needle = "ll"
+        expected_output = 2
+        self.assertEqual(sol.strStr(haystack, needle), expected_output)
+
+    def test_myAtoi(self):
+        """docstring for myAtoi"""
+        sol = solution.Solution()
+
+        s = "-42"
+        expected_output = -42
+        self.assertEqual(sol.myAtoi(s), expected_output)
+
+    def test_search(self):
+        """docstring for search"""
+        sol = solution.Solution()
+
+        nums = [4,5,6,7,0,1,2]
+        target = 0
+        expected_output = 4
+        self.assertEqual(sol.search(nums, target), expected_output)
+
+    def test_permute(self):
+        """docstring for permute"""
+        sol = solution.Solution()
+
+        nums = [1,2,3]
+        expected_output = [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
+        self.assertEqual(sol.permute(nums), expected_output)
+
+    def test_combinationSum(self):
+        """docstring for combinationSum"""
+        sol = solution.Solution()
+
+        candidates = [2,3,6,7]
+        target = 7
+        expected_output = [[2,2,3],[7]]
+        self.assertEqual(sol.combinationSum(candidates, target), expected_output)
+
+    def test_combinationSum2(self):
+        """docstring for combinationSum2"""
+        sol = solution.Solution()
+
+        candidates = [10,1,2,7,6,1,5]
+        target = 8
+        expected_output = [[1,1,6],[1,2,5],[1,7],[2,6]]
+        self.assertEqual(sol.combinationSum2(candidates, target), expected_output)
+
+    def test_restoreIpAddresses(self):
+        """docstring for restoreIpAddresses"""
+        sol = solution.Solution()
+
+        s = "25525511135"
+        expected_output = ["255.255.11.135","255.255.111.35"]
+        self.assertEqual(sol.restoreIpAddresses(s), expected_output)
+
+        s = "101023"
+        expected_output = ["1.0.10.23","1.0.102.3","10.1.0.23","10.10.2.3","101.0.2.3"]
+        self.assertEqual(sol.restoreIpAddresses(s), expected_output)
+
+    def test_letterCombinations(self):
+        """docstring for letterCombinations"""
+        sol = solution.Solution()
+
+        digits = "23"
+        expected_output = ["ad","ae","af","bd","be","bf","cd","ce","cf"]
+        self.assertEqual(sol.letterCombinations(digits), expected_output)
+
+    def test_minOperations(self):
+        """docstring for minOperations"""
+        sol = solution.Solution()
+
+        nums = [1,1,1]
+        expected_output = 3
+        self.assertEqual(sol.minOperations(nums), expected_output)
+
+        nums = [2, 3, 2, 3]
+        expected_output = 4
+        self.assertEqual(sol.minOperations(nums), expected_output)
+
+        nums = [1, 4, 3, 2]
+        expected_output = 6
+        self.assertEqual(sol.minOperations(nums), expected_output)
+
+    def test_rob(self):
+        """docstring for rob"""
+        sol = solution.Solution()
+
+        nums = [1,2,3,1]
+        expected_output = 4
+        self.assertEqual(sol.rob(nums), expected_output)
+
+        nums = [2,7,9,3,1]
+        expected_output = 12
+        self.assertEqual(sol.rob(nums), expected_output)
+
+    def test_reverseBits(self):
+        """docstring for reverse"""
+        sol = solution.Solution()
+
+        n = 0b00000010100101000001111010011100
+        expected_output = 964176192
+        self.assertEqual(sol.reverseBits(n), expected_output)
+
+        n = 0b11111111111111111111111111111101
+        expected_output = 3221225471
+        self.assertEqual(sol.reverseBits(n), expected_output)
 
 
 if __name__ == '__main__':

@@ -99,7 +99,10 @@ class Solution(object):
     def minNumberOfSemesters(self, n: int, dependencies: List[List[int]], k: int) -> int:
         """ 1496. Parallel Courses II (HARD)
 
-        You are given an integer n, which indicates that there are n courses labeled from 1 to n. You are also given an array relations where relations[i] = [prevCoursei, nextCoursei], representing a prerequisite relationship between course prevCoursei and course nextCoursei: course prevCoursei has to be taken before course nextCoursei. Also, you are given the integer k.
+        You are given an integer n, which indicates that there are n courses labeled from 1 to n. You are also given an array relations where
+        relations[i] = [prevCoursei, nextCoursei], representing a prerequisite relationship between course prevCoursei and course nextCoursei:
+        course prevCoursei has to be taken before course nextCoursei. Also, you are given the integer k.
+
 
         In one semester, you can take at most k courses as long as you have taken all the prerequisites in the previous semesters for the courses you are taking.
 
@@ -107,8 +110,10 @@ class Solution(object):
 
         :param n:  courses
         :type n:  int
+
         :param dependencies: prerequisite relationship between course prevCoursei and course nextCoursei has to be taken before course nextCoursi
         :type dependencies:  List[List[int]]
+
         :param k:  take at most k courses
         :type  k:  int
 
@@ -306,7 +311,7 @@ class Solution(object):
 
         :return:  the maximum possible length of subsequence
         :rtype:   int
-
+        """
         """
         def dfs_maxlength(arr, cur, visited, idx):
             if idx == len(arr):
@@ -332,6 +337,22 @@ class Solution(object):
         dfs_maxlength(arr, '', set(), 0)
 
         return self.maxlen
+        """ 
+        self.ans, temp = 0, ""
+
+        def dfs_length(arr, temp):
+
+            self.ans = max(self.ans, len(temp))
+
+            for i in range(len(arr)):
+                if len(temp) + len(arr[i]) != len(set(temp + arr[i])):
+                    continue
+
+                dfs_length(arr[i+1:], temp+arr[i])
+
+        dfs_length(arr, temp)
+
+        return self.ans
 
     def criticalConnections(self, n: int, connections: List[List[int]]) -> List[List[int]]:
         """ 1192. Critical Connections in a Network (HARD)
@@ -387,34 +408,34 @@ class Solution(object):
 
         """
         def dfs_visit(node, from_node=None):
-            if node in low:
-                return low[node]
+            if node in low_link:
+                return low_link[node]
 
-            cur_id = low[node] = len(low)
+            cur_id = low_link[node] = len(low_link)
 
             # Traversal
             for neigh in graph[node]:
+
                 if neigh == from_node:
                     continue
 
                 # Track the smallest low link value
-                low[node] = min(low[node], dfs_visit(neigh, node))
+                low_link[node] = min(low_link[node], dfs_visit(neigh, node))
 
             # Determine critical connection (bridge)
             # according to when the low link value is equal to visited time.
-            if cur_id == low[node] and from_node is not None:
+            if cur_id == low_link[node] and from_node is not None:
                 results.append([from_node, node])
 
-            return low[node]
+            return low_link[node]
 
-        # build graph
+        # build undirected graph
         graph = defaultdict(set)
         for sor, dst in connections:
             graph[sor].add(dst)
             graph[dst].add(sor)
 
-        low = {}
-        results = []
+        low_link, results = {}, []
 
         dfs_visit(0)
 
@@ -507,10 +528,14 @@ We stop adding right before a duplicate element occurs in s[k].
 
         You are given an array of words where each word consists of lowercase English letters.
 
-        wordA is a predecessor of wordB if and only if we can insert exactly one letter anywhere in wordA without changing the order of the other characters to make it equal to wordB.
+        wordA is a predecessor of wordB if and only if we can insert exactly one letter anywhere in wordA without changing the order of the other characters to make 
+        it equal to wordB.
 
-        For example, "abc" is a predecessor of "abac", while "cba" is not a predecessor of "bcad".
-A word chain is a sequence of words [word1, word2, ..., wordk] with k >= 1, where word1 is a predecessor of word2, word2 is a predecessor of word3, and so on. A single word is trivially a word chain with k == 1.
+        For example, "abc" is a predecessor of "abac", while "cba" is not a 
+        predecessor of "bcad".
+
+        A word chain is a sequence of words [word1, word2, ..., wordk] with k >= 1, where word1 is a predecessor of word2, word2 is a predecessor of word3, 
+        and so on. A single word is trivially a word chain with k == 1.
 
         Return the length of the longest possible word chain with words chosen from the given list of words.
 
@@ -519,7 +544,6 @@ A word chain is a sequence of words [word1, word2, ..., wordk] with k >= 1, wher
 
         :return:  the length of the longest possible word chain with words choosen from the given list of words
         :rtype:   int
-
         """
 
         if not words:
@@ -555,6 +579,7 @@ A word chain is a sequence of words [word1, word2, ..., wordk] with k >= 1, wher
         :return:  the length of the longest substring without repeating characters
         :rtype:  int
         """
+
         maxCount = 0
 
         for i in range(len(s)):
@@ -563,10 +588,12 @@ A word chain is a sequence of words [word1, word2, ..., wordk] with k >= 1, wher
 
             # Substring
             for j in range(i+1, len(s)):
-                if(s[j] in subStr): break
+                if(s[j] in subStr):
+                    break
                 subStr += s[j]
                 currentCount += 1
 
+#             print(subStr)
             maxCount = max(maxCount, currentCount)
 
         return maxCount
@@ -987,9 +1014,12 @@ A word chain is a sequence of words [word1, word2, ..., wordk] with k >= 1, wher
         :return:  all possible subsets (the power set)
         :rtype:  List[List[int]]
         """
+
+        """
         subset = []
 
         def recurse(start_index, current_subset):
+
             subset.append(list(current_subset))
 
             for split_index in range(start_index, len(nums)):
@@ -998,6 +1028,19 @@ A word chain is a sequence of words [word1, word2, ..., wordk] with k >= 1, wher
         recurse(0, [])
 
         return subset
+
+        """
+        ans, temp = [], []
+
+        def helper(nums, temp, ans):
+            """docstring for helper"""
+            for i in range(len(nums)):
+                helper(nums[i+1:], temp + [nums[i]], ans)
+
+            ans.append(temp)
+
+        helper(nums, temp, ans)
+        return ans
 
     def numDecodings(self, s: str) -> int:
         """ 91. Decode Ways (Medium)
@@ -1363,6 +1406,7 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
 
         dp[0][0] = True
 
+        # Matches any sequence of characters (including the empty sequence).
         for i in range(1, len(dp)):
             if p[i-1] == '*':
                 dp[i][0] = dp[i-1][0]
@@ -1720,6 +1764,439 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
 
         return dummyNode.next
 
+    def coinChange(self, coins: List[int], amount: int) -> int:
+        """ 322. Coin Change """
 
+        """ You are given an integer array coins representing coins of different denominations and an integer amount representing a total amount of money.
+
+        Return the fewest number of coins that you need to make up that amount. If that amount of money cannot be made up by any combination of the coins, return -1.
+
+        You may assume that you have an infinite number of each kind of coin.
+
+        :param param:  an integer array coins
+        :type  param:  List[int]
+
+        :return:  the fewest number of coins that you need to make up that amount
+        :rtype:  int
+        """
+        # minimum number of coins that makes up a
+        dp = [math.inf]*(amount+1)
+
+        dp[0] = 0
+        for a in range(1, amount + 1):
+            for coin in coins:
+                if a - coin >= 0:
+                    dp[a] = min(dp[a], 1 + dp[a - coin])
+
+        return dp[-1] if dp[-1] != math.inf else -1
+
+    def countBits(self, n: int) -> List[int]:
+        """ 338. Counting Bits """
+        """ Given an integer n, return an array ans of length n + 1 such that for each i (0 <= i <= n), ans[i] is the number of 1's in the binary representation of i.
+
+        :param n:  integer
+        :type  n:  int
+
+        :return:  an array of length n + 1 such that each i, ans[i] is the number of 1's in the binary representation of i
+        :rtype:  List[int]
+        """
+        # Stack
+        ans, prev = [0], 0
+
+        for i in range(1, n+1):
+
+            # multiple number of 1's in the binary representation of i
+            if not i & (i-1):
+                prev = i
+
+            ans.append(ans[i - prev] + 1)
+
+        return ans
+
+    def getSum(self, a: int, b: int) -> int:
+        """ 371. Sum of Two Integers """
+        """ Given two integers a and b, return the sum of the two integers without using the operators + and -
+
+        :param a:  integer
+        :type  a:  int
+
+        :param b:  integer
+        :type  b:  int
+
+        :return:  the sum of the two integers
+        :rtype:  int
+        """
+        # use 32bit mask to limit int size to 32bit to prevent overflow
+        mask = 0xffffffff
+
+        while b & mask > 0:
+            carry = (a & b) << 1
+            a = a ^ b
+            b = carry
+
+        return (a & mask) if b > mask else a
+
+    def numIslands(self, grid: List[List[str]]) -> int:
+        """ 200. Number of Islands (Medium) """
+        """ Given an m x n 2D binary grid grid which represents a map of '1's (land) and '0's (water), return the number of islands.
+
+        An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. You may assume all four edges of the grid are all surrounded by water.
+
+        :param param:  m x n 2D binary grid
+        :type  param:  List[List[str]]
+
+        :return:  the number of islands
+        :rtype:  int
+        """
+        if not grid:
+            return 0
+
+        m, n = len(grid), len(grid[0])
+        ans = 0
+
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == '1':
+                    # parent node
+                    q = collections.deque([(i, j)])
+                    grid[i][j] = '-1'
+
+                    # BFS traversal
+                    while q:
+                        x, y = q.popleft()
+                        for dx, dy in (0, 1), (0, -1), (1, 0), (-1, 0):
+                            xx, yy = x+dx, y+dy
+
+                            if 0 <= xx < m and 0 <= yy < n and grid[xx][yy] == '1':
+                                q.append((xx, yy))
+                                grid[xx][yy] = '-1'
+
+                    ans += 1
+
+        return ans
+
+    def strStr(self, haystack: str, needle: str) -> int:
+        """ 28. Implement strStr() """
+        """ Implement strStr().
+
+        Given two strings needle and haystack, return the index of the first occurrence of needle in haystack, or -1 if needle is not part of haystack.
+
+        :param haystack:  string haystack
+        :type  haystack:  str
+
+        :param needle:  string needle
+        :type  needle:  str
+
+        :return: the index of the first occurrence of needle in haystack
+        :rtype:  int
+        """
+        for i in range(len(haystack)-len(needle)+1):
+            if haystack[i:i+len(needle)] == needle:
+                return i
+        return -1
+
+    def myAtoi(self, s: str) -> int:
+        """ 8. String to Integer (atoi) """
+        """ Implement the myAtoi(string s) function, which converts a string to a 32-bit signed integer (similar to C/C++'s atoi function).
+
+        :param param:  string
+        :type  param:  str
+
+        :return: 32-bit signed integer
+        :rtype:  int
+        """
+        def str2num(string):
+            num = 0
+            for s in string:
+                if not s.isdigit():
+                    break
+                num = 10 * num + int(s)
+
+            return num
+
+        if s == "":
+            return 0
+
+        if s[0] != "+" and s[0] != "-" and not s[0].isdigit():
+            return 0
+        else:
+            if s[0] in ["+", "-"]:
+                sign = s[0]
+                res = str2num(s[1:])
+                return min(res, 2**31 - 1) if sign == "+" else max(0-res, -2**31)
+            else:
+                return min(str2num(s), 2**31 - 1)
+
+    def search(self, nums: List[int], target: int) -> int:
+        """ 33. Search in Rotated Sorted Array """
+        """ Given the array nums after the possible rotation and an integer target, return the index of target if it is in nums, or -1 if it is not in nums.
+
+        You must write an algorithm with O(log n) runtime complexity.
+
+        :param param:  array
+        :type  param:  List[int]
+
+        :param target:  integer target
+        :type  target:  int
+
+        :return:  the index of target if it is in nums
+        :rtype:  int
+        """
+        start, end = 0, len(nums)-1
+
+        while(start <= end):
+            mid = start + (end - start) // 2
+
+            if(target == nums[mid]):
+                return mid
+
+            if(nums[mid] >= nums[start]):
+                if(target < nums[mid] and target >= nums[start]):
+                    end = mid - 1
+                else:
+                    start = mid + 1
+            else:
+                if(target <= nums[end] and target > nums[mid]):
+                    start = mid + 1
+                else:
+                    end = mid - 1
+
+        return -1
+
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        """ 46. Permutations (Medium) """
+        """  Given an array nums of distinct integers, return all the possible permutations. You can return the answer in any order.
+
+        :param nums:  array
+        :type  nums:  List[int]
+
+        :return:  all the possible permutations
+        :rtype:  List[List[int]]
+        """
+        ans, temp = [], []
+
+        def helper(nums, temp, ans):
+            if len(nums) == 0:
+                ans.append(temp)
+                return
+
+            for i in range(len(nums)):
+                helper(nums[:i]+nums[i+1:], temp+[nums[i]], ans)
+
+        helper(nums, temp, ans)
+        return ans
+
+
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+        """ 39. Combination Sum  (Medium) """
+        """ Given an array of distinct integers candidates and a target integer target, return a list of all unique combinations of candidates where the chosen numbers sum to target. You may return the combinations in any order.
+
+        The same number may be chosen from candidates an unlimited number of times. Two combinations are unique if the frequency of at least one of the chosen numbers is different.
+
+        It is guaranteed that the number of unique combinations that sum up to target is less than 150 combinations for the given input.
+
+        :param candidates:  distinct integer candidates
+        :type  candidates:  List[int]
+
+        :return:  a list of all unique combinations of candidates where the chosed numbers sum to target
+        :rtype:  List[List[int]]
+        """
+        ans, temp = [], []
+
+        def backtracking(candidates, target, temp, ans):
+            if target == 0:
+                ans.append(temp)
+                return
+
+            for i in range(len(candidates)):
+                if candidates[i] > target:
+                    continue
+                backtracking(candidates[i:], target-candidates[i], temp+[candidates[i]], ans)
+
+        backtracking(candidates, target, temp, ans)
+        return ans
+
+    def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
+        """ 40. Combination Sum II (Medium) """
+        """ Given a collection of candidate numbers (candidates) and a target number (target), find all unique combinations in candidates where the candidate numbers sum to target.
+
+        Each number in candidates may only be used once in the combination.
+
+        :param param:  a collection of candidate numbers
+        :type  param:  List[int]
+
+        :param target:  a target number
+        :type  target:  int
+
+        :return:  all unique combinations in candidates where the candidates numbers sum to target
+        :rtype:  List[List[int]]
+
+        :raise e:  Description
+        """
+        res, temp = [], []
+
+        candidates = sorted(candidates)
+
+        def backtracking(candidates, target, temp, res):
+            if target == 0:
+                res.append(temp)
+                return
+
+            for i in range(len(candidates)):
+                if candidates[i] > target:
+                    continue
+
+                # Each number in candidates may only be used once in the combination.
+                if i >= 1 and candidates[i] == candidates[i-1]:
+                    continue
+
+                backtracking(candidates[i+1:], target-candidates[i], temp + [candidates[i]], res)
+
+        backtracking(candidates, target, temp, res)
+        return res
+
+    def restoreIpAddresses(self, s: str) -> List[str]:
+        """ 93. Restore IP Addresses (Medium) """
+        """ A valid IP address consists of exactly four integers separated by single dots. Each integer is between 0 and 255 (inclusive) and cannot have leading zeros.
+
+        For example, "0.1.2.201" and "192.168.1.1" are valid IP addresses, but "0.011.255.245", "192.168.1.312" and "192.168@1.1" are invalid IP addresses.
+
+        Given a string s containing only digits, return all possible valid IP addresses that can be formed by inserting dots into s. You are not allowed to reorder or remove any digits in s. You may return the valid IP addresses in any order.
+
+        :param s:  string s containing only digits
+        :type  s:  str
+
+        :return:  all possible valid IP addresses
+        :rtype:  List[str]
+        """
+        ans, temp = [], ''
+        k = 0
+
+        def backtrack(s, k, temp, ans):
+            if k == 4 and len(s) == 0:
+                ans.append(temp[:-1])
+                return
+            if k == 4 or len(s) == 0:
+                return
+
+            for i in range(3):
+                if k > 4 or i+1 > len(s):
+                    break
+
+                if int(s[:i+1]) > 255:
+                    continue
+
+                if i != 0 and s[0] == '0':
+                    continue
+
+                backtrack(s[i+1:], k+1, temp+s[:i+1]+'.', ans)
+
+        backtrack(s, k, temp, ans)
+        return ans
+
+    def letterCombinations(self, digits: str) -> List[str]:
+        """ 17. Letter Combinations of a Phone Number (Medium) """
+        """ Given a string containing digits from 2-9 inclusive, return all possible letter combinations that the number could represent. Return the answer in any order.
+
+        A mapping of digit to letters (just like on the telephone buttons) is given below. Note that 1 does not map to any letters.
+
+        :param param:  a string containing digits from 2-9 inclusive
+        :type  param:  str
+
+        :return:  all possible letter combinations that the number could represent
+        :rtype:  List[str]
+        """
+        if not digits:
+            return []
+
+        ans, temp = [], ''
+        mapping = {'2': "abc", '3': 'def', '4': 'ghi', '5': 'jkl', '6': 'mno', '7': 'pqrs', '8': 'tuv', '9': 'wxyz'}
+
+        def backtracking(mapping, digits, temp, ans):
+            if len(digits) == 0:
+                ans.append(temp)
+                return
+
+            for j in mapping[digits[0]]:
+                backtracking(mapping, digits[1:], temp + j, ans)
+
+        backtracking(mapping, digits, temp, ans)
+
+        return ans
+
+    def minOperations(self, nums: List[int]) -> int:
+        """ 1827. Minimum Operations to Make the Array Increasing """
+        """ You are given an integer array nums (0-indexed). In one operation, you can choose an element of the array and increment it by 1.
+
+        For example, if nums = [1,2,3], you can choose to increment nums[1] to make nums = [1,3,3].
+        Return the minimum number of operations needed to make nums strictly increasing.
+
+        An array nums is strictly increasing if nums[i] < nums[i+1] for all 0 <= i < nums.length - 1. An array of length 1 is trivially strictly increasing.
+
+        :param param:  integer array nums
+        :type  param:  List[int]
+
+        :return:  the minimum number of operations needed to make nums strictly increasing.
+        :rtype:   int
+        """
+        if len(nums) == 1:
+            return 0
+
+        output = 0
+
+        for i in range(1, len(nums)):
+            if nums[i] <= nums[i-1]:
+                output += nums[i-1] - nums[i] + 1
+                nums[i] = nums[i-1] + 1
+
+        return output
+
+    def rob(self, nums: List[int]) -> int:
+        """ 198. House Robber """
+        """ You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed, the only constraint stopping you from robbing each of them is that adjacent houses have security systems connected and it will automatically contact the police if two adjacent houses were broken into on the same night.
+
+        Given an integer array nums representing the amount of money of each house, return the maximum amount of money you can rob tonight without alerting the police.
+
+        :param nums:  [1,2,3,1]
+        :type  nums:  4
+
+        :return:  the maximum amount of money you can rob tonight without alerting the police
+        :rtype:  int
+        """
+        """
+        n = len(nums)
+        if n > 2:
+            nums[2] += nums[0]
+
+        for i in range(3, n):
+            nums[i] += max(nums[i-2], nums[i-3])
+            print(i, nums[i])
+
+        return max(nums[n-1], nums[n-2])
+        """
+        prev, cur = 0, 0
+        for n in nums:
+            cur, prev = max(prev + n, cur), cur
+
+        return cur
+
+    def reverseBits(self, n: int) -> int:
+        """ 190. Reverse Bits """
+        """ Reverse bits of a given 32 bits unsigned integer.
+
+        :param n:  32 bits unsigned integer
+        :type  n:  int
+
+        :return:  Reverse bits
+        :rtype:   int
+        """
+        res = 0
+
+        for i in range(32):
+            if n & 1:
+                res += 1 << (31-i)
+            n >>= 1
+
+        return res
 
 
