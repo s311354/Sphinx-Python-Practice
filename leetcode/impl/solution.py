@@ -2199,4 +2199,334 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
 
         return res
 
+    def removeDuplicates(self, nums: List[int]) -> int:
+        """ 26. Remove Duplicates from Sorted Array """
+        """ Given an integer array nums sorted in non-decreasing order, remove the duplicates in-place such that each unique element appears only once. The relative order of the elements should be kept the same.
+        
+        Since it is impossible to change the length of the array in some languages, you must instead have the result be placed in the first part of the array nums. More formally, if there are k elements after removing the duplicates, then the first k elements of nums should hold the final result. It does not matter what you leave beyond the first k elements.
+        
+        Return k after placing the final result in the first k slots of nums.
 
+        :param nums:  integer array nums sorted in non-decreasing order.
+        :type  nums:  List[int]
+
+        :return:  k after placing the final result in the first k slots of nums
+        :rtype:  int
+        """
+        duplicates = 0
+
+        for i in range(1, len(nums)):
+            if nums[i] == nums[i-1]:
+                duplicates += 1
+            else:
+                # replace the duplicate number
+                nums[i - duplicates] = nums[i]
+
+        return len(nums) - duplicates
+
+    def rob(self, nums: List[int]) -> int:
+        """ 198. House Robber """
+        """ You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed, the only constraint stopping you from robbing each of them is that adjacent houses have security systems connected and it will automatically contact the police if two adjacent houses were broken into on the same night.
+
+        Given an integer array nums representing the amount of money of each house, return the maximum amount of money you can rob tonight without alerting the police.
+
+        :param param:  integer array representing the amount of money of each house
+        :type  param:  List[int]
+
+        :return:  the maximize amount of money you can rob tonight without alerting the police
+        :rtype:  int
+        """
+        rob1, rob2 = 0, 0
+
+        for n in nums:
+            temp = max(n + rob1, rob2)
+            rob1 = rob2
+            rob2 = temp
+
+        return rob2
+
+    def maxArea(self, height: List[int]) -> int:
+        """ 11. Container With Most Water """
+        """ You are given an integer array height of length n. There are n vertical lines drawn such that the two endpoints of the ith line are (i, 0) and (i, height[i]).
+
+        Find two lines that together with the x-axis form a container, such that the container contains the most water.
+
+        Return the maximum amount of water a container can store.
+
+        :param height:  integer array height of length n
+        :type  height:  List[int]
+
+        :return:  the maximum amount of water a container can store
+        :rtype:  int
+        """
+        start = 0
+        end = len(height) - 1
+
+        maxArea = min(height[start], height[end])*(end-start)
+
+        area = 0
+
+        # Binary search
+        while start <= end:
+            if height[start] < height[end]:
+                start += 1
+            else:
+                end -= 1
+
+            area = min(height[start], height[end])*(end-start)
+
+            if area >= maxArea:
+                maxArea = area
+
+        return maxArea
+
+    def myPow(self, x: float, n: int) -> float:
+        """ 50. Pow(x, n)
+
+        Implement pow(x, n), which calculates x raised to the power n (i.e., xn).
+
+        :param x:  the number
+        :type  x:  float
+
+        :param n:  power
+        :type  n:  int
+
+        :return:  calculates x raised to the power n
+        :rtype:  float
+        """
+        if n < 0:
+            return self.myPow(1/x, -1*n)
+
+        if n == 1:
+            return x
+
+        if n > 1 and n % 2 == 0:
+            num = self.myPow(x, n/2)
+            return num * num
+
+        return x * self.myPow(x, n-1)
+
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        """ 49. Group Anagrams """
+        """ Given an array of strings strs, group the anagrams together. You can return the answer in any order.
+
+        An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.
+
+        :param strs:  array of strings
+        :type  strs:  List[str]
+
+        :return:  the answer in any order
+        :rtype:  List[List[str]]
+        """
+        hmap = collections.defaultdict(list)
+
+        for i in range(len(strs)):
+            ele = "".join(sorted(strs[i]))
+            hmap[ele].append(strs[i])
+
+        return [i for i in hmap.values()]
+
+    def hasPathSum(self, root: Optional[TreeNode], targetSum: int) -> bool:
+        """ 112. Path Sum """
+        """ Given the root of a binary tree and an integer targetSum, return true if the tree has a root-to-leaf path such that adding up all the values along the path equals targetSum.
+
+        A leaf is a node with no children.
+
+        :param root:  the root of a binary tree 
+        :type  root:  Optional[TreeNode]
+
+        :param targetSum:  target Sum
+        :type  targetSum:  int
+
+        :return:  if the tree has a root-to-leaf path that adding up all the values along the path equals targetSum
+        :rtype:  bool
+        """
+        if not root:
+            return False
+
+        if not root.left and not root.right and root.val == targetSum:
+            return True
+
+        targetSum -= root.val
+
+        return self.hasPathSum(root.left, targetSum) or self.hasPathSum(root.right, targetSum)
+
+    def minDepth(self, root: Optional[TreeNode]) -> int:
+        """ 111. Minimum Depth of Binary Tree """
+        """ Given a binary tree, find its minimum depth.
+
+        The minimum depth is the number of nodes along the shortest path from the root node down to the nearest leaf node.
+
+        :param root:  Binary Tree
+        :type  root:  Optional[TreeNode]
+
+        :return:  minimum depth
+        :rtype:  int
+        """
+        if not root:
+            return 0
+
+        if not root.left and not root.right:
+            return 1
+
+        elif not root.right:
+            return self.minDepth(root.left) + 1
+
+        elif not root.left:
+            return self.minDepth(root.right) + 1
+
+        else:
+            return min( map(self.minDepth, (root.left, root.right) ) ) + 1
+
+    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+        """ 139. Word Break """
+        """ Given a string s and a dictionary of strings wordDict, return true if s can be segmented into a space-separated sequence of one or more dictionary words.
+
+        Note that the same word in the dictionary may be reused multiple times in the segmentation.
+
+        :param s:  string
+        :type  s:  str
+
+        :param wordDict:  dictionary of strings
+        :type  wordDict:  List[str]
+
+        :return:  If s be segmented into a space-separated sequence of one or more dictionary words
+        :rtype:  bool
+        """
+
+        dp = [True] + [False] * len(s)
+
+        for indx in range(1, len(s)+1):
+            for word in wordDict:
+                if dp[indx - len(word)] and s[:indx].endswith(word):
+                    dp[indx] = True
+
+        return dp[-1]
+
+    def uniquePaths(self, m: int, n: int) -> int:
+        """ 62. Unique Paths """
+        """ There is a robot on an m x n grid. The robot is initially located at the top-left corner (i.e., grid[0][0]). The robot tries to move to the bottom-right corner (i.e., grid[m - 1][n - 1]). The robot can only move either down or right at any point in time.
+
+        Given the two integers m and n, return the number of possible unique paths that the robot can take to reach the bottom-right corner.
+
+        :param m:  integer
+        :type  m:  int
+
+        :param n:  integer
+        :type  n:  int
+
+        :return:  the number of possible unique paths that the robot can take to reach the bottom-right corner
+        :rtype:  int
+        """
+        hs = {} # hashtable
+
+        def dp_path(m, n, hs):
+            if m == 1 and n == 1:
+                return 1
+
+            if m == 0 or n == 0:
+                return 0
+
+            if (m, n) in hs:
+                return hs[(m, n)]
+            else:
+                hs[(m, n)] = dp_path(m - 1, n, hs) + dp_path(m, n - 1, hs)
+                return hs[(m, n)]
+
+        return dp_path(m, n, hs)
+
+    def findMin(self, nums: List[int]) -> int:
+        """ 153. Find Minimum in Rotated Sorted Array """
+        """ Suppose an array of length n sorted in ascending order is rotated between 1 and n times. For example, the array nums = [0,1,2,4,5,6,7] might become:
+
+        [4,5,6,7,0,1,2] if it was rotated 4 times.
+        [0,1,2,4,5,6,7] if it was rotated 7 times.
+
+        :param nums:  sorted rotated array of unique elements
+        :type  nums:  List[int]
+
+        :return:  the minimum element of this array
+        :rtype:  int
+        """
+        return min(nums)
+
+    def isSubsequence(self, s: str, t: str) -> bool:
+        i = 0
+        for c in t:
+            if i < len(s) and s[i] == c:
+                i += 1
+
+        return i == len(s)
+
+    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+        """ 347. Top K Frequent Elements """
+        """ Given an integer array nums and an integer k, return the k most frequent elements. You may return the answer in any order
+
+        :param :  integer array
+        :type  : int
+
+        :return:  the k most frequent elements
+        :rtype:  List[int]
+        """
+        myHash = Counter(nums)
+
+        array = [[key, value] for key, value in myHash.items()]
+
+        array.sort(key=lambda x: x[1], reverse=True)
+
+        res = []
+
+        for i in range(k):
+            res.append(array[i][0])
+
+        return res
+
+    def firstUniqChar(self, s: str) -> int:
+        """ 387. First Unique Character in a String """
+        """ Given a string s, find the first non-repeating character in it and return its index. If it does not exist, return -1.
+
+        :param s:  string
+        :type  s:  str
+
+        :return:  the first non-repeating character
+        :rtype:  Type
+
+        :raise e:  Description
+        """
+        count = {}
+        for i in s:
+            if i not in count:
+                count[i] = 1
+            else:
+                count[i] += 1
+
+        for i in s:
+            if count[i] == 1:
+                return s.index(i)
+
+        return -1
+
+    def mergeTrees(self, root1: Optional[TreeNode], root2: Optional[TreeNode]) -> Optional[TreeNode]:
+        """ 617. Merge Two Binary Trees """
+        """ You are given two binary trees root1 and root2.
+
+        Imagine that when you put one of them to cover the other, some nodes of the two trees are overlapped while the others are not. You need to merge the two trees into a new binary tree. The merge rule is that if two nodes overlap, then sum node values up as the new value of the merged node. Otherwise, the NOT null node will be used as the node of the new tree.
+
+        Return the merged tree.
+
+        :param root1:  binary tree
+        :type  root1:  Optional[TreeNode]
+
+        :param root2:  binary tree
+        :type  root2:  Optional[TreeNode]
+
+        :return:  the merged tree
+        :rtype:  Optional[TreeNode]
+        """
+        if root1 and root2:
+            root1.val += root2.val
+
+            root1.left = self.mergeTrees(root1.left, root2.left)
+            root1.right = self.mergeTrees(root1.right, root2.right)
+
+        return root1 or root2

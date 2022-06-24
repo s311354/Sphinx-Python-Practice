@@ -215,14 +215,19 @@ The standard library covers a number of other modules that provide various text 
 
 + str.split(sep=None, maxsplit=-1): return a list of the words in the string, using sep as the delimiter string.
 
++ str.endswith(suffix[, start[, end]]): return True if the string ends with the specified suffix, otherwise return False. suffix can be a tuple of suffixs to look for. With optional start, test begining at that position. With optional end, stop comparing at that position.
+
 + str.strip([chars]): return a copy of the string with the leading and trailing characters removed::
 
     >>> '   spacious   '.strip()
     spacious
 
++ str.index(sub[, start[, end]]): like find(), but raise ValueError when the substring is not found.
+
+
 See the `Python str page <https://docs.python.org/3.7/library/stdtypes.html?highlight=strip#str>`_ for more info.
 
-Built-in Functions (enumerate)
+Built-in Functions (enumerate, map)
 ----------------------------------------------------------
 
 The Python interpreter has a number of functions and types built into it that are always available.
@@ -238,6 +243,13 @@ The example using enumerate objects that have a List::
     [(0, 1), (1, 1), (2, 0)]
 
 See the `Python enumerate page <https://docs.python.org/3.7/library/functions.html?highlight=enumerate#enumerate>`_ for more info.
+
+Map
+^^^^^^
+
+map(function, iterable, ...) return an iterator that applies function to every item of iterable, yielding the result. If additional iterable arguments are passed, function must take that many arguments and is applied to the items from all iterables in parallel, With multiple iterables, the iterator stops when the shortest iterable is exhausted.
+
+See the `Python map page <https://docs.python.org/3.7/library/functions.html#map>`_ for more info.
 
 Supporting for type hits (TypeVar, List, Optional)
 ----------------------------------------------------------
@@ -286,6 +298,23 @@ The example using Optional::
     {'a': 1234}
 
 See the `Python Optional page <https://docs.python.org/3.7/library/typing.html?highlight=optional#typing.Optional>`_ for more info.
+
+Supporting for enumerations
+------------------------------
+
+An enumeration is a set of symbolic names (members) bound to unique, constant values. Within an enumeration, the members can be compared by identity, and the enumeration itself can be iterated over.
+
+
+The example using to create an enum::
+
+    >>> from enum import Enum
+    >>> class Color(Enum):
+    ...     RED = 1
+    ...     GREEN = 2
+    ...     BLUE = 3
+    ...
+
+See the `Python Enum page <https://docs.python.org/3.7/library/enum.html?highlight=enum#module-enum>`_ for more info.
 
 Expressions (lambda)
 ----------------------------------------------------------
