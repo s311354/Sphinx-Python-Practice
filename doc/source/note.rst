@@ -43,7 +43,7 @@ Container Datatypes (list, tuple, set and dict)
 
 This module implements specialized container datatypes providing alternatives to python's general purpose built-in container, **list**, **tuple**, **set** and **dict**.
 
-Sequence Types - list, tuple, range
+Sequence Types - **list**, **tuple**
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Lists
@@ -84,22 +84,7 @@ The example all return ('a', 'b', 'c')
 
 See the `Python tuples page <https://docs.python.org/3.7/library/stdtypes.html#tuples>`_ for more info.
 
-Ranges
-'''''''''''''
-
-The range type represents an immutable sequence of numbers and is commonly used for looping a specific number of times in for loops.
-
-class range(stop), class range(start, stop[, step]) may be constructed in integers.
-
-Range example::
-
-    >>> list(range(10))
-    >>> list(range(1, 11))
-
-
-See the `Python ranges page <https://docs.python.org/3.7/library/stdtypes.html?highlight=range#ranges>`_ for more info.
-
-Mapping Types - dict
+Mapping Types - **dict**
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 *A mapping object maps hashable values to arbitrary objects*. A dictionary's keys are almost arbitrary values. Values that are not hashable, that is, values containing lists, dictionaries or other mutable types may not be used as keys.
@@ -125,7 +110,7 @@ There are the operations that dictionaries support:
 
 See the `Python dict page <https://docs.python.org/3.7/library/stdtypes.html#mapping-types-dict>`_ for more info.
 
-Set Types - set, frozenset
+Set Types - **set**, frozenset
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 A set object is an *unordered collection of distinct hashable objects*. Common uses include membership testing, removing duplicates from a sequence, and computing mathematical operations. such as intersection, union, difference, and symmetric difference.
@@ -168,6 +153,12 @@ The example using list as the default_factory::
     >>> sorted(d.items())
     [('blue', [2, 4]), ('red', [1]), ('yellow', [1, 3])]
 
+    >>> d = defaultdict(list)
+    >>> for k, v in s:
+    ...     d[k] = v
+    ...
+    >>> sorted(d.items())
+    [('blue', 4), ('red', 1), ('yellow', 3)]
 
 Note:
 
@@ -190,7 +181,7 @@ The example using Counter objects that have a dictionary::
 
 See the `Python Counter object page <https://docs.python.org/3.7/library/collections.html?highlight=collections%20defaultdict#counter-objects>`_ for more info.
 
-Built-in Types (str)
+Built-in Types (str, range)
 ----------------
 
 The principle built-in types are numerics, sequences, mapping, class, instance and exceptions.
@@ -226,6 +217,23 @@ The standard library covers a number of other modules that provide various text 
 
 
 See the `Python str page <https://docs.python.org/3.7/library/stdtypes.html?highlight=strip#str>`_ for more info.
+
+Ranges
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The range type represents an immutable sequence of numbers and is commonly used for looping a specific number of times in for loops.
+
+class range(stop), class range(start, stop[, step]) may be constructed in integers.
+
+Range example::
+
+    >>> list(range(10))
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+    >>> list(range(1, 11))
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+
+See the `Python ranges page <https://docs.python.org/3.7/library/stdtypes.html?highlight=range#ranges>`_ for more info.
 
 Built-in Functions (enumerate, map)
 ----------------------------------------------------------
@@ -337,4 +345,25 @@ The example using lambda expressions::
     [1, 9, 36, 49]
 
 See the `Python Lambdas page <https://docs.python.org/3.7/reference/expressions.html?highlight=lambda#lambda>`_ for more info.
+
+Functools (lru_cache)
+------------------------
+
+The functools module is for higher-order functions: functions that act on or return other functions. In general, any callable object can be treated as a function for the purposes of this module.
+
+@functools.lru_cache
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+Decorator to wrap a function with a memorizing callable that saves up to the maxsize most recent calls. It can save time when an expensive or I/O bound function is periodcally called with the same argument.
+
+The example using lru_cache to computing Fibonacci numbers to implement a dynamic programming::
+
+    >>> @lru_cache(maxsize=None)
+    >>> def fib(n):
+    >>>     if n < 2:
+    >>>         return n
+    >>>     return fib(n-1) + fib(n-2)
+
+    >>> [fib(n) for n in range(16)]
+    [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610]
 

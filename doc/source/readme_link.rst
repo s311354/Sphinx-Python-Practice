@@ -16,7 +16,6 @@ Solutions list
 
     #, Title, Level, Time, Space Note, Tags
     1, :func:`~leetcode.impl.solution.Solution.twoSum`, Easy, O(N), O(N)
-    1496, :func:`~leetcode.impl.solution.Solution.minNumberOfSemesters`, Hard, ,
     168, :func:`~leetcode.impl.solution.Solution.convertToTitle`, Medium, O(log N), O(log N)
     10, :func:`~leetcode.impl.solution.Solution.isMatch`, Hard, O(NM), O(NM)
     13, :func:`~leetcode.impl.solution.Solution.romanToInt`, Easy, O(N), O(1)
@@ -46,6 +45,13 @@ Solutions list
     121, :func:`~leetcode.impl.solution.Solution.maxProfit`, Easy, ,
     714, :func:`~leetcode.impl.solution.Solution.maxProfitwithfee`, Medium, ,
     944, :func:`~leetcode.impl.solution.Solution.minDeletionSize`, Easy, ,
+    44, :func:`~leetcode.impl.solution.Solution.WildcardisMatch`, Hard, ,
+    2280, :func:`~leetcode.impl.solution.Solution.minimumLines`, Medium, ,
+    496, :func:`~leetcode.impl.solution.Solution.nextGreaterElement`, Easy, ,
+    503, :func:`~leetcode.impl.solution.Solution.nextGreaterElementsII`, Medium, ,
+    739, :func:`~leetcode.impl.solution.Solution.dailyTemperatures`, Medium, ,
+    2281, :func:`~leetcode.impl.solution.Solution.totalStrength`, Hard, ,
+
 
 
 .. mdinclude:: ../../README.md

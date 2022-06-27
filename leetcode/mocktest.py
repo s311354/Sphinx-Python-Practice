@@ -89,6 +89,22 @@ class SolutionCase(unittest.TestCase):
         expected_output = True
         self.assertEqual(sol.isMatch(s, p), expected_output)
 
+        s = "aab"
+        p = "c*a*b"
+        expected_output = True
+        self.assertEqual(sol.isMatch(s, p), expected_output)
+
+        s = "mississippi"
+        p = "mis*is*ip*."
+        expected_output = True
+        self.assertEqual(sol.isMatch(s, p), expected_output)
+
+        s = "aaa"
+        p = "ab*a*c*a"
+        expected_output = True
+        self.assertEqual(sol.isMatch(s, p), expected_output)
+
+
     def test_romanToInt(self):
         """ 13. Roman to Integer """
         sol = solution.Solution()
@@ -532,24 +548,24 @@ class SolutionCase(unittest.TestCase):
         expected_output = 3
         self.assertEqual(sol.minDeletionSize(strs), expected_output)
 
-    def test_isMatch(self):
-        """docstring for isMatch"""
+    def test_WildcardisMatch(self):
+        """ 44. Wildcard Matching """
         sol = solution.Solution()
 
         s = "aa"
         p = "a"
         expected_output = False
-#         self.assertEqual(sol.isMatch(s, p), expected_output)
+        self.assertEqual(sol.WildcardisMatch(s, p), expected_output)
 
         s = "aa"
         p = "*"
         expected_output = True
-        self.assertEqual(sol.isMatch(s, p), expected_output)
+        self.assertEqual(sol.WildcardisMatch(s, p), expected_output)
 
         s = "cb"
         p = "?a"
         expected_output = False
-        self.assertEqual(sol.isMatch(s, p), expected_output)
+        self.assertEqual(sol.WildcardisMatch(s, p), expected_output)
 
     def test_nextGreaterElement(self):
         """docstring for nextGreaterElement"""
@@ -892,6 +908,65 @@ class SolutionCase(unittest.TestCase):
         n = 0b11111111111111111111111111111101
         expected_output = 3221225471
         self.assertEqual(sol.reverseBits(n), expected_output)
+
+    def test_removeDuplicates(self):
+        """docstring for removeDuplicates"""
+        sol = solution.Solution()
+
+        nums = [0,0,1,1,1,2,2,3,3,4]
+        expected_output = 5
+        self.assertEqual(sol.removeDuplicates(nums), expected_output)
+
+    def test_rob(self):
+        """docstring for rob"""
+        sol = solution.Solution()
+
+        nums = [7,2,9,16,1]
+        expected_output = 23
+        self.assertEqual(sol.rob(nums), expected_output)
+
+    def test_maxArea(self):
+        """docstring for maxArea"""
+        sol = solution.Solution()
+
+        height = [1,8,6,2,5,4,8,3,7]
+        expected_output = 49
+        self.assertEqual(sol.maxArea(height), expected_output)
+
+    def test_myPow(self):
+        """docstring for myPow"""
+        sol = solution.Solution()
+
+        x = 2.00
+        n = -2
+        expected_output = 0.25
+        self.assertEqual(sol.myPow(x, n), expected_output)
+
+    def test_groupAnagrams(self):
+        """docstring for gr"""
+        sol = solution.Solution()
+
+        strs = ["eat","tea","tan","ate","nat","bat"]
+        expected_output = [['eat', 'tea', 'ate'], ['tan', 'nat'], ['bat']]
+        self.assertEqual(sol.groupAnagrams(strs), expected_output)
+
+    def test_wordBreak(self):
+        """docstring for wordBreak"""
+        sol = solution.Solution()
+
+        s = "leetcode"
+        wordDict = ["leet","code"]
+        expected_output = True
+        self.assertEqual(sol.wordBreak(s, wordDict), expected_output)
+
+    def test_dailyTemperatures(self):
+        """docstring for dailyTemperatures"""
+        sol = solution.Solution()
+
+        temperatures = [73,74,75,71,69,72,76,73]
+        expected_output = [1,1,4,2,1,1,0,0]
+        self.assertEqual(sol.dailyTemperatures(temperatures), expected_output)
+
 
 
 if __name__ == '__main__':

@@ -87,7 +87,7 @@ class Solution(object):
 
         """
 
-        store = {}
+        store = defaultdict(int)
 
         for i in range(len(nums)):
             rest = target - nums[i]
@@ -103,10 +103,11 @@ class Solution(object):
         relations[i] = [prevCoursei, nextCoursei], representing a prerequisite relationship between course prevCoursei and course nextCoursei:
         course prevCoursei has to be taken before course nextCoursei. Also, you are given the integer k.
 
+        In one semester, you can take at most k courses as long as you have taken all the prerequisites in the previous semesters
+        for the courses you are taking.
 
-        In one semester, you can take at most k courses as long as you have taken all the prerequisites in the previous semesters for the courses you are taking.
-
-        Return the minimum number of semesters needed to take all courses. The testcases will be generated such that it is possible to take every course.
+        Return the minimum number of semesters needed to take all courses. The testcases will be generated such that it is 
+        possible to take every course.
 
         :param n:  courses
         :type n:  int
@@ -119,9 +120,7 @@ class Solution(object):
 
         :return:  minimum number of semesters needed to take all courses
         :rtype:  int
-
         """
-
         # Compute in-degree and adjacency graph for each node
         in_degree = [0] * n
         graph = defaultdict(list)
@@ -238,21 +237,54 @@ class Solution(object):
 
         len_s, len_p = len(s), len(p)
 
-        dp = [[False] * (len_p+1) for _ in range(len_s+1)]
+        # [len(p) + 1 x len(s) + 1] possible value of state, if match, then True
+        # [pattern][text]
+        dp = [[False] * (len_p + 1) for _ in range(len_s + 1)]
 
         dp[0][0] = True
 
-        for i in range(0, len_s+1):
-            for j in range(1, len_p+1):
+        for i in range(0, len_s+1): # text
+            for j in range(1, len_p+1): # pattern
 
+                # finding a rule and determine the police function
                 if p[j-1] == '*':
                     # check the pattern repeats for 0 time or the pattern repeats for at least 1 time
-                    dp[i][j] = dp[i][j-2] or (i > 0 and dp[i-1][j] and (s[i-1] == p[j-2] or p[j-2] == '.'))
+                    dp[i][j] = dp[i][j-2] or (i > 0 and dp[i-1][j] and (p[j-2] == s[i-1] or p[j-2] == '.'))
                 else:
                     # check the pattern is the same
-                    dp[i][j] = i > 0 and dp[i-1][j-1] and (s[i-1] == p[j-1] or p[j-1] == '.')
+                    dp[i][j] = i > 0 and dp[i-1][j-1] and (p[j-1] == s[i-1] or p[j-1] == '.')
 
+        # best possible
         return dp[len_s][len_p]
+        """
+        len_s, len_p = len(s), len(p)
+
+        # possible value of state, if match, then True
+        # [text][pattern]
+        dp = [[False] * (len_p + 1) for _ in range(len_s + 1)]
+
+        dp[0][0] = True
+
+        for i in range(1, len_p+1):
+            if p[i-1] == '*':
+                dp[0][i] = dp[0][i-2]
+
+        for i in range(1, len_s + 1):
+            for j in range(1, len_p + 1):
+
+                # '*' Matches zero or more of the preceding element.
+                if p[j-1] == '*':
+                    if (p[j-2] == s[i-1] or p[j-2] == '.'):
+                        dp[i][j] = dp[i-1][j]
+                    else:
+                        dp[i][j] = dp[i][j-2]
+
+                elif (p[j-1] == s[i-1] or p[j-1] == '.'):
+                    dp[i][j] = dp[i-1][j-1]
+
+        return dp[-1][-1]
+
+        """
 
     def romanToInt(self, s: str) -> int:
         """ 13. Roman numerals are represented by seven different symbols: I, V, X, L, C, D and M. (Easy)
@@ -407,6 +439,14 @@ class Solution(object):
         return critConns
 
         """
+        # build undirected graph
+        graph = defaultdict(list)
+        for sor, dst in connections:
+            graph[sor].append(dst)
+            graph[dst].append(sor)
+
+        low_link, results = defaultdict(int), []
+
         def dfs_visit(node, from_node=None):
             if node in low_link:
                 return low_link[node]
@@ -429,28 +469,19 @@ class Solution(object):
 
             return low_link[node]
 
-        # build undirected graph
-        graph = defaultdict(set)
-        for sor, dst in connections:
-            graph[sor].add(dst)
-            graph[dst].add(sor)
-
-        low_link, results = {}, []
-
-        dfs_visit(0)
+        dfs_visit(0, None)
 
         return results
 
     def arrayNesting(self, nums: List[int]) -> int:
         """ 565. Array Nesting (Medium)
-
         You are given an integer array nums of length n where nums is a permutation of the numbers in the range [0, n - 1].
 
         You should build a set s[k] = {nums[k], nums[nums[k]], nums[nums[nums[k]]], ... } subjected to the following rule:
 
         The first element in s[k] starts with the selection of the element nums[k] of index = k.
-The next element in s[k] should be nums[nums[k]], and then nums[nums[nums[k]]], and so on.
-We stop adding right before a duplicate element occurs in s[k].
+        The next element in s[k] should be nums[nums[k]], and then nums[nums[nums[k]]], and so on.
+        We stop adding right before a duplicate element occurs in s[k].
 
         Return the longest length of a set s[k].
 
@@ -467,6 +498,7 @@ We stop adding right before a duplicate element occurs in s[k].
             while nums[i] != -1:
                 cnt += 1
                 nums[i], i = -1, nums[i]
+
             ans = max(ans, cnt)
 
         return ans
@@ -627,11 +659,13 @@ We stop adding right before a duplicate element occurs in s[k].
     def findCircleNum(self, isConnected: List[List[int]]) -> int:
         """ 547. Number of Provinces (Medium)
 
-        There are n cities. Some of them are connected, while some are not. If city a is connected directly with city b, and city b is connected directly with city c, then city a is connected indirectly with city c.
+        There are n cities. Some of them are connected, while some are not. If city a is connected directly with city b, and city b is 
+        connected directly with city c, then city a is connected indirectly with city c.
 
         A province is a group of directly or indirectly connected cities and no other cities outside of the group.
 
-        You are given an n x n matrix isConnected where isConnected[i][j] = 1 if the ith city and the jth city are directly connected, and isConnected[i][j] = 0 otherwise.
+        You are given an n x n matrix isConnected where isConnected[i][j] = 1 if the ith city and the jth city are directly connected, 
+        and isConnected[i][j] = 0 otherwise.
 
         Return the total number of provinces.
 
@@ -642,16 +676,15 @@ We stop adding right before a duplicate element occurs in s[k].
         :rtype:  int
         """
         rows = len(isConnected)
-        group = set()
+        group = []
+        count = 0
 
         def dfs_connected(node):
             for idx, val in enumerate(isConnected[node]):
                 # a group of directly connected cities
                 if val == 1 and idx not in group:
-                    group.add(idx)
+                    group.append(idx)
                     dfs_connected(idx)
-
-        count = 0
 
         for node in range(rows):
             if node not in group:
@@ -663,7 +696,8 @@ We stop adding right before a duplicate element occurs in s[k].
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
         """ 207. Course Schedule (Medium)
 
-        There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1. You are given an array prerequisites where prerequisites[i] = [ai, bi] indicates that you must take course bi first if you want to take course ai.
+        There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1. You are given an array prerequisites 
+        where prerequisites[i] = [ai, bi] indicates that you must take course bi first if you want to take course ai.
 
         For example, the pair [0, 1], indicates that to take course 0 you have to first take course 1.
 
@@ -678,6 +712,13 @@ We stop adding right before a duplicate element occurs in s[k].
         :return:  whether or not you can finish all courses.
         :rtype:  bool
         """
+        graph = defaultdict(list)
+        marks = defaultdict(int)
+
+        # create graph
+        for course, prereq in prerequisites:
+            graph[prereq].append(course)
+
         def dfs_course(course: int, graph: dict, marks: dict) -> bool:
 
             marks[course] = 1
@@ -693,13 +734,6 @@ We stop adding right before a duplicate element occurs in s[k].
             marks[course] = 2
             return True
 
-        graph = {n: [] for n in range(numCourses)}
-        marks = {n: 0 for n in range(numCourses)}
-
-        # create graph
-        for course, prereq in prerequisites:
-            graph[prereq].append(course)
-
         for course in range(numCourses):
             if marks[course] == 0:
                 if not dfs_course(course, graph, marks):
@@ -712,7 +746,8 @@ We stop adding right before a duplicate element occurs in s[k].
 
         Given an integer array nums, return the length of the longest strictly increasing subsequence.
 
-        A subsequence is a sequence that can be derived from an array by deleting some or no elements without changing the order of the remaining elements. For example, [3,6,2,7] is a subsequence of the array [0,3,1,6,2,2,7].
+        A subsequence is a sequence that can be derived from an array by deleting some or no elements without changing
+        the order of the remaining elements. For example, [0, 3, 6, 7] is a subsequence of the array [0,3,1,6,2,2,7].
 
         :param nums:  array nums
         :type  nums:  List[int]
@@ -723,15 +758,18 @@ We stop adding right before a duplicate element occurs in s[k].
         """
         size = len(nums)
 
-        len_subseq = [1 for _ in range(size)]
+        # possible value of state
+        dp = [1 for _ in range(size)]
 
         # for each subsequence ending at index i
         for i in range(size):
+
+            # find the rule and police function
             for k in range(i):
                 if nums[k] < nums[i]:
-                    len_subseq[i] = max(len_subseq[i], len_subseq[k] + 1)
+                    dp[i] = max(dp[k] + 1, dp[i])
 
-        return max(len_subseq)
+        return max(dp)
 
     def originalDigits(self, s: str) -> str:
         """ 423. Reconstruct Original Digits from English (Medium)
@@ -879,7 +917,9 @@ We stop adding right before a duplicate element occurs in s[k].
     def minPathSum(self, grid: List[List[int]]) -> int:
         """ 64. Minimum Path Sum (Medium)
 
-        Given a m x n grid filled with non-negative numbers, find a path from top left to bottom right, which minimizes the sum of all numbers along its path.
+        Given a m x n grid filled with non-negative numbers, find a path from top left to bottom right, which minimizes 
+        the sum of all numbers along its path.
+
 
         Note: You can only move either down or right at any point in time.
 
@@ -890,26 +930,26 @@ We stop adding right before a duplicate element occurs in s[k].
         :rtype:  int
 
         """
-        def dp_path(row, col):
+        pathsum = defaultdict(int)
+
+        def dfs_path(row, col):
             if row == 0 and col == 0:
                 return grid[0][0]
 
             if row < 0 or col < 0:
                 return math.inf
 
-            # Top Left
+            # Connected point
             if (row, col) in pathsum:
                 return pathsum[(row, col)]
 
             # Up or Left
-            pathsum[(row, col)] = min(dp_path(row-1, col), dp_path(row, col-1)) + grid[row][col]
+            pathsum[(row, col)] = min(dfs_path(row-1, col), dfs_path(row, col-1)) + grid[row][col]
 
             return pathsum[(row, col)]
 
-        pathsum = {}
-
         # begin from bottom right
-        return dp_path(len(grid)-1, len(grid[0])-1)
+        return dfs_path(len(grid)-1, len(grid[0])-1)
 
     def searchRange(self, nums: List[int], target: int) -> List[int]:
         """ 34. Find First and Last Position of Element in Sorted Array (Medium)
@@ -968,16 +1008,21 @@ We stop adding right before a duplicate element occurs in s[k].
     def simplifyPath(self, path: str) -> str:
         """ 71. Simplify Path (Medium)
 
-        Given a string path, which is an absolute path (starting with a slash '/') to a file or directory in a Unix-style file system, convert it to the simplified canonical path.
+        Given a string path, which is an absolute path (starting with a slash '/') to a file or directory in a Unix-style file system,
+        convert it to the simplified canonical path.
 
-        In a Unix-style file system, a period '.' refers to the current directory, a double period '..' refers to the directory up a level, and any multiple consecutive slashes (i.e. '//') are treated as a single slash '/'. For this problem, any other format of periods such as '...' are treated as file/directory names.
+        In a Unix-style file system, a period '.' refers to the current directory, a double period '..' refers to the directory up a level,
+        and any multiple consecutive slashes (i.e. '//') are treated as a single slash '/'. For this problem, any other format of periods such 
+        as '...' are treated as file/directory names.
 
         The canonical path should have the following format:
 
         The path starts with a single slash '/'.
         Any two directories are separated by a single slash '/'.
         The path does not end with a trailing '/'.
-        The path only contains the directories on the path from the root directory to the target file or directory (i.e., no period '.' or double period '..')
+        The path only contains the directories on the path from the root directory to the target file or directory 
+        (i.e., no period '.' or double period '..')
+
         Return the simplified canonical path.
 
         :param path:  an absolute path to a file or directory in a Uinx-style file system
@@ -1032,14 +1077,15 @@ We stop adding right before a duplicate element occurs in s[k].
         """
         ans, temp = [], []
 
-        def helper(nums, temp, ans):
+        def backtracking(nums, temp, ans):
             """docstring for helper"""
             for i in range(len(nums)):
-                helper(nums[i+1:], temp + [nums[i]], ans)
+                backtracking(nums[i+1:], temp + [nums[i]], ans)
 
             ans.append(temp)
 
-        helper(nums, temp, ans)
+        backtracking(nums, temp, ans)
+
         return ans
 
     def numDecodings(self, s: str) -> int:
@@ -1067,8 +1113,10 @@ We stop adding right before a duplicate element occurs in s[k].
         if not s or s[0] == '0':
             return 0
 
+        # possible value of state
         dp = [0 for x in range(len(s) + 1)]
 
+        # initialize the possible value of state, '' and '1' or '0'
         dp[0] = 1
         if s[0] == 0:
             dp[1] = 0
@@ -1077,9 +1125,14 @@ We stop adding right before a duplicate element occurs in s[k].
 
         for i in range(2, len(s) + 1):
 
+            # find the rule and police function
+            # the number of way to decode (dp) depends only on digits (s[i-1:i] or s[i-2: i]). 
+            # so seek a rule with two conditions
+            # one digit (0 ~ 9)
             if 0 < int(s[i-1:i]) <= 9:
                 dp[i] = dp[i - 1] + dp[i]
 
+            # tow digits (10 ~ 26)
             if 10 <= int(s[i-2:i]) <= 26:
                 dp[i] = dp[i - 2] + dp[i]
 
@@ -1102,9 +1155,13 @@ We stop adding right before a duplicate element occurs in s[k].
 
     def longestNiceSubstring(self, s: str) -> str:
         """ 1763. Longest Nice Substring (Easy)
-        A string s is nice if, for every letter of the alphabet that s contains, it appears both in uppercase and lowercase. For example, "abABB" is nice because 'A' and 'a' appear, and 'B' and 'b' appear. However, "abA" is not because 'b' appears, but 'B' does not.
 
-        Given a string s, return the longest substring of s that is nice. If there are multiple, return the substring of the earliest occurrence. If there are none, return an empty string.
+        A string s is nice if, for every letter of the alphabet that s contains, it appears both in uppercase and lowercase. 
+        For example, "abABB" is nice because 'A' and 'a' appear, and 'B' and 'b' appear. However, "abA" is not 
+        because 'b' appears, but 'B' does not.
+
+        Given a string s, return the longest substring of s that is nice. If there are multiple, return the substring of the earliest occurrence. 
+        If there are none, return an empty string.
 
         :param s:  string
         :type  s:  str
@@ -1115,24 +1172,28 @@ We stop adding right before a duplicate element occurs in s[k].
         def dfs_substring(start: int, end: int) -> str:
             chars = set(s[start: end])
 
+            # DFS
             for i in range(start, end):
 
                 # Nice substring (conditions)
                 if s[i].upper() in chars and s[i].lower() in chars:
                     continue
 
-                s1 = dfs_substring(start, i) # left-side nice substring
-                s2 = dfs_substring(i + 1, end) # right-side nice substring
+                # Search pruning
+                s1 = dfs_substring(start, i) # left-side traversal
+                s2 = dfs_substring(i + 1, end) # right-side traversal
                 return s1 if len(s1) >= len(s2) else s2
 
-            # longest nice substring
+            # (idea) longest nice substring
             return s[start:end]
 
         return dfs_substring(0, len(s))
 
     def containDuplicate(self, nums: List[int]) -> bool:
-        """ 217. Contains Duplicate docstring for containDuplicate"""
-        """ Given an integer array nums, return true if any value appears at least twice in the array, and return false if every element is distinct.
+        """ 217. Contains Duplicate docstring for containDuplicate
+
+        Given an integer array nums, return true if any value appears at least twice in the array, and return false
+        if every element is distinct.
 
         :param List[int]:  an integer array nums
         :type  List[int]:  List[int]
@@ -1140,18 +1201,19 @@ We stop adding right before a duplicate element occurs in s[k].
         :return:  Whether if any value appears at least twice in the array
         :rtype:   bool
         """
-        """
+
+        """ Time Limit Exceeded
         dict = []
 
-        for i in range(0, len(nums)):
-            if nums[i] in dict:
+        for num in nums:
+            if num in stack:
                 return True
             else:
-                dict.append(nums[i])
+                stack.append(num)
+
         return False
         """
-
-        dict = {}
+        dict = defaultdict(int)
 
         for i in range(0, len(nums)):
             if nums[i] in dict:
@@ -1162,8 +1224,9 @@ We stop adding right before a duplicate element occurs in s[k].
         return False
 
     def moveZeroes(self, nums: List[int]) -> List[int]:
-        """ 283. Move Zeroes docstring for fname (Easy)"""
-        """ Given an integer array nums, move all 0's to the end of it while maintaining the relative order of the non-zero elements.
+        """ 283. Move Zeroes docstring for fname (Easy)
+
+        Given an integer array nums, move all 0's to the end of it while maintaining the relative order of the non-zero elements.
 
         Note that you must do this in-place without making a copy of the array.
 
@@ -1207,39 +1270,38 @@ We stop adding right before a duplicate element occurs in s[k].
         """
         def checkbox(row, col):
             """docstring for checkbox"""
-            hashmap = {}
+            visited = defaultdict(int)
             for i in range(row, row+3):
                 for j in range(col, col+3):
-                    if(board[i][j] != '.'):
-                        if(board[i][j] in hashmap):
-                            return False
-                        else:
-                            hashmap[board[i][j]] = 1
+                    if(board[i][j] != '.' and board[i][j] in visited):
+                        return False
+                    else:
+                        visited[board[i][j]] = 1
             return True
 
         def checkhorizontalline(row):
             """docstring for checkhorizontalline"""
-            hashmap = {}
+            visited = defaultdict(int)
             for i in range(9):
                 if board[row][i] == '.':
                     continue
-                elif(board[row][i] != '' and board[row][i] in hashmap):
+                elif(board[row][i] != '' and board[row][i] in visited):
                     return False
                 else:
-                    hashmap[board[row][i]] = 1
+                    visited[board[row][i]] = 1
 
             return True
 
         def checkverticalline(col):
             """docstring for checkverticalline"""
-            hashmap = {}
+            visited = defaultdict(int)
             for i in range(9):
                 if board[i][col] == '.':
                     continue
-                elif(board[i][col] != '' and board[i][col] in hashmap):
+                elif(board[i][col] != '' and board[i][col] in visited):
                     return False
                 else:
-                    hashmap[board[i][col]] = 1
+                    visited[board[i][col]] = 1
 
             return True
 
@@ -1255,10 +1317,13 @@ We stop adding right before a duplicate element occurs in s[k].
         return True
 
     def halvesAreAlike(self, s: str) -> bool:
-        """ 1704. Determine if String Halves Are Alike docstring for halvesAreAlike (Easy)"""
-        """ You are given a string s of even length. Split this string into two halves of equal lengths, and let a be the first half and b be the second half.
+        """ 1704. Determine if String Halves Are Alike docstring for halvesAreAlike (Easy)
 
-        Two strings are alike if they have the same number of vowels ('a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'). Notice that s contains uppercase and lowercase letters.
+        You are given a string s of even length. Split this string into two halves of equal lengths, 
+        and let a be the first half and b be the second half.
+
+        Two strings are alike if they have the same number of vowels ('a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'). 
+        Notice that s contains uppercase and lowercase letters.
 
         Return true if a and b are alike. Otherwise, return false.
 
@@ -1268,22 +1333,24 @@ We stop adding right before a duplicate element occurs in s[k].
         :return:  Determine if string halves are alike
         :rtype:  bool
         """
+        size = len(s)
+        midpoint = size//2
+        # stack
+        a, b = s[:midpoint], s[midpoint:]
+
         def countVowels(s):
             vowel = set("aeiouAEIOU")
             return sum(1 for char in s if char in vowel)
 
-        size = len(s)
-        midpoint = size//2
-        a, b = s[:midpoint], s[midpoint:]
-
         return countVowels(a) == countVowels(b)
 
     def maxProfitII(self, prices: List[int]) -> int:
-        """ 122. Best Time to Buy and Sell Stock II docstring for maxProfit (Medium)"""
-        """
+        """ 122. Best Time to Buy and Sell Stock II docstring for maxProfit (Medium)
+        
         You are given an integer array prices where prices[i] is the price of a given stock on the ith day.
 
-        On each day, you may decide to buy and/or sell the stock. You can only hold at most one share of the stock at any time. However, you can buy it then immediately sell it on the same day.
+        On each day, you may decide to buy and/or sell the stock. You can only hold at most one share of the stock at any time. 
+        However, you can buy it then immediately sell it on the same day.
 
         Find and return the maximum profit you can achieve.
 
@@ -1302,12 +1369,15 @@ We stop adding right before a duplicate element occurs in s[k].
         return total
 
     def maxProfit(self, prices: List[int]) -> int:
-        """ 121. Best Time to Buy and Sell Stock (Easy) """
-        """ You are given an array prices where prices[i] is the price of a given stock on the ith day.
+        """ 121. Best Time to Buy and Sell Stock (Easy)
 
-        You want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future to sell that stock.
+        You are given an array prices where prices[i] is the price of a given stock on the ith day.
 
-        Return the maximum profit you can achieve from this transaction. If you cannot achieve any profit, return 0.
+        You want to maximize your profit by choosing a single day to buy one stock and 
+        choosing a different day in the future to sell that stock.
+
+        Return the maximum profit you can achieve from this transaction. 
+        If you cannot achieve any profit, return 0.
 
         :param prices:  integer array prices
         :type  prices:  List[int]
@@ -1315,10 +1385,13 @@ We stop adding right before a duplicate element occurs in s[k].
         :return:  maximum profit you can achieve from this transaction
         :rtype:  int
         """
+
+        # possible value of state
         dp_hold, dp_not_hold = -math.inf, 0
 
         for stock_price in prices:
 
+            # find the rule and police function
             # either keep in hold, or just buy today with stock price
             dp_hold = max(dp_hold, - stock_price)
 
@@ -1329,8 +1402,9 @@ We stop adding right before a duplicate element occurs in s[k].
         return dp_not_hold
 
     def maxProfitwithfee(self, prices: List[int], fee: int) -> int:
-        """ 714. Best Time to Buy and Sell Stock with Transaction Fee (Medium)"""
-        """ You are given an array prices where prices[i] is the price of a given stock on the ith day, and an integer fee representing a transaction fee.
+        """ 714. Best Time to Buy and Sell Stock with Transaction Fee (Medium)
+
+        You are given an array prices where prices[i] is the price of a given stock on the ith day, and an integer fee representing a transaction fee.
 
 Find the maximum profit you can achieve. You may complete as many transactions as you like, but you need to pay the transaction fee for each transaction.
 
@@ -1354,16 +1428,21 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         return dp_sell
 
     def minDeletionSize(self, strs: List[str]) -> int:
-        """ 944. Delete Columns to Make Sorted """
-        """ You are given an array of n strings strs, all of the same length.
+        """ 944. Delete Columns to Make Sorted (Easy)
 
-            The strings can be arranged such that there is one on each line, making a grid. For example, strs = ["abc", "bce", "cae"] can be arranged as:
+        You are given an array of n strings strs, all of the same length.
+
+            The strings can be arranged such that there is one on each line, making a grid. For example, 
+            strs = ["abc", "bce", "cae"] can be arranged as:
 
             abc
             bce
             cae
 
-            You want to delete the columns that are not sorted lexicographically. In the above example (0-indexed), columns 0 ('a', 'b', 'c') and 2 ('c', 'e', 'e') are sorted while column 1 ('b', 'c', 'a') is not, so you would delete column 1.
+            You want to delete the columns that are not sorted lexicographically. 
+            In the above example (0-indexed), columns 0 ('a', 'b', 'c') and 2 ('c', 'e', 'e') are 
+            sorted while column 1 ('b', 'c', 'a') is not, so you would delete column 1.
+
             Return the number of columns that you will delete.
 
         :param strs:  array of n string
@@ -1375,6 +1454,7 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
 
         count = 0
 
+        # stock
         for i in range(len(strs[0])):
             temp = ""
             for j in range(len(strs)):
@@ -1384,9 +1464,10 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
 
         return count
 
-    def isMatch(self, s: str, p: str) -> bool:
-        """ 44. Wildcard Matching (Medium) """
-        """ Given an input string (s) and a pattern (p), implement wildcard pattern matching with support for '?' and '*' where:
+    def WildcardisMatch(self, s: str, p: str) -> bool:
+        """ 44. Wildcard Matching (Hard)
+
+        Given an input string (s) and a pattern (p), implement wildcard pattern matching with support for '?' and '*' where:
         
         '?' Matches any single character.
         '*' Matches any sequence of characters (including the empty sequence).
@@ -1401,15 +1482,17 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         :return:  whether or not input staring and pattern are matched
         :rtype:  bool
         """
-
-        dp = [[False] * (len(s)+1) for i in range(len(p)+1)]
+        """
+        # [len(p) + 1 X len(s) + 1] : 2-D dynamic programming
+        # [text][pattern]
+        dp = [[False] * (len(s)+1) for _ in range(len(p)+1)]
 
         dp[0][0] = True
 
         # Matches any sequence of characters (including the empty sequence).
         for i in range(1, len(dp)):
             if p[i-1] == '*':
-                dp[i][0] = dp[i-1][0]
+                dp[0][i] = dp[0][i-1]
 
         for i in range(1, len(dp)):
             for j in range(1, len(dp[0])):
@@ -1421,10 +1504,29 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
                     dp[i][j] = dp[i-1][j] or dp[i][j-1]
 
         return dp[-1][-1]
+        """
+        
+        len_s, len_p = len(s), len(p)
+
+        dp = [[False] * (len_p + 1) for _ in range(len_s + 1)]
+
+        dp[0][0] = True
+
+        for i in range(0, len_s + 1):
+            for j in range(1, len_p + 1):
+                if p[j-1] == "*":
+                    dp[i][j] = dp[i][j-1] or (i > 0 and dp[i-1][j])
+                else:
+                    dp[i][j] = i > 0 and dp[i-1][j-1] and (p[j-1] == s[i-1] or p[j-1] == "?")
+
+        return dp[-1][-1]
 
     def minimumLines(self, stockPrices: List[List[int]]) -> int:
-        """ 2280. Minimum Lines to Represent a Line Chart (Medium) """
-        """ You are given a 2D integer array stockPrices where stockPrices[i] = [dayi, pricei] indicates the price of the stock on day dayi is pricei. A line chart is created from the array by plotting the points on an XY plane with the X-axis representing the day and the Y-axis representing the price and connecting adjacent points. One such example is shown below:
+        """ 2280. Minimum Lines to Represent a Line Chart (Medium)
+
+        You are given a 2D integer array stockPrices where stockPrices[i] = [dayi, pricei] indicates the price of the stock on day dayi is pricei. 
+        A line chart is created from the array by plotting the points on an XY plane with the X-axis representing the day and the Y-axis 
+        representing the price and connecting adjacent points. One such example is shown below:
 
         Return the minimum number of lines needed to represent the line chart.
 
@@ -1439,24 +1541,28 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
             return 0
         if len(stockPrices) == 2:
             return 1
+
         n = len(stockPrices)
         lines = n-1
 
         stockPrices.sort()
-        for i in range(1,n-1):
-            a , b , c = stockPrices[i-1] , stockPrices[i] , stockPrices[i+1]
+        for i in range(1, n-1):
+            a, b, c = stockPrices[i-1], stockPrices[i], stockPrices[i+1]
+
             if (b[0]-a[0])*(c[1] - b[1]) == (c[0]-b[0])*(b[1] - a[1]):
                 lines -= 1
 
         return lines
 
     def nextGreaterElement(self, nums1: List[int], nums2: List[int]) -> List[int]:
-        """ Next Greater Element I  """
-        """ The next greater element of some element x in an array is the first greater element that is to the right of x in the same array.
+        """ 496. Next Greater Element I (Easy)
+
+        The next greater element of some element x in an array is the first greater element that is to the right of x in the same array.
 
         You are given two distinct 0-indexed integer arrays nums1 and nums2, where nums1 is a subset of nums2.
 
-        For each 0 <= i < nums1.length, find the index j such that nums1[i] == nums2[j] and determine the next greater element of nums2[j] in nums2. If there is no next greater element, then the answer for this query is -1.
+        For each 0 <= i < nums1.length, find the index j such that nums1[i] == nums2[j] and determine the next greater element of nums2[j] in nums2.
+        If there is no next greater element, then the answer for this query is -1.
 
         Return an array ans of length nums1.length such that ans[i] is the next greater element as described above.
 
@@ -1469,7 +1575,8 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         :return:  an array is the next greater element
         :rtype:  Line[int]
         """
-        ans = []
+        ans = [] # stack
+
         for i in nums1:
             i_index = nums2.index(i)
             for j in range(i_index, len(nums2)):
@@ -1482,10 +1589,12 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         return ans
 
     def nextGreaterElementsII(self, nums: List[int]) -> List[int]:
-        """ 503. Next Greater Element II (Medium)  """
-        """ Given a circular integer array nums (i.e., the next element of nums[nums.length - 1] is nums[0]), return the next greater number for every element in nums.
+        """ 503. Next Greater Element II (Medium)
 
-        The next greater number of a number x is the first greater number to its traversing-order next in the array, which means you could search circularly to find its next greater number. If it doesn't exist, return -1 for this number.
+        Given a circular integer array nums (i.e., the next element of nums[nums.length - 1] is nums[0]), return the next greater number for every element in nums.
+
+        The next greater number of a number x is the first greater number to its traversing-order next in the array, 
+        which means you could search circularly to find its next greater number. If it doesn't exist, return -1 for this number.
 
         :param nums:  circular integer array
         :type  nums:  List[int]
@@ -1495,19 +1604,25 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         """
         s = []
         size = len(nums)
+        # defaule stack
         res = [-1 for i in range(size)]
 
         for i in range(2 * size):
             i = i % size
+
             while len(s) != 0 and nums[s[-1]] < nums[i]:
                 item = s.pop()
                 res[item] = nums[i]
+
             s.append(i)
+
         return res
 
     def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
-        """ 739. Daily Temperatures (Medium) """
-        """ Given an array of integers temperatures represents the daily temperatures, return an array answer such that answer[i] is the number of days you have to wait after the ith day to get a warmer temperature. If there is no future day for which this is possible, keep answer[i] == 0 instead.
+        """ 739. Daily Temperatures (Medium)
+
+        Given an array of integers temperatures represents the daily temperatures, return an array answer such that answer[i] is the number of days you have to wait after 
+        the ith day to get a warmer temperature. If there is no future day for which this is possible, keep answer[i] == 0 instead.
 
         :param temperatures:  an array of integers temperatures
         :type  temperatures:  List[int]
@@ -1515,24 +1630,32 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         :return: an array is the number of days you have to wait after the ith day to get warmer temperature.
         :rtype:  List[int]
         """
+        # Stack (LIFO)
         stack = []
         res = [0] * len(temperatures)
-        for i, temp in enumerate(temperatures):
-            while stack and temp > stack[-1][0]:
-                res[stack[-1][1]] = i - stack[-1][1]
+
+        for index, temperature in enumerate(temperatures):
+            while stack and temperature > stack[-1][1]:
+                res[stack[-1][0]] = index - stack[-1][0]
                 stack.pop()
-            stack.append((temp, i))
+
+            stack.append((index, temperature))
+
+        print(stack)
         return res
 
     def totalStrength(self, strength: List[int]) -> int:
-        """ 2281. Sum of Total Strength of Wizards (Hard) """
-        """ As the ruler of a kingdom, you have an army of wizards at your command.
+        """ 2281. Sum of Total Strength of Wizards (Hard)
 
-        You are given a 0-indexed integer array strength, where strength[i] denotes the strength of the ith wizard. For a contiguous group of wizards (i.e. the wizards' strengths form a subarray of strength), the total strength is defined as the product of the following two values:
+        As the ruler of a kingdom, you have an army of wizards at your command.
+
+        You are given a 0-indexed integer array strength, where strength[i] denotes the strength of the ith wizard. For a contiguous group of wizards
+        (i.e. the wizards' strengths form a subarray of strength), the total strength is defined as the product of the following two values:
 
         The strength of the weakest wizard in the group.
         The total of all the individual strengths of the wizards in the group.
-        Return the sum of the total strengths of all contiguous groups of wizards. Since the answer may be very large, return it modulo 109 + 7.
+        Return the sum of the total strengths of all contiguous groups of wizards.
+        Since the answer may be very large, return it modulo 109 + 7.
 
         A subarray is a contiguous non-empty sequence of elements within an array.
 
@@ -1542,12 +1665,15 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         :return:  the sum of the total strengths of all contiguous groups of wizards
         :rtype:  int
         """
-        res, ac, mod, stack, acc = 0, 0, 10 ** 9 + 7, [-1], [0]
+        res, ac = 0, 0
+        mod = 10 ** 9 + 7
+        stack, acc = [-1], [0]
         strength += [0]
 
         for r, a in enumerate(strength):
             ac += a
             acc.append(ac + acc[-1])
+
             while stack and strength[stack[-1]] > a:
                 i = stack.pop()
                 j = stack[-1]
@@ -1555,7 +1681,9 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
                 racc = acc[r] - acc[i]
                 ln, rn = i - j, r - i
                 res += strength[i] * (racc * ln - lacc * rn) % mod
+
             stack.append(r)
+
         return res % mod
 
     def isSameTree(self, p: Optional[TreeNode], q: Optional[TreeNode]) -> bool:
@@ -1783,10 +1911,10 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         dp = [math.inf]*(amount+1)
 
         dp[0] = 0
-        for a in range(1, amount + 1):
-            for coin in coins:
-                if a - coin >= 0:
-                    dp[a] = min(dp[a], 1 + dp[a - coin])
+
+        for coin in coins:
+            for i in range(coin, amount + 1):
+                    dp[i] = min(dp[i], 1 + dp[i - coin])
 
         return dp[-1] if dp[-1] != math.inf else -1
 
@@ -2451,6 +2579,20 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         return min(nums)
 
     def isSubsequence(self, s: str, t: str) -> bool:
+        """ 392. Is Subsequence """
+        """ Given two strings s and t, return true if s is a subsequence of t, or false otherwise.
+
+        A subsequence of a string is a new string that is formed from the original string by deleting some (can be none) of the characters without disturbing the relative positions of the remaining characters. (i.e., "ace" is a subsequence of "abcde" while "aec" is not).
+
+        :param s:  string
+        :type  s:  str
+
+        :param t:  string
+        :type  t:  str
+
+        :return:  if string s is a subsequence of string t
+        :rtype:  bool
+        """
         i = 0
         for c in t:
             if i < len(s) and s[i] == c:
@@ -2530,3 +2672,300 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
             root1.right = self.mergeTrees(root1.right, root2.right)
 
         return root1 or root2
+
+    def isValidBST(self, root: Optional[TreeNode]) -> bool:
+        """ 98. Validate Binary Search Tree """
+        """ Given the root of a binary tree, determine if it is a valid binary search tree (BST).
+
+        :param root:  root of binary tree
+        :type  root:  Optional[TreeNode]
+
+        :return:  determine if it is a valid binary search tree
+        :rtype:  bool
+        """
+        def vaild(node, left, right):
+            if not node:
+                return True
+
+            if not (node.val < right and node.val > left):
+                return False
+
+            return (vaild(node.left, left, node.val) and vaild(node.right, node.val, right))
+
+        return vaild(root, -math.inf, math.inf)
+
+    def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
+        """ 105. Construct Binary Tree from Preorder and Inorder Traversal """
+        """ Given two integer arrays preorder and inorder where preorder is the preorder traversal of a binary tree and inorder is the inorder traversal of the same tree, construct and return the binary tree.
+
+        :param preorder:  preorder binary tree
+        :type  preorder:  List[int]
+
+        :param inorder:  inorder binary tree
+        :type  inorder:  List[int]
+
+        :return:  Construct binary tree
+        :rtype:  Optional[TreeNode]
+        """
+        indx = inorder.index(preorder.pop(0))
+
+        root = TreeNode(inorder[indx])
+
+        root.left = self.buildTree(preorder, inorder[0:indx])
+        root.right = self.buildTree(preorder, inorder[indx+1:])
+
+        return root
+
+    def uniquePathsWithObstacles(self, obstacleGrid: List[List[int]]) -> int:
+        """ 63. Unique Paths II """
+        """ You are given an m x n integer array grid. There is a robot initially located at the top-left corner (i.e., grid[0][0]). The robot tries to move to the bottom-right corner (i.e., grid[m-1][n-1]). The robot can only move either down or right at any point in time.
+
+        An obstacle and space are marked as 1 or 0 respectively in grid. A path that the robot takes cannot include any square that is an obstacle.
+
+        Return the number of possible unique paths that the robot can take to reach the bottom-right corner.
+
+        :param obstacleGrid:  mxn integer array grid
+        :type  obstacleGrid:  List[List[int]]
+
+        :return:  the number of possible unique paths that the robot can take to reach the bottom-right corner
+        :rtype:  int
+        """
+        @lru_cache(maxsize=None)
+        def dfs_unique(x, y):
+            if x >= len(obstacleGrid) or y >= len(obstacleGrid[0]) or obstacleGrid[x][y] == 1:
+                return 0
+
+            if x == len(obstacleGrid) - 1 and y == len(obstacleGrid[0]) - 1:
+                return 1
+
+            return dfs_unique(x+1, y) + dfs_unique(x, y+1)
+
+        return dfs_unique(0, 0)
+
+    def climbStairs(self, n: int) -> int:
+        """ 70. Climbing Stairs """
+        """ You are climbing a staircase. It takes n steps to reach the top.
+
+        Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
+
+        :param n:  take n steps
+        :type  n:  int
+
+        :return:  how many distinct ways can climb to the top
+        :rtype:  int
+        """
+        @lru_cache(maxsize=None)
+        def dp(i):
+            # base case
+            if i == 0 or i == 1:
+                return 1
+            # general cases
+            return dp(i-1) + dp(i-2)
+        return dp(n)
+
+    def numUniqueEmails(self, emails: List[str]) -> int:
+        """ 929. Unique Email Addresses """
+        """ Every valid email consists of a local name and a domain name, separated by the '@' sign. Besides lowercase letters, the email may contain one or more '.' or '+'.
+
+        If you add periods '.' between some characters in the local name part of an email address, mail sent there will be forwarded to the same address without dots in the local name. Note that this rule does not apply to domain
+
+        If you add a plus '+' in the local name, everything after the first plus sign will be ignored. This allows certain emails to be filtered. Note that this rule does not apply to domain names.
+
+        It is possible to use both of these rules at the same time.
+
+        Given an array of strings emails where we send one email to each emails[i], return the number of different addresses that actually receive mails.
+
+        :param param:  array of string where we send one email to each emails[i]
+        :type  param:  List[str]
+
+        :return:  the number of different addresses that actually receive mails
+        :rtype:  int
+        """
+        res = []
+
+        for email in emails:
+            email = email.split('@')
+            name = email[0].split('+')
+
+            res += [name[0].replace(',', '') + "@" + email[1]]
+
+        return len(set(res))
+
+    def reverseString(self, s: List[str]) -> None:
+        """ 344. Reverse String """
+        """ Write a function that reverses a string. The input string is given as an array of characters s.
+
+        You must do this by modifying the input array in-place with O(1) extra memory.
+
+        :param s:  array of characters
+        :type  s:  List[str]
+
+        :return:  reverses a string
+        :rtype:  None
+        """
+        n = len(s)
+
+        for i in range(0, (n//2)):
+            s[i], s[n-i-1] = s[n-i-1], s[i]
+
+    def isAnagram(self, s: str, t: str) -> bool:
+        """ 242. Valid Anagram """
+        """ Given two strings s and t, return true if t is an anagram of s, and false otherwise.
+
+        An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.
+
+        :param s:  string
+        :type  s:  str
+
+        :param t:  string
+        :type  t:  str
+
+        :return:  Description
+        :rtype:  Type
+        """
+
+    def isAnagram(self, s: str, t: str) -> bool:
+        """ 242. Valid Anagram """
+        """ Given two strings s and t, return true if t is an anagram of s, and false otherwise.
+
+        An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.
+
+        :param s:  string
+        :type  s:  str
+
+        :param t:  string
+        :type  t:  str
+
+        :return:  if t is an anagram of s
+        :rtype:  bool
+        """
+        return Counter(s) == Counter(t)
+
+    def reverseVowels(self, s: str) -> str:
+        """ 345. Reverse Vowels of a String """
+        """ Given a string s, reverse only all the vowels in the string and return it.
+
+        :param s:  string
+        :type  s:  str
+
+        :return:  reverse only all the vowels in the string
+        :rtype:  str
+        """
+        vow = ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U']
+
+        # stack: LIFO
+        t = []
+
+        for char in s:
+            if char in vow:
+                t.append(char)
+
+        ans = ''
+
+        for char in s:
+            if char in vow:
+                ans += t.pop()
+            else:
+                ans += char
+
+        return char
+
+    def isIsomorphic(self, s: str, t: str) -> bool:
+        """ 205. Isomorphic Strings """
+        """ Given two strings s and t, determine if they are isomorphic.
+
+        Two strings s and t are isomorphic if the characters in s can be replaced to get t.
+
+        All occurrences of a character must be replaced with another character while preserving the order of characters. No two characters may map to the same character, but a character may map to itself.
+
+        :param s:  string
+        :type  s:  str
+
+        :param t;  string
+        :type  t;  str
+
+        :return:  if two string are isomorphic
+        :rtype:  bool
+        """
+        # hashtable
+        d = {}
+
+        for i in range(len(s)):
+            if s[i] not in d:
+                if t[i] not in d.values():
+                    d[s[i]] = t[i]
+                else:
+                    return False
+            else:
+                if d[s[i]] != t[i]:
+                    return False
+
+        return True
+
+    def wordPattern(self, pattern: str, s: str) -> bool:
+        """ 290. Word Pattern """
+        """ Given a pattern and a string s, find if s follows the same pattern.
+
+        Here follow means a full match, such that there is a bijection between a letter in pattern and a non-empty word in s.
+
+        :param pattern:  pattern
+        :type  pattern:  str
+
+        :param s:  non-empty word
+        :type  s:  str
+
+        :return:  if there is a bijection between a letter in pattern and a non-empty word in s
+        :rtype:  bool
+        """
+        words, res = s.split(' '), {}
+
+        if len(pattern) != len(words): return False
+
+        if len(set(pattern)) != len(set(words)): return False
+
+        for i in range(len(words)):
+            if words[i] not in res:
+                res[words[i]] = pattern[i]
+            else:
+                if res[words[i]] != pattern[i]:
+                    return False
+
+        return True
+
+    def lengthOfLastWord(self, s: str) -> int:
+        """ 58. Length of Last Word """
+        """ Given a string s consisting of words and spaces, return the length of the last word in the string.
+
+        A word is a maximal substring consisting of non-space characters only.
+
+        :param s:  string consisting of words and spaces
+        :type  s:  str
+
+        :return:  the length if the last word in the string
+        :rtype:  int
+        """
+        return len(s.split().split(' ')[-1])
+
+    def longestCommonPrefix(self, strs: List[str]) -> str:
+        """ 14. Longest Common Prefix """
+        """ Write a function to find the longest common prefix string amongst an array of strings.
+
+        If there is no common prefix, return an empty string "".
+
+        :param strs:  array of strings
+        :type  strs:  List[str]
+
+        :return:  the longest common prefix string amongst an array of strings
+        :rtype:   str
+        """
+        res = ''
+
+        for i in range(len(strs[0])):
+            for s in strs:
+                if i == len(s) or s[i] != strs[0][i]:
+                    return res
+
+                res += strs[0][i]
+
+        return res
+
