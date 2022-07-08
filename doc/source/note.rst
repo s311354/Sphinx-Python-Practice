@@ -182,7 +182,7 @@ The example using Counter objects that have a dictionary::
 See the `Python Counter object page <https://docs.python.org/3.7/library/collections.html?highlight=collections%20defaultdict#counter-objects>`_ for more info.
 
 Built-in Types (str, range)
-----------------
+--------------------------------
 
 The principle built-in types are numerics, sequences, mapping, class, instance and exceptions.
 
@@ -259,6 +259,37 @@ map(function, iterable, ...) return an iterator that applies function to every i
 
 See the `Python map page <https://docs.python.org/3.7/library/functions.html#map>`_ for more info.
 
+Heap queue algorithm (heapq)
+------------------------------------
+
+This module provides an implementation of the heap queue algorithm, also known as the priority queue algorithm.
+
+This implementation uses arrays for which heap[k] <= heap[2*k + 1] and heap[k] <= heap[2*k+2] for all k, counting elements from zero. These make it possible to view that heap[0] is the smallest item, and heap.sort() maintains the heap invariant!
+
+Heaps are binary trees for which every parent node has a value less than or equal to any of its children.
+
+The example of using heapq::
+
+    >>> In [17]: heapq.heappush(heap, (3, 1, 2, 0))
+    >>> In [18]: heapq.heappush(heap, (1, 1, 0, 0))
+    >>> In [19]: heap
+    Out[19]: [(1, 1, 0, 0), (3, 1, 2, 0)]
+
+Heapq
+^^^^^^
+
+The API below differs from textbook heap algorithm in two aspects: 
+
++ use zero-based indexing.
++ pop method returns the smallest item, not the largest.
+
+The following functions are provided:
+
++ heapq.heappush(heap, item): push the value item onto the heap, maintaining the heap invariant.
++ heapq.heappop(heap): pop, and return the smallest item from the heap, maintaining the heap invariant. If the heap is empty, IndexError is raised.
+
+See the `Python heapq page <https://docs.python.org/3.7/library/heapq.html?highlight=heappush#module-heapq>`_ for more info.
+
 Supporting for type hits (TypeVar, List, Optional)
 ----------------------------------------------------------
 
@@ -267,7 +298,7 @@ TypeVar
 
 Type variable
 
-The example using TypeVar::
+the example using typevar::
 
     >>> from typing import TypeVar
     >>> T = TypeVar('T', int, float)
@@ -355,6 +386,10 @@ The functools module is for higher-order functions: functions that act on or ret
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
 Decorator to wrap a function with a memorizing callable that saves up to the maxsize most recent calls. It can save time when an expensive or I/O bound function is periodcally called with the same argument.
+
+An LRU (least recently used) cache works best when the most recent calls are the best predictors of upcoming calls (for example, the most popular articles on a news server tend to change each day). The cache’s size limit assures that the cache does not grow without bound on long-running processes such as web servers.
+
+In general, the LRU cache should only be used when you want to reuse previously computed values. Accordingly, it doesn’t make sense to cache functions with side-effects, functions that need to create distinct mutable objects on each call, or impure functions such as time() or random().
 
 The example using lru_cache to computing Fibonacci numbers to implement a dynamic programming::
 
