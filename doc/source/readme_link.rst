@@ -51,8 +51,8 @@ Solutions list
     503, :func:`~leetcode.impl.solution.Solution.nextGreaterElementsII`, Medium, , , Stack
     739, :func:`~leetcode.impl.solution.Solution.dailyTemperatures`, Medium, , , Stack
     2281, :func:`~leetcode.impl.solution.Solution.totalStrength`, Hard, , , Stack
-
-
+    100, :func:`~leetcode.impl.solution.Solution.isSameTree`, Easy, , , Tree Node
+    2134, :func:`~leetcode.impl.solution.Solution.minSwaps`, Medium, , , Sliding Window
 
 .. mdinclude:: ../../README.md
 

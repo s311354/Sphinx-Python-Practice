@@ -8,6 +8,9 @@ import collections
 from collections import defaultdict
 from collections import Counter
 from functools import lru_cache
+import requests
+import json
+import heapq
 import math
 
 
@@ -58,7 +61,6 @@ class TreeNode:
     def PrintTree(self):
         if self.left:
             self.left.PrintTree()
-        print(self.val),
         if self.right:
             self.right.PrintTree()
 
@@ -622,10 +624,10 @@ class Solution(object):
             for j in range(i+1, len(s)):
                 if(s[j] in subStr):
                     break
+
                 subStr += s[j]
                 currentCount += 1
 
-#             print(subStr)
             maxCount = max(maxCount, currentCount)
 
         return maxCount
@@ -968,6 +970,7 @@ class Solution(object):
 
         """
         elem = []
+        # reverse nums
         reverse = nums[::-1]
 
         if target in nums:
@@ -1323,6 +1326,7 @@ class Solution(object):
         and let a be the first half and b be the second half.
 
         Two strings are alike if they have the same number of vowels ('a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'). 
+
         Notice that s contains uppercase and lowercase letters.
 
         Return true if a and b are alike. Otherwise, return false.
@@ -1455,10 +1459,14 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         count = 0
 
         # stock
+        # row
         for i in range(len(strs[0])):
             temp = ""
+            # column
             for j in range(len(strs)):
                 temp += strs[j][i]
+
+            # not sorted lexicographically column
             if ''.join(sorted(temp)) != temp:
                 count += 1
 
@@ -1641,7 +1649,6 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
 
             stack.append((index, temperature))
 
-        print(stack)
         return res
 
     def totalStrength(self, strength: List[int]) -> int:
@@ -1649,12 +1656,15 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
 
         As the ruler of a kingdom, you have an army of wizards at your command.
 
-        You are given a 0-indexed integer array strength, where strength[i] denotes the strength of the ith wizard. For a contiguous group of wizards
-        (i.e. the wizards' strengths form a subarray of strength), the total strength is defined as the product of the following two values:
+        You are given a 0-indexed integer array strength, where strength[i] denotes the strength of the ith wizard. 
 
-        The strength of the weakest wizard in the group.
-        The total of all the individual strengths of the wizards in the group.
+        For a contiguous group of wizards (i.e. the wizards' strengths form a subarray of strength), the total strength is defined as the product of the following two values:
+
+        - The strength of the weakest wizard in the group.
+        - The total of all the individual strengths of the wizards in the group.
+
         Return the sum of the total strengths of all contiguous groups of wizards.
+
         Since the answer may be very large, return it modulo 109 + 7.
 
         A subarray is a contiguous non-empty sequence of elements within an array.
@@ -1665,30 +1675,20 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         :return:  the sum of the total strengths of all contiguous groups of wizards
         :rtype:  int
         """
-        res, ac = 0, 0
-        mod = 10 ** 9 + 7
-        stack, acc = [-1], [0]
-        strength += [0]
+        total_strength = 0
+        length_sub = 1
+        while length_sub <= len(strength):
+            for i in range(len(strength) - length_sub + 1):
+                total_strength += sum(strength[i: i + length_sub])*min(strength[i: i + length_sub])
 
-        for r, a in enumerate(strength):
-            ac += a
-            acc.append(ac + acc[-1])
+            length_sub += 1
 
-            while stack and strength[stack[-1]] > a:
-                i = stack.pop()
-                j = stack[-1]
-                lacc = acc[i] - acc[max(j, 0)]
-                racc = acc[r] - acc[i]
-                ln, rn = i - j, r - i
-                res += strength[i] * (racc * ln - lacc * rn) % mod
-
-            stack.append(r)
-
-        return res % mod
+        return total_strength % (1e9 + 7)
 
     def isSameTree(self, p: Optional[TreeNode], q: Optional[TreeNode]) -> bool:
-        """ 100. Same Tree (Easy) """
-        """ Given the roots of two binary trees p and q, write a function to check if they are the same or not.
+        """ 100. Same Tree (Easy)
+
+        Given the roots of two binary trees p and q, write a function to check if they are the same or not.
 
         Two binary trees are considered the same if they are structurally identical, and the nodes have the same value.
 
@@ -1706,6 +1706,7 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
                 return True
             if not node1 or not node2:
                 return False
+
             if node1.val != node2.val:
                 return False
             return is_same(node1.left, node2.left) and is_same(node1.right, node2.right)
@@ -1713,8 +1714,9 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         return is_same(p, q)
 
     def minSwaps(self, nums: List[int]) -> int:
-        """ 2134. Minimum Swaps to Group All 1's Together II """
-        """ A swap is defined as taking two distinct positions in an array and swapping the values in them.
+        """ 2134. Minimum Swaps to Group All 1's Together II (Medium)
+
+        A swap is defined as taking two distinct positions in an array and swapping the values in them.
 
         A circular array is defined as an array where we consider the first element and the last element to be adjacent.
 
@@ -1726,15 +1728,20 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         :return:  the minimum number of swaps required to group all 1's present in the array together at any location
         :rtype:  int
         """
-        n, ones = len(nums), sum(nums)
-        window = max_window = sum(nums[i] for i in range(ones))
+        # width of the window
+        width = sum(num == 1 for num in nums)
+        nums += nums
+        res = width
 
-        for i in range(n - 1):
-            # shift window
-            window += nums[(i + ones) % n] - nums[i]
-            max_window = max(max_window, window)
+        # the first window is nums[:width]
+        curr_zeros = sum(num == 0 for num in nums[:width])
 
-        return ones - max_window
+        for i in range(width, len(nums)):
+            curr_zeros -= (nums[i - width] == 0) #remove the leftmost 0 if exists
+            curr_zeros += (nums[i] == 0) #add the rightmost 0 if exists
+            res = min(res, curr_zeros) #update if needed
+
+        return res
 
     def merge(self, intervals: List[List[int]]) -> List[List[int]]:
         """ 56. Merge Intervals (Medium) """
@@ -1814,8 +1821,9 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         return max(lucky) if len(lucky) > 0 else -1
 
     def isValid(self, s: str) -> bool:
-        """ 20. Valid Parentheses """
-        """ Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
+        """ 20. Valid Parentheses
+
+        Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
 
         An input string is valid if:
 
@@ -1893,9 +1901,9 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         return dummyNode.next
 
     def coinChange(self, coins: List[int], amount: int) -> int:
-        """ 322. Coin Change """
+        """ 322. Coin Change
 
-        """ You are given an integer array coins representing coins of different denominations and an integer amount representing a total amount of money.
+        You are given an integer array coins representing coins of different denominations and an integer amount representing a total amount of money.
 
         Return the fewest number of coins that you need to make up that amount. If that amount of money cannot be made up by any combination of the coins, return -1.
 
@@ -1942,8 +1950,9 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         return ans
 
     def getSum(self, a: int, b: int) -> int:
-        """ 371. Sum of Two Integers """
-        """ Given two integers a and b, return the sum of the two integers without using the operators + and -
+        """ 371. Sum of Two Integers
+
+        Given two integers a and b, return the sum of the two integers without using the operators + and -
 
         :param a:  integer
         :type  a:  int
@@ -2055,7 +2064,7 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
             else:
                 return min(str2num(s), 2**31 - 1)
 
-    def search(self, nums: List[int], target: int) -> int:
+    def Search(self, nums: List[int], target: int) -> int:
         """ 33. Search in Rotated Sorted Array """
         """ Given the array nums after the possible rotation and an integer target, return the index of target if it is in nums, or -1 if it is not in nums.
 
@@ -2116,8 +2125,9 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
 
 
     def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
-        """ 39. Combination Sum  (Medium) """
-        """ Given an array of distinct integers candidates and a target integer target, return a list of all unique combinations of candidates where the chosen numbers sum to target. You may return the combinations in any order.
+        """ 39. Combination Sum  (Medium)
+
+        Given an array of distinct integers candidates and a target integer target, return a list of all unique combinations of candidates where the chosen numbers sum to target. You may return the combinations in any order.
 
         The same number may be chosen from candidates an unlimited number of times. Two combinations are unique if the frequency of at least one of the chosen numbers is different.
 
@@ -2145,8 +2155,9 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         return ans
 
     def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
-        """ 40. Combination Sum II (Medium) """
-        """ Given a collection of candidate numbers (candidates) and a target number (target), find all unique combinations in candidates where the candidate numbers sum to target.
+        """ 40. Combination Sum II (Medium)
+
+        Given a collection of candidate numbers (candidates) and a target number (target), find all unique combinations in candidates where the candidate numbers sum to target.
 
         Each number in candidates may only be used once in the combination.
 
@@ -2435,8 +2446,9 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         return x * self.myPow(x, n-1)
 
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
-        """ 49. Group Anagrams """
-        """ Given an array of strings strs, group the anagrams together. You can return the answer in any order.
+        """ 49. Group Anagrams
+
+        Given an array of strings strs, group the anagrams together. You can return the answer in any order.
 
         An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.
 
@@ -2455,8 +2467,9 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         return [i for i in hmap.values()]
 
     def hasPathSum(self, root: Optional[TreeNode], targetSum: int) -> bool:
-        """ 112. Path Sum """
-        """ Given the root of a binary tree and an integer targetSum, return true if the tree has a root-to-leaf path such that adding up all the values along the path equals targetSum.
+        """ 112. Path Sum
+
+        Given the root of a binary tree and an integer targetSum, return true if the tree has a root-to-leaf path such that adding up all the values along the path equals targetSum.
 
         A leaf is a node with no children.
 
@@ -2564,8 +2577,9 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         return dp_path(m, n, hs)
 
     def findMin(self, nums: List[int]) -> int:
-        """ 153. Find Minimum in Rotated Sorted Array """
-        """ Suppose an array of length n sorted in ascending order is rotated between 1 and n times. For example, the array nums = [0,1,2,4,5,6,7] might become:
+        """ 153. Find Minimum in Rotated Sorted Array
+
+        Suppose an array of length n sorted in ascending order is rotated between 1 and n times. For example, the array nums = [0,1,2,4,5,6,7] might become:
 
         [4,5,6,7,0,1,2] if it was rotated 4 times.
         [0,1,2,4,5,6,7] if it was rotated 7 times.
@@ -2624,8 +2638,9 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         return res
 
     def firstUniqChar(self, s: str) -> int:
-        """ 387. First Unique Character in a String """
-        """ Given a string s, find the first non-repeating character in it and return its index. If it does not exist, return -1.
+        """ 387. First Unique Character in a String
+
+        Given a string s, find the first non-repeating character in it and return its index. If it does not exist, return -1.
 
         :param s:  string
         :type  s:  str
@@ -2695,8 +2710,9 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         return vaild(root, -math.inf, math.inf)
 
     def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
-        """ 105. Construct Binary Tree from Preorder and Inorder Traversal """
-        """ Given two integer arrays preorder and inorder where preorder is the preorder traversal of a binary tree and inorder is the inorder traversal of the same tree, construct and return the binary tree.
+        """ 105. Construct Binary Tree from Preorder and Inorder Traversal
+
+        Given two integer arrays preorder and inorder where preorder is the preorder traversal of a binary tree and inorder is the inorder traversal of the same tree, construct and return the binary tree.
 
         :param preorder:  preorder binary tree
         :type  preorder:  List[int]
@@ -2743,8 +2759,9 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         return dfs_unique(0, 0)
 
     def climbStairs(self, n: int) -> int:
-        """ 70. Climbing Stairs """
-        """ You are climbing a staircase. It takes n steps to reach the top.
+        """ 70. Climbing Stairs
+
+        You are climbing a staircase. It takes n steps to reach the top.
 
         Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
 
@@ -2809,8 +2826,9 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
             s[i], s[n-i-1] = s[n-i-1], s[i]
 
     def isAnagram(self, s: str, t: str) -> bool:
-        """ 242. Valid Anagram """
-        """ Given two strings s and t, return true if t is an anagram of s, and false otherwise.
+        """ 242. Valid Anagram
+
+        Given two strings s and t, return true if t is an anagram of s, and false otherwise.
 
         An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.
 
@@ -2871,8 +2889,9 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         return char
 
     def isIsomorphic(self, s: str, t: str) -> bool:
-        """ 205. Isomorphic Strings """
-        """ Given two strings s and t, determine if they are isomorphic.
+        """ 205. Isomorphic Strings
+        
+        Given two strings s and t, determine if they are isomorphic.
 
         Two strings s and t are isomorphic if the characters in s can be replaced to get t.
 
@@ -2969,3 +2988,381 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
 
         return res
 
+    def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
+        """ 23. Merge k Sorted Lists
+
+        You are given an array of k linked-lists lists, each linked-list is sorted in ascending order.
+
+        Merge all the linked-lists into one sorted linked-list and return it.
+
+        :param lists:  an array of k linked-lists lists
+        :type  lists:  List[Optional[ListNode]]
+
+        :return:  merge all the linked-lists into one sored linked-list
+        :rtype:  Optional[ListNode]
+        """
+        if not lists:
+            return None
+        vals = []
+
+        for heap in lists:
+            temp = heap
+            while temp is not None:
+                vals.append(temp.val)
+                temp = temp.next
+
+        ret = None
+        if vals:
+            vals = sorted(vals)
+            head = ListNode(vals[0])
+            ret = head
+
+            for i in range(1, len(vals)):
+                head.next = ListNode(vals[i])
+                head = head.next
+
+        return ret
+
+    def getTopRateFoodOutlets(self, city: str) -> List[str]:
+        page = 1
+
+        highestcity = []
+        highestrating = 0
+
+        for page in range(2):
+            url = 'https://jsonmock.hackerrank.com/api/food_outlets?city={}&page={}'.format(city, page)
+
+            res = requests.get(url)
+            data = res.text
+            json_array = json.loads(data)
+
+            rating = defaultdict(list)
+            cities = []
+
+            for item in json_array["data"]:
+                cities.append(item['name'])
+                rating[item['name']] = item['user_rating']['average_rating']
+
+            sortingrating = sorted(rating.items(), key=lambda elem: elem[1]) 
+
+            if highestrating <= sortingrating[-1][-1]:
+                highestrating = sortingrating[-1][-1]
+
+            for item in sortingrating:
+                if item[1] == sortingrating[-1][-1] and item[0] not in highestcity:
+                    highestcity.append(item[0])
+
+        return highestcity
+
+    def kSmallestPairs(self, nums1: List[int], nums2: List[int], k: int) -> List[List[int]]:
+        """ 373. Find K Pairs with Smallest Sums (Medium)
+
+        You are given two integer arrays nums1 and nums2 sorted in ascending order and an integer k.
+
+        Define a pair (u, v) which consists of one element from the first array and one element from the second array.
+
+        Return the k pairs (u1, v1), (u2, v2), ..., (uk, vk) with the smallest sums.
+
+        :param num1:  integer array sorted in ascending order
+        :type  nums1:  List[int]
+
+        :param nums2:  integer array sorted in ascending order
+        :type  nums2:  List[int]
+
+        :return:  the k pair (u1, v1), (u2, v2). ..., (uk, vk)
+        :rtype:  List[List[int]]
+        """
+        heap = []
+
+        len1, len2 = len(nums1), len(nums2)
+        i = 0
+
+        while i < len1 and i < k:
+            # heap sorted in sums (sums, nums1, nums2, index of array 2)
+            heapq.heappush(heap, (nums1[i] + nums2[0], nums1[i], nums2[0], 0))
+            i += 1
+
+        result = []
+
+        # k pairs with the smallest sums (BFS)
+        while k and heap:
+            end = heapq.heappop(heap)
+            result.append([end[1], end[2]])
+
+            if end[3] < len2 - 1:
+                heapq.heappush(heap, (end[1] + nums2[end[3] + 1], end[1], nums2[end[3] + 1], end[3] + 1))
+
+            k -= 1
+
+        return result
+
+    def function1(self, A: List[int]) -> List[int]:
+        """docstring for function1"""
+
+        def getDecimalFromBits(bits):
+            result = 0
+            for index, bit in enumerate(bits):
+                result += bit * int(math.pow(-2, index))
+            return result
+
+        dec = getDecimalFromBits(A)
+        ceil = math.ceil(dec/2)
+
+        def getBitsFromDecimal(number):
+
+            i, sign = 0, 1
+            result = [0 for _ in range(32)]
+            while number:
+                reminder = number % 2
+                if reminder:
+                    result[i] = 1
+                    number -= sign
+                number /= 2
+                i += 1
+                sign = -sign
+
+            result = result[::-1]
+            if result.count(1):
+                result = result[result.index(1):]
+                result = result[::-1]
+            else:
+                return []
+            return result
+
+        result = getBitsFromDecimal(ceil)
+        return result
+
+    def function2(self, A: List[int], K: int) -> int:
+
+        if len(A) == K:
+            return sum(A)
+
+        if K > len(A):
+            return -1
+
+        even, odd = [], []
+        for i in A:
+            if i % 2 == 0:
+                even.append(i)
+            else:
+                odd.append(i)
+
+        if len(even) >= K:
+            return sum(heapq.nlargest(K, even))
+        elif len(even) > 0:
+            res = sum(heapq.nlargest(K, even))
+            res += sum(heapq.nlargest(K - len(even), odd))
+            return res
+        else:
+            return -1
+
+    def search(self, nums: List[int], target: int) -> int:
+        """ 704. Binary Search (Easy)
+
+        Given an array of integers nums which is sorted in ascending order, and an integer target, write a function to search target in nums. If target exists, then return its index. Otherwise, return -1.
+
+        You must write an algorithm with O(log n) runtime complexity.
+
+        :param nums:  an array of integers
+        :type  nums:  List[int]
+
+        :param target:  integer target
+        :type  target:  int
+
+        :return:  index of target
+        :rtype:  int
+        """
+        left, right = 0, len(nums)-1
+
+        while left <= right:
+            mid = (left + right) // 2
+            if nums[mid] > target:
+                right = mid - 1
+            elif nums[mid] < target:
+                left = mid + 1
+            else:
+                return mid
+        return -1
+
+    def floodFill(self, image: List[List[int]], sr: int, sc: int, color: int) -> List[List[int]]:
+        """ 733. Flood Fill
+
+        An image is represented by an m x n integer grid image where image[i][j] represents the pixel value of the image.
+
+        You are also given three integers sr, sc, and color. You should perform a flood fill on the image starting from the pixel image[sr][sc].
+
+        To perform a flood fill, consider the starting pixel, plus any pixels connected 4-directionally to the starting pixel of the same color as the starting pixel, plus any pixels connected 4-directionally to those pixels (also with the same color), and so on. Replace the color of all of the aforementioned pixels with color.
+
+        Return the modified image after performing the flood fill.
+
+        :param image:  integer grid image represents the pixel value of the image
+        :type  image:  List[List[int]]
+
+        :param sr:  source x-index
+        :type  sr:  int
+
+        :param sc:  source y-index
+        :type  sc:  int
+
+        :param color:  color of all of the aforementioned pixels color
+        :type  color:  int
+
+        :return:  the modified image after performing the flood fill
+        :rtype:   List[List[int]]
+        """
+        def dfs(image, m, n, oldValue, newValue):
+            if m < 0 or m > len(image)-1 or n < 0 or n > len(image[0])-1 or image[m][n] == newValue:
+                return
+            if image[m][n] == oldValue:
+                image[m][n] = newValue
+                dfs(image, m-1, n, oldValue, newValue)
+                dfs(image, m+1, n, oldValue, newValue)
+                dfs(image, m, n-1, oldValue, newValue)
+                dfs(image, m, n+1, oldValue, newValue)
+            return
+
+        dfs(image, sr, sc, image[sr][sc], color)
+        return image
+
+    def hasCycle(self, head: Optional[ListNode]) -> bool:
+        """ 141. Linked List Cycle (Easy)
+
+        Given head, the head of a linked list, determine if the linked list has a cycle in it.
+
+        There is a cycle in a linked list if there is some node in the list that can be reached again by continuously following the next pointer. Internally, pos is used to denote the index of the node that tail's next pointer is connected to. Note that pos is not passed as a parameter.
+
+        Return true if there is a cycle in the linked list. Otherwise, return false.
+
+        :param head:  head of a linked list
+        :type  head:  Optional[List[ListNode]]
+
+        :return:  whether or not there is a cycle in the linked list
+        :rtype:   bool
+        """
+
+        if not head or not head.next: return False
+        addr, pre, cur = 1, head, head.next
+        while True:
+            if not cur:
+                return False
+            else:
+                if cur == addr:
+                    return True
+                pre, cur = cur, cur.next
+                pre.next = addr
+
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        """ 235. Lowest Common Ancestor of a Binary Search Tree (Easy)
+
+        Given a binary search tree (BST), find the lowest common ancestor (LCA) of two given nodes in the BST.
+
+        According to the definition of LCA on Wikipedia: “The lowest common ancestor is defined between two nodes p and q as the lowest node in T that has both p and q as descendants (where we allow a node to be a descendant of itself).”
+
+        :param root:  binary search tree
+        :type  root:  Optional[TreeNode]
+
+        :param p:  Tree node
+        :type  p:  Optional[TreeNode]
+
+
+        :param q:  Tree node
+        :type  q:  Optional[TreeNode]
+
+
+        :return:  the lowest common ancestor of two given nodes in the BST
+        :rtype:   Optional[TreeNode]
+        """
+        current = root
+        while current is not None:
+            if current.val < p.val and current.val < q.val:
+                current = current.right
+            elif current.val > p.val and current.val > q.val:
+                current = current.left
+            else:
+                return current
+
+
+    def majorityElement(self, nums: List[int]) -> int:
+        """ 169. Majority Element (Easy)
+
+        Given an array nums of size n, return the majority element.
+
+        The majority element is the element that appears more than ⌊n / 2⌋ times. You may assume that the majority element always exists in the array.
+
+        :param nums:  array nums
+        :type  nums:  List[int]
+
+        :return:  the majority element
+        :rtype:   int
+        """
+        res = Counter(nums)
+        k = list(res.keys())
+        majority_freq = max(res.values())
+
+        for i in k:
+            if res[i] == majority_freq:
+                return i
+
+    def kClosest(self, points: List[List[int]], k: int) -> List[List[int]]:
+        """ 973. K Closest Points to Origin (Medium)
+
+        Given an array of points where points[i] = [xi, yi] represents a point on the X-Y plane and an integer k, return the k closest points to the origin (0, 0).
+
+        The distance between two points on the X-Y plane is the Euclidean distance (i.e., √(x1 - x2)2 + (y1 - y2)2).
+
+        You may return the answer in any order. The answer is guaranteed to be unique (except for the order that it is in).
+
+        :param points:  an array of points represents a point on the X-Y plane
+        :type  points:  List[List[int]]
+
+        :param k:  k closest points to the origin (0, 0)
+        :type  k:  int
+
+        :return:  unique closest points to the origin
+        :rtype:   List[List[int]]
+        """
+        points.sort(key=lambda point: point[0] ** 2 + point[1] ** 2)  
+        return points[:k]
+
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+        """ 15. 3Sum (Medium)
+
+        Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] such that i != j, i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0.
+
+        Notice that the solution set must not contain duplicate triplets.
+
+        :param nums: integer array nums
+        :type  nums: List[int]
+
+        :return:  all the triplets
+        :rtype:   List[List[int]]
+        """
+        nums.sort() # We sort nums first to more easily find duplicate numbers
+        triplets = [] # We will store all the valid triplets in here
+
+        for i in range(len(nums)):
+            if i > 0 and nums[i - 1] == nums[i]:
+                continue # Skip duplicates
+
+            left = i + 1
+            right = len(nums) - 1
+
+            while left < right:
+                curSum = nums[i] + nums[left] + nums[right]
+                if curSum == 0:
+                    triplets.append([nums[i], nums[left], nums[right]])
+                    left += 1
+                    right -= 1
+                    # Skip all duplicates on left side
+                    while left < right and nums[left - 1] == nums[left]:
+                        left += 1
+
+                    # Skip all duplicates on right side
+                    while left < right and nums[right + 1] == nums[right]:
+                        right -= 1
+                elif curSum < 0:
+                    left += 1 # Our sum is too small, so we try to increase the sum
+                else:
+                    right -= 1 # Our sum is too big, so we try to decrease the sum
+
+        return triplets

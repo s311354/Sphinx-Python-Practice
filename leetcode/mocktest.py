@@ -13,7 +13,7 @@ except ImportError:
 
 class SolutionCase(unittest.TestCase):
     """
-    A :class:`~leetcode.mocktest.SolutionCase` object is the unittest module.
+    A :class:`~leetcode.mocktest.SolutionCase` object is the unittest module (dummy component).
 
     This module can construct and run tests by using assertEqual(a, b) assert methods to check for and report failures.
 
@@ -814,14 +814,14 @@ class SolutionCase(unittest.TestCase):
         expected_output = -42
         self.assertEqual(sol.myAtoi(s), expected_output)
 
-    def test_search(self):
+    def test_Search(self):
         """docstring for search"""
         sol = solution.Solution()
 
         nums = [4,5,6,7,0,1,2]
         target = 0
         expected_output = 4
-        self.assertEqual(sol.search(nums, target), expected_output)
+        self.assertEqual(sol.Search(nums, target), expected_output)
 
     def test_permute(self):
         """docstring for permute"""
@@ -967,6 +967,68 @@ class SolutionCase(unittest.TestCase):
         expected_output = [1,1,4,2,1,1,0,0]
         self.assertEqual(sol.dailyTemperatures(temperatures), expected_output)
 
+    def test_getTopRateFoodOutlets(self):
+        """docstring for getTopRateFoodOutlets"""
+        sol = solution.Solution()
+
+        city = 'Denver'
+        expected_output = ['Sushi Kashiba', 'Peninsula Grand Hotel', 'Plum by Bent Chair', "R' ADDA"]
+        self.assertEqual(sol.getTopRateFoodOutlets(city), expected_output)
+
+    def test_kSmallestPairs(self):
+        """docstring for kSmallestPairs"""
+        sol = solution.Solution()
+
+        nums1 = [7,1,11]
+        nums2 = [2,4,6]
+        k = 3
+        expected_output = [[1,2],[1,4],[1,6]]
+        self.assertEqual(sol.kSmallestPairs(nums1, nums2, k), expected_output)
+
+
+    def test_function1(self):
+        """docstring for function1"""
+        sol = solution.Solution()
+
+        A = [1, 0, 0, 1, 1]
+        expected_output = [1,0,1]
+        self.assertEqual(sol.function1(A), expected_output)
+
+        A = [1, 0, 0, 1, 1, 1]
+        expected_output = [1,0,1,0,1,1]
+        self.assertEqual(sol.function1(A), expected_output)
+
+        A = []
+        expected_output = []
+        self.assertEqual(sol.function1(A), expected_output)
+
+    def test_function2(self):
+        sol = solution.Solution()
+
+        A = [4, 9, 8, 2, 6]
+        K = 3
+        expected_output = 18
+        self.assertEqual(sol.function2(A, K), expected_output)
+
+        A = [7, 7, 7, 7, 7]
+        K = 1
+        expected_output = -1
+        self.assertEqual(sol.function2(A, K), expected_output)
+
+        A = [5, 6, 3, 4, 2]
+        K = 5
+        expected_output = 20
+        self.assertEqual(sol.function2(A, K), expected_output)
+
+        A = [10000]
+        K = 2
+        expected_output = -1
+        self.assertEqual(sol.function2(A, K), expected_output)
+
+        A = [2, 3, 3, 5, 5]
+        K = 3
+        expected_output = 12
+        self.assertEqual(sol.function2(A, K), expected_output)
 
 
 if __name__ == '__main__':
