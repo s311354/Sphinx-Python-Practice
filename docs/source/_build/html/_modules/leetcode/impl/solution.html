@@ -1,0 +1,317 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>leetcode.impl.solution &#8212; leetcode 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/haiku.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+  </head><body>
+      <div class="header" role="banner"><h1 class="heading"><a href="../../../index.html">
+          <span>leetcode 1.0 documentation</span></a></h1>
+        <h2 class="heading"><span>leetcode.impl.solution</span></h2>
+      </div>
+      <div class="topnav" role="navigation" aria-label="top navigation">
+      
+        <p>
+        <a class="uplink" href="../../../index.html">Contents</a>
+        </p>
+
+      </div>
+      <div class="content" role="main">
+        
+        
+  <h1>Source code for leetcode.impl.solution</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Use the Solution class to represent Leedcode problems</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+<span class="kn">import</span> <span class="nn">collections</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">lru_cache</span>
+
+
+<div class="viewcode-block" id="Solution"><a class="viewcode-back" href="../../../api.html#leetcode.impl.solution.Solution">[docs]</a><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A :class:`~leetcode.impl.solution` object is the leetcode quiz module</span>
+
+<span class="sd">    This module is to implementate the leetcode problems</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Solution.twoSum"><a class="viewcode-back" href="../../../api.html#leetcode.impl.solution.Solution.twoSum">[docs]</a>    <span class="k">def</span> <span class="nf">twoSum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">target</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot; Two Sum</span>
+
+<span class="sd">        Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.</span>
+<span class="sd">        You may assume that each input would have exactly one solution, and you may not use the same element twice.</span>
+<span class="sd">        You can return the answer in any order.</span>
+
+<span class="sd">        :param num:  array of integers</span>
+<span class="sd">        :type  num:  List[int]</span>
+<span class="sd">        :param target:  integer target</span>
+<span class="sd">        :type  target:  int</span>
+
+<span class="sd">        :return:  indices of the two numbers such that they add up to target</span>
+<span class="sd">        :rtype:   List[int]</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">store</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)):</span>
+            <span class="n">rest</span> <span class="o">=</span> <span class="n">target</span> <span class="o">-</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">rest</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">store</span><span class="p">:</span>
+                <span class="n">store</span><span class="p">[</span><span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="n">i</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="p">[</span><span class="n">store</span><span class="p">[</span><span class="n">rest</span><span class="p">],</span> <span class="n">i</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="Solution.minNumberOfSemesters"><a class="viewcode-back" href="../../../api.html#leetcode.impl.solution.Solution.minNumberOfSemesters">[docs]</a>    <span class="k">def</span> <span class="nf">minNumberOfSemesters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">dependencies</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]],</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot; Parallel Courses II</span>
+
+<span class="sd">        You are given an integer n, which indicates that there are n courses labeled from 1 to n. You are also given an array relations where relations[i] = [prevCoursei, nextCoursei], representing a prerequisite relationship between course prevCoursei and course nextCoursei: course prevCoursei has to be taken before course nextCoursei. Also, you are given the integer k.</span>
+
+<span class="sd">        In one semester, you can take at most k courses as long as you have taken all the prerequisites in the previous semesters for the courses you are taking.</span>
+
+<span class="sd">        Return the minimum number of semesters needed to take all courses. The testcases will be generated such that it is possible to take every course.</span>
+
+<span class="sd">        :param n:  courses</span>
+<span class="sd">        :type n:  int</span>
+<span class="sd">        :param dependencies: prerequisite relationship between course prevCoursei and course nextCoursei has to be taken before course nextCoursi</span>
+<span class="sd">        :type dependencies:  List[List[int]]</span>
+<span class="sd">        :param k:  take at most k courses</span>
+<span class="sd">        :type  k:  int</span>
+
+<span class="sd">        :return:  minimum number of semesters needed to take all courses</span>
+<span class="sd">        :rtype:  int</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Compute in-degree and adjacency graph for each node</span>
+        <span class="n">in_degree</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">n</span>
+        <span class="n">graph</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">prerequisite</span><span class="p">,</span> <span class="n">course</span> <span class="ow">in</span> <span class="n">dependencies</span><span class="p">:</span>
+            <span class="n">graph</span><span class="p">[</span><span class="n">prerequisite</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">course</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">in_degree</span><span class="p">[</span><span class="n">course</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="nd">@lru_cache</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">find_min_semester</span><span class="p">(</span><span class="n">courses</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">courses</span><span class="p">:</span>
+                <span class="k">return</span> <span class="mi">0</span>
+
+            <span class="n">combinations</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="n">courses</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+
+            <span class="n">min_semester</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">32</span>
+            <span class="k">for</span> <span class="n">k_courses</span> <span class="ow">in</span> <span class="n">combinations</span><span class="p">:</span>
+                <span class="n">remaining_courses</span> <span class="o">=</span> <span class="n">courses</span> <span class="o">-</span> <span class="n">k_courses</span>
+
+                <span class="n">next_courses</span> <span class="o">=</span> <span class="mi">0</span>
+
+                <span class="c1"># Decrease the in-degree</span>
+                <span class="k">for</span> <span class="n">course_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">course_idx</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">k_courses</span><span class="p">:</span>
+                        <span class="k">for</span> <span class="n">nei</span> <span class="ow">in</span> <span class="n">graph</span><span class="p">[</span><span class="n">course_idx</span><span class="p">]:</span>
+                            <span class="n">in_degree</span><span class="p">[</span><span class="n">nei</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+                            <span class="k">if</span> <span class="n">in_degree</span><span class="p">[</span><span class="n">nei</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                                <span class="n">next_courses</span> <span class="o">+=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">nei</span>
+
+                <span class="n">min_semester</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">min_semester</span><span class="p">,</span> <span class="n">find_min_semester</span><span class="p">(</span><span class="n">remaining_courses</span> <span class="o">+</span> <span class="n">next_courses</span><span class="p">))</span>
+
+                <span class="c1"># Increase the in-degree (backtracking)</span>
+                <span class="k">for</span> <span class="n">course_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">course_idx</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">k_courses</span><span class="p">:</span>
+                        <span class="k">for</span> <span class="n">nei</span> <span class="ow">in</span> <span class="n">graph</span><span class="p">[</span><span class="n">course_idx</span><span class="p">]:</span>
+                            <span class="n">in_degree</span><span class="p">[</span><span class="n">nei</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">return</span> <span class="n">min_semester</span> <span class="o">+</span> <span class="mi">1</span>
+
+        <span class="n">initial_courses</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">in_degree</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">initial_courses</span> <span class="o">+=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">i</span>
+
+        <span class="k">return</span> <span class="n">find_min_semester</span><span class="p">(</span><span class="n">initial_courses</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">count1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">number</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="n">ones</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">tmp</span> <span class="o">=</span> <span class="n">number</span>
+        <span class="k">while</span> <span class="n">tmp</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">tmp</span> <span class="o">&amp;</span> <span class="mi">1</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">ones</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">tmp</span> <span class="o">&gt;&gt;=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">ones</span>
+
+    <span class="k">def</span> <span class="nf">combinations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">number</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+
+        <span class="k">def</span> <span class="nf">helper</span><span class="p">(</span><span class="n">current_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">num_ones</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">remain_1s</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">remain_1s</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">return</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">num_ones</span> <span class="o">&lt;=</span> <span class="n">remain_1s</span><span class="p">:</span>
+                <span class="k">return</span> <span class="p">[</span><span class="n">current_number</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># `(current_number - 1) ^ current_number` will give us all 1s starting from the smallest `1`</span>
+                <span class="n">last_one</span> <span class="o">=</span> <span class="p">((</span><span class="n">current_number</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">^</span> <span class="n">current_number</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">current_number</span>
+
+                <span class="c1"># For choosing the last `1`</span>
+                <span class="n">p1</span> <span class="o">=</span> <span class="n">helper</span><span class="p">(</span><span class="n">current_number</span> <span class="o">-</span> <span class="n">last_one</span><span class="p">,</span> <span class="n">num_ones</span><span class="o">=</span><span class="n">num_ones</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">remain_1s</span><span class="o">=</span><span class="n">remain_1s</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+                <span class="c1"># For not choosing the last `1`</span>
+                <span class="n">p2</span> <span class="o">=</span> <span class="n">helper</span><span class="p">(</span><span class="n">current_number</span> <span class="o">-</span> <span class="n">last_one</span><span class="p">,</span> <span class="n">num_ones</span><span class="o">=</span><span class="n">num_ones</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">remain_1s</span><span class="o">=</span><span class="n">remain_1s</span><span class="p">)</span>
+
+                <span class="k">return</span> <span class="p">[</span><span class="n">p</span> <span class="o">+</span> <span class="n">last_one</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">p1</span><span class="p">]</span> <span class="o">+</span> <span class="n">p2</span>
+
+        <span class="k">return</span> <span class="n">helper</span><span class="p">(</span><span class="n">current_number</span><span class="o">=</span><span class="n">number</span><span class="p">,</span> <span class="n">num_ones</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">count1</span><span class="p">(</span><span class="n">number</span><span class="p">),</span> <span class="n">remain_1s</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Solution.convertToTitle"><a class="viewcode-back" href="../../../api.html#leetcode.impl.solution.Solution.convertToTitle">[docs]</a>    <span class="k">def</span> <span class="nf">convertToTitle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">columnNumber</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot; Excel Sheet Column Title</span>
+
+<span class="sd">        Given an integer columnNumber, return its corresponding column title as it appears in an Excel sheet.</span>
+
+<span class="sd">        :param columnNumber:  Execel sheet</span>
+<span class="sd">        :type  columnNumber:  int</span>
+
+<span class="sd">        :return:  its corresponding column title</span>
+<span class="sd">        :rtype:  int</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">ans</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">while</span> <span class="n">columnNumber</span><span class="p">:</span>
+            <span class="n">columnNumber</span> <span class="o">-=</span> <span class="mi">1</span>
+            <span class="n">ans</span> <span class="o">=</span> <span class="nb">chr</span><span class="p">(</span><span class="mi">65</span> <span class="o">+</span> <span class="n">columnNumber</span> <span class="o">%</span> <span class="mi">26</span><span class="p">)</span> <span class="o">+</span> <span class="n">ans</span>
+            <span class="n">columnNumber</span> <span class="o">//=</span> <span class="mi">26</span>
+        <span class="k">return</span> <span class="n">ans</span></div>
+
+<div class="viewcode-block" id="Solution.isMatch"><a class="viewcode-back" href="../../../api.html#leetcode.impl.solution.Solution.isMatch">[docs]</a>    <span class="k">def</span> <span class="nf">isMatch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot; Regular Expression Matching</span>
+
+<span class="sd">        Given an input string s and a pattern p, implement regular expression matching with support for &#39;.&#39; and &#39;*&#39; where:</span>
+
+<span class="sd">        &#39;.&#39; Matches any single character.</span>
+<span class="sd">        &#39;*&#39; Matches zero or more of the preceding element.</span>
+<span class="sd">        The matching should cover the entire input string (not partial).</span>
+
+<span class="sd">        :param s: input string</span>
+<span class="sd">        :type  s: string</span>
+
+<span class="sd">        :param p: pattern character</span>
+<span class="sd">        :type  p: string</span>
+
+<span class="sd">        :return:  whehter the matching pattern cover the entire input string</span>
+<span class="sd">        :rtype:  bool</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">m</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+
+        <span class="c1"># build our dp array depends on the current character in the pattern string</span>
+        <span class="n">dp</span> <span class="o">=</span> <span class="p">[[</span><span class="kc">False</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span>
+
+        <span class="n">dp</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">m</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">p</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;*&#39;</span><span class="p">:</span>
+                    <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="ow">or</span> <span class="p">(</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">dp</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="ow">and</span> <span class="p">(</span> <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">p</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="ow">or</span> <span class="n">p</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;.&#39;</span><span class="p">)</span> <span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="ow">and</span> <span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">p</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="ow">or</span> <span class="n">p</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;.&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">dp</span><span class="p">[</span><span class="n">m</span><span class="p">][</span><span class="n">n</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="Solution.romanToInt"><a class="viewcode-back" href="../../../api.html#leetcode.impl.solution.Solution.romanToInt">[docs]</a>    <span class="k">def</span> <span class="nf">romanToInt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot; Roman numerals are represented by seven different symbols: I, V, X, L, C, D and M.</span>
+
+<span class="sd">        Symbol       Value</span>
+<span class="sd">        I             1</span>
+<span class="sd">        V             5</span>
+<span class="sd">        X             10</span>
+<span class="sd">        L             50</span>
+<span class="sd">        C             100</span>
+<span class="sd">        D             500</span>
+<span class="sd">        M             1000</span>
+
+<span class="sd">        For example, 2 is written as II in Roman numeral, just two one&#39;s added together. 12 is written as XII, which is simple X + II. The number 27 is written as XXVII, which is XX + V + II.</span>
+
+<span class="sd">        Roman numerals are usually written largest to smallest from left to right. However, the numeral for four is not III. Instead, the number four is written as IV. Because the one is before the five we substract it making four. The same principle applies to the number nine, which is written as IX. There are six instances where substraction used:</span>
+<span class="sd">        </span>
+<span class="sd">        - I can be placed before V (5) and X (10) to make 4 and 9.</span>
+<span class="sd">        - X can be placed before L (50) and C (100) to make 40 and 90</span>
+<span class="sd">        - C can be placed before D (500) and M (1000) to make 400 and 900</span>
+
+<span class="sd">        Given a roman numeral, convert it to an integer.</span>
+
+<span class="sd">        :param s:  Roman numeral</span>
+<span class="sd">        :type  s:  string</span>
+
+<span class="sd">        :return:  integer</span>
+<span class="sd">        :rtype:   int</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;I&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;V&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;X&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;L&#39;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">:</span> <span class="mi">500</span><span class="p">,</span> <span class="s1">&#39;M&#39;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">}</span>
+        <span class="n">tot</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="c1"># substraction rule</span>
+            <span class="k">if</span> <span class="n">r</span><span class="p">[</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">&lt;</span> <span class="n">r</span><span class="p">[</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]]:</span>
+                <span class="n">tot</span> <span class="o">-=</span> <span class="n">r</span><span class="p">[</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">tot</span> <span class="o">+=</span> <span class="n">r</span><span class="p">[</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
+
+        <span class="n">tot</span> <span class="o">+=</span> <span class="n">r</span><span class="p">[</span><span class="n">s</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span>
+
+        <span class="k">return</span> <span class="n">tot</span></div>
+
+<div class="viewcode-block" id="Solution.maxLength"><a class="viewcode-back" href="../../../api.html#leetcode.impl.solution.Solution.maxLength">[docs]</a>    <span class="k">def</span> <span class="nf">maxLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arr</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot; Maximum Length of a Concatencated String with Unique Characters</span>
+
+<span class="sd">        You are given an array of strings arr. A string s is formed by the concatenation of a subsequence of arr that has unique characters that has unique characters.</span>
+
+<span class="sd">        A subsequence is an array that can be derived from another array of by deleting some or no elements without changing the order of the remaining elements.</span>
+
+<span class="sd">        :param arr:  array of strings</span>
+<span class="sd">        :type  arr:  List[str]</span>
+
+<span class="sd">        :return:  the maximum possible length of subsequence</span>
+<span class="sd">        :rtype:   int</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">maxlen</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">dfs_maxlength</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nb">set</span><span class="p">(),</span> <span class="mi">0</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxlen</span></div>
+
+    <span class="k">def</span> <span class="nf">dfs_maxlength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arr</span><span class="p">,</span> <span class="n">cur</span><span class="p">,</span> <span class="n">visited</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">idx</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">):</span>
+            <span class="k">return</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">visited</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">cur</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">cur</span> <span class="o">+</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">])):</span>
+                <span class="k">continue</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">maxlen</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">maxlen</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">cur</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+
+            <span class="n">visited</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dfs_maxlength</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">cur</span> <span class="o">+</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">visited</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">visited</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">i</span><span class="p">)</span></div>
+</pre></div>
+
+      </div>
+      <div class="bottomnav" role="navigation" aria-label="bottom navigation">
+      
+        <p>
+        <a class="uplink" href="../../../index.html">Contents</a>
+        </p>
+
+      </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2022, Louis Liu.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
+    </div>
+  </body>
+</html>

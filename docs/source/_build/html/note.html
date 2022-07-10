@@ -1,0 +1,147 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Recap Python basic conception and alogrithm &#8212; leetcode 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/haiku.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Example: guide.rst — The leetcode practice guide" href="guide.html" />
+    <link rel="prev" title="Welcome to Python Common Algorithm’s documentation!" href="index.html" /> 
+  </head><body>
+      <div class="header" role="banner"><h1 class="heading"><a href="index.html">
+          <span>leetcode 1.0 documentation</span></a></h1>
+        <h2 class="heading"><span>Recap Python basic conception and alogrithm</span></h2>
+      </div>
+      <div class="topnav" role="navigation" aria-label="top navigation">
+      
+        <p>
+        «&#160;&#160;<a href="index.html">Welcome to Python Common Algorithm’s documentation!</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="guide.html">Example: guide.rst — The leetcode practice guide</a>&#160;&#160;»
+        </p>
+
+      </div>
+      <div class="content" role="main">
+        
+        
+  <section id="recap-python-basic-conception-and-alogrithm">
+<h1>Recap Python basic conception and alogrithm<a class="headerlink" href="#recap-python-basic-conception-and-alogrithm" title="Permalink to this heading">¶</a></h1>
+<p>Welcome! This is the personal documentation for learning the basic conception of python.</p>
+<section id="container-datatypes">
+<h2>Container Datatypes<a class="headerlink" href="#container-datatypes" title="Permalink to this heading">¶</a></h2>
+<p>This module implements specialized container datatypes providing alternatives to python’s general purpose built-in container, <strong>list</strong>, <strong>tuple</strong>, <strong>set</strong> and <strong>dict</strong>.</p>
+<section id="sequence-types-list-tuple-range">
+<h3>Sequence Types - list, tuple, range<a class="headerlink" href="#sequence-types-list-tuple-range" title="Permalink to this heading">¶</a></h3>
+<section id="lists">
+<h4>Lists<a class="headerlink" href="#lists" title="Permalink to this heading">¶</a></h4>
+<p>Lists are <em>mutable sequences</em>, typeically used to store collections of <em>homogeneous items</em>.</p>
+<p>class list([iterable]) may be constructed in several ways:</p>
+<ul class="simple">
+<li><p>Using a pair of square brackets to denote the empty list: []</p></li>
+<li><p>Using square brackets, separating items with commas: [a], [a, b, c]</p></li>
+<li><p>Using a list comprehension: [x for x in iterable]</p></li>
+<li><p>Using the type constructor: list() or list(iterable)</p></li>
+</ul>
+<p>The example all return a list equal to [1, 2, 3]</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="p">)</span>
+</pre></div>
+</div>
+<p>See the <a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#lists">Python lists page</a> for more info.</p>
+</section>
+<section id="tuples">
+<h4>Tuples<a class="headerlink" href="#tuples" title="Permalink to this heading">¶</a></h4>
+<p>Tuples are <em>immutable sequences</em>, typeically used to store collections of <em>heretrogeneous data</em>. Tuples are also used for cases where ann immutable sequence of homogeneous data is needed.</p>
+<p>class tuple([iterable]) may be constructed in a number of ways:</p>
+<ul class="simple">
+<li><p>Using a pair of parentheses to denote the empty tuple: ()</p></li>
+<li><p>Using a trailing comma for a singleton tuple: a, or (a, )</p></li>
+<li><p>Separating items with commas: a, b, c or (a, b, c)</p></li>
+<li><p>Using the tuple() built-in: tuple() or tuple(iterable)</p></li>
+</ul>
+<p>The example all return (‘a’, ‘b’, ‘c’)</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">]</span> <span class="p">)</span>
+</pre></div>
+</div>
+<p>See the <a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#tuples">Python Tuples page</a> for more info.</p>
+</section>
+<section id="ranges">
+<h4>Ranges<a class="headerlink" href="#ranges" title="Permalink to this heading">¶</a></h4>
+<p>The range type represents an immutable sequence of numbers and is commonly used for looping a specific number of times in for loops.</p>
+<p>class range(stop), class range(start, stop[, step]) may be constructed in integers.</p>
+<p>Range example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>See the <a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html?highlight=range#ranges">Python Ranges page</a> for more info.</p>
+</section>
+</section>
+<section id="mapping-types-dict">
+<h3>Mapping Types - dict<a class="headerlink" href="#mapping-types-dict" title="Permalink to this heading">¶</a></h3>
+<p><em>A mapping object maps hashable values to arbitrary objects</em>. A dictionary’s keys are almost arbitrary values. Values that are not hashable, that is, values containing lists, dictionaries or other mutable types may not be used as keys.</p>
+<p>class dict(** kwargs) dictionaries can be created by several mean:</p>
+<ul class="simple">
+<li><p>Use a comma-separeted list or key: value pairs within braces: {‘jack’: 4098, ‘sjoerd’: 4227}</p></li>
+<li><p>Use a dict comprehension: {}</p></li>
+<li><p>Use the type constructor: dict()</p></li>
+</ul>
+<p>The examples all return a dictionary equal to {“one”: 1, “two”: 2, “three”: 3}</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">one</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">two</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">three</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;one&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;two&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;three&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>See the <a class="reference external" href="https://docs.python.org/3.7/library/collections.html#module-collections">Python collections - Container datatypes page</a> for more info.</p>
+</section>
+<section id="set-types-set-frozenset">
+<h3>Set Types - set, frozenset<a class="headerlink" href="#set-types-set-frozenset" title="Permalink to this heading">¶</a></h3>
+<p>A set object is an <em>unordered collection of distinct hashable objects</em>. Common uses include membership testing, removing duplicates from a sequence, and computing mathematical operations. such as intersection, union, difference, and symmetric difference.</p>
+<p>class set([iterable]) can be created by several means:</p>
+<ul class="simple">
+<li><p>Use a comma-separated list of elements within braces: {‘jack’, ‘sjoerd’}</p></li>
+<li><p>Use the type constructor: set(), set(‘foobar’)</p></li>
+</ul>
+<p>The example all return a set equal to {‘a’, ‘b’}</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>See the <a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#set-types-set-frozenset">Python Set Types - set, forzenset page</a> for more info.</p>
+</section>
+</section>
+</section>
+
+
+      </div>
+      <div class="bottomnav" role="navigation" aria-label="bottom navigation">
+      
+        <p>
+        «&#160;&#160;<a href="index.html">Welcome to Python Common Algorithm’s documentation!</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="guide.html">Example: guide.rst — The leetcode practice guide</a>&#160;&#160;»
+        </p>
+
+      </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2022, Louis Liu.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
+    </div>
+  </body>
+</html>

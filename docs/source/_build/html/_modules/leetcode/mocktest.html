@@ -1,0 +1,174 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>leetcode.mocktest &#8212; leetcode 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/haiku.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head><body>
+      <div class="header" role="banner"><h1 class="heading"><a href="../../index.html">
+          <span>leetcode 1.0 documentation</span></a></h1>
+        <h2 class="heading"><span>leetcode.mocktest</span></h2>
+      </div>
+      <div class="topnav" role="navigation" aria-label="top navigation">
+      
+        <p>
+        <a class="uplink" href="../../index.html">Contents</a>
+        </p>
+
+      </div>
+      <div class="content" role="main">
+        
+        
+  <h1>Source code for leetcode.mocktest</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Use the SolutionCase class to represent unit testing framework</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">unittest.mock</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">leetcode.impl</span> <span class="kn">import</span> <span class="n">solution</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">impl</span> <span class="kn">import</span> <span class="n">solution</span>
+
+
+<div class="viewcode-block" id="SolutionCase"><a class="viewcode-back" href="../../api.html#leetcode.mocktest.SolutionCase">[docs]</a><span class="k">class</span> <span class="nc">SolutionCase</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A :class:`~leetcode.mocktest.SolutionCase` object is the unittest module.</span>
+
+<span class="sd">    This module can construct and run tests by using assertEqual(a, b) assert methods to check for and report failures.</span>
+
+<span class="sd">    If the unittest unit testing framework is correct, then the script produces an output that looks like this::</span>
+
+<span class="sd">        ----------------------------------------------------------------------</span>
+<span class="sd">        Ran 2 tests in 1.314s</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="SolutionCase.test_twoSum"><a class="viewcode-back" href="../../api.html#leetcode.mocktest.SolutionCase.test_twoSum">[docs]</a>    <span class="k">def</span> <span class="nf">test_twoSum</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;1. Two Sum&quot;&quot;&quot;</span>
+        <span class="n">sol</span> <span class="o">=</span> <span class="n">solution</span><span class="o">.</span><span class="n">Solution</span><span class="p">()</span>
+
+        <span class="n">nums</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">15</span><span class="p">]</span>
+        <span class="n">target</span> <span class="o">=</span> <span class="mi">9</span>
+
+        <span class="n">expected_output</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">sol</span><span class="o">.</span><span class="n">twoSum</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="n">target</span><span class="p">),</span> <span class="n">expected_output</span><span class="p">)</span>
+
+        <span class="n">nums</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+        <span class="n">target</span> <span class="o">=</span> <span class="mi">6</span>
+
+        <span class="n">expected_output</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">sol</span><span class="o">.</span><span class="n">twoSum</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="n">target</span><span class="p">),</span> <span class="n">expected_output</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SolutionCase.test_minNumberOfSemesters"><a class="viewcode-back" href="../../api.html#leetcode.mocktest.SolutionCase.test_minNumberOfSemesters">[docs]</a>    <span class="k">def</span> <span class="nf">test_minNumberOfSemesters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; 1494. Parallel Courses II &quot;&quot;&quot;</span>
+        <span class="n">sol</span> <span class="o">=</span> <span class="n">solution</span><span class="o">.</span><span class="n">Solution</span><span class="p">()</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="mi">4</span>
+        <span class="n">dependencies</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">]]</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="mi">2</span>
+
+        <span class="n">expected_output</span> <span class="o">=</span> <span class="mi">3</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">sol</span><span class="o">.</span><span class="n">minNumberOfSemesters</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dependencies</span><span class="p">,</span> <span class="n">k</span><span class="p">),</span> <span class="n">expected_output</span><span class="p">)</span>
+
+        <span class="n">n</span> <span class="o">=</span> <span class="mi">12</span>
+        <span class="n">dependencies</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">],</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span> <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">],</span> <span class="p">[</span><span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">]]</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="mi">2</span>
+
+        <span class="n">expected_output</span> <span class="o">=</span> <span class="mi">6</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">sol</span><span class="o">.</span><span class="n">minNumberOfSemesters</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dependencies</span><span class="p">,</span> <span class="n">k</span><span class="p">),</span> <span class="n">expected_output</span><span class="p">)</span>
+
+        <span class="n">n</span> <span class="o">=</span> <span class="mi">13</span>
+        <span class="n">dependencies</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">12</span><span class="p">,</span><span class="mi">8</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span><span class="mi">7</span><span class="p">],[</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">],[</span><span class="mi">11</span><span class="p">,</span><span class="mi">8</span><span class="p">],[</span><span class="mi">9</span><span class="p">,</span><span class="mi">4</span><span class="p">],[</span><span class="mi">9</span><span class="p">,</span><span class="mi">7</span><span class="p">],[</span><span class="mi">12</span><span class="p">,</span><span class="mi">4</span><span class="p">],[</span><span class="mi">11</span><span class="p">,</span><span class="mi">4</span><span class="p">],[</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">],[</span><span class="mi">10</span><span class="p">,</span><span class="mi">7</span><span class="p">],[</span><span class="mi">10</span><span class="p">,</span><span class="mi">4</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">7</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">8</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">7</span><span class="p">],[</span><span class="mi">8</span><span class="p">,</span><span class="mi">4</span><span class="p">],[</span><span class="mi">10</span><span class="p">,</span><span class="mi">8</span><span class="p">],[</span><span class="mi">12</span><span class="p">,</span><span class="mi">7</span><span class="p">],[</span><span class="mi">5</span><span class="p">,</span><span class="mi">4</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],[</span><span class="mi">11</span><span class="p">,</span><span class="mi">7</span><span class="p">],[</span><span class="mi">7</span><span class="p">,</span><span class="mi">4</span><span class="p">],[</span><span class="mi">13</span><span class="p">,</span><span class="mi">4</span><span class="p">],[</span><span class="mi">9</span><span class="p">,</span><span class="mi">8</span><span class="p">],[</span><span class="mi">13</span><span class="p">,</span><span class="mi">8</span><span class="p">]]</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="mi">9</span>
+        <span class="n">expected_output</span> <span class="o">=</span> <span class="mi">3</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">sol</span><span class="o">.</span><span class="n">minNumberOfSemesters</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dependencies</span><span class="p">,</span> <span class="n">k</span><span class="p">),</span> <span class="n">expected_output</span><span class="p">)</span>
+
+        <span class="n">n</span> <span class="o">=</span> <span class="mi">14</span>
+        <span class="n">dependencies</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">11</span><span class="p">,</span><span class="mi">7</span><span class="p">]]</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="n">expected_output</span> <span class="o">=</span> <span class="mi">7</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">sol</span><span class="o">.</span><span class="n">minNumberOfSemesters</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dependencies</span><span class="p">,</span> <span class="n">k</span><span class="p">),</span> <span class="n">expected_output</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SolutionCase.test_convertToTitle"><a class="viewcode-back" href="../../api.html#leetcode.mocktest.SolutionCase.test_convertToTitle">[docs]</a>    <span class="k">def</span> <span class="nf">test_convertToTitle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; 168. Excel Sheet Column Title &quot;&quot;&quot;</span>
+        <span class="n">sol</span> <span class="o">=</span> <span class="n">solution</span><span class="o">.</span><span class="n">Solution</span><span class="p">()</span>
+
+        <span class="n">columnNumber</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">expected_output</span> <span class="o">=</span> <span class="s2">&quot;A&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">sol</span><span class="o">.</span><span class="n">convertToTitle</span><span class="p">(</span><span class="n">columnNumber</span><span class="p">),</span> <span class="n">expected_output</span><span class="p">)</span>
+
+        <span class="n">columnNumber</span> <span class="o">=</span> <span class="mi">28</span>
+        <span class="n">expected_output</span> <span class="o">=</span> <span class="s2">&quot;AB&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">sol</span><span class="o">.</span><span class="n">convertToTitle</span><span class="p">(</span><span class="n">columnNumber</span><span class="p">),</span> <span class="n">expected_output</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SolutionCase.test_isMatch"><a class="viewcode-back" href="../../api.html#leetcode.mocktest.SolutionCase.test_isMatch">[docs]</a>    <span class="k">def</span> <span class="nf">test_isMatch</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; 10. Regular Expression Matching &quot;&quot;&quot;</span>
+        <span class="n">sol</span> <span class="o">=</span> <span class="n">solution</span><span class="o">.</span><span class="n">Solution</span><span class="p">()</span>
+
+        <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;aa&quot;</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="s2">&quot;a*&quot;</span>
+        <span class="n">expected_output</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">sol</span><span class="o">.</span><span class="n">isMatch</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">),</span> <span class="n">expected_output</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SolutionCase.test_romanToInt"><a class="viewcode-back" href="../../api.html#leetcode.mocktest.SolutionCase.test_romanToInt">[docs]</a>    <span class="k">def</span> <span class="nf">test_romanToInt</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; 13. Roman to Integer &quot;&quot;&quot;</span>
+        <span class="n">sol</span> <span class="o">=</span> <span class="n">solution</span><span class="o">.</span><span class="n">Solution</span><span class="p">()</span>
+
+        <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;III&quot;</span>
+        <span class="n">expected_output</span> <span class="o">=</span> <span class="mi">3</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">sol</span><span class="o">.</span><span class="n">romanToInt</span><span class="p">(</span><span class="n">s</span><span class="p">),</span> <span class="n">expected_output</span><span class="p">)</span>
+
+        <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;LVIII&quot;</span>
+        <span class="n">expected_output</span> <span class="o">=</span> <span class="mi">58</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">sol</span><span class="o">.</span><span class="n">romanToInt</span><span class="p">(</span><span class="n">s</span><span class="p">),</span> <span class="n">expected_output</span><span class="p">)</span>
+
+        <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;LV&quot;</span>
+        <span class="n">expected_output</span> <span class="o">=</span> <span class="mi">55</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">sol</span><span class="o">.</span><span class="n">romanToInt</span><span class="p">(</span><span class="n">s</span><span class="p">),</span> <span class="n">expected_output</span><span class="p">)</span>
+
+        <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;MCMXCIV&quot;</span>
+        <span class="n">expected_output</span> <span class="o">=</span> <span class="mi">1994</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">sol</span><span class="o">.</span><span class="n">romanToInt</span><span class="p">(</span><span class="n">s</span><span class="p">),</span> <span class="n">expected_output</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">test_maxLength</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">sol</span> <span class="o">=</span> <span class="n">solution</span><span class="o">.</span><span class="n">Solution</span><span class="p">()</span>
+
+        <span class="n">arr</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;un&quot;</span><span class="p">,</span> <span class="s2">&quot;iq&quot;</span><span class="p">,</span> <span class="s2">&quot;ue&quot;</span><span class="p">]</span>
+        <span class="n">expected_output</span> <span class="o">=</span> <span class="mi">4</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">sol</span><span class="o">.</span><span class="n">maxLength</span><span class="p">(</span><span class="n">arr</span><span class="p">),</span> <span class="n">expected_output</span><span class="p">)</span>
+
+        <span class="n">arr</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;cha&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="s2">&quot;act&quot;</span><span class="p">,</span> <span class="s2">&quot;ers&quot;</span><span class="p">]</span>
+        <span class="n">expected_output</span> <span class="o">=</span> <span class="mi">6</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">sol</span><span class="o">.</span><span class="n">maxLength</span><span class="p">(</span><span class="n">arr</span><span class="p">),</span> <span class="n">expected_output</span><span class="p">)</span></div>
+
+
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+      </div>
+      <div class="bottomnav" role="navigation" aria-label="bottom navigation">
+      
+        <p>
+        <a class="uplink" href="../../index.html">Contents</a>
+        </p>
+
+      </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2022, Louis Liu.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
+    </div>
+  </body>
+</html>

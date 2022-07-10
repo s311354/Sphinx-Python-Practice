@@ -1,0 +1,274 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>The leetcode API Reference &#8212; leetcode 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/haiku.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Example: guide.rst — The leetcode practice guide" href="guide.html" /> 
+  </head><body>
+      <div class="header" role="banner"><h1 class="heading"><a href="index.html">
+          <span>leetcode 1.0 documentation</span></a></h1>
+        <h2 class="heading"><span>The leetcode API Reference</span></h2>
+      </div>
+      <div class="topnav" role="navigation" aria-label="top navigation">
+      
+        <p>
+        «&#160;&#160;<a href="guide.html">Example: guide.rst — The leetcode practice guide</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="index.html">Contents</a>
+        </p>
+
+      </div>
+      <div class="content" role="main">
+        
+        
+  <section id="module-leetcode">
+<span id="the-leetcode-api-reference"></span><h1>The leetcode API Reference<a class="headerlink" href="#module-leetcode" title="Permalink to this heading">¶</a></h1>
+<p>Routines for working with leetcode practice</p>
+<p>The two modules inside of this package are packed with useful features:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">solution</span></code></dt><dd><p>This module provides a <cite>Solution</cite> object that is the implementation corresponding to each of quizs.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">mock_test</span></code></dt><dd><p>For unit test, this module uses unit testing framework to supports test automation, sharing of setup and shutdown code for tests.</p>
+</dd>
+</dl>
+<section id="module-leetcode.mocktest">
+<span id="the-mocktest-module"></span><h2>The “mocktest” module<a class="headerlink" href="#module-leetcode.mocktest" title="Permalink to this heading">¶</a></h2>
+<p>Use the SolutionCase class to represent unit testing framework</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="leetcode.mocktest.SolutionCase">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">leetcode.mocktest.</span></span><span class="sig-name descname"><span class="pre">SolutionCase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/leetcode/mocktest.html#SolutionCase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#leetcode.mocktest.SolutionCase" title="Permalink to this definition">¶</a></dt>
+<dd><p>A <a class="reference internal" href="#leetcode.mocktest.SolutionCase" title="leetcode.mocktest.SolutionCase"><code class="xref py py-class docutils literal notranslate"><span class="pre">SolutionCase</span></code></a> object is the unittest module.</p>
+<p>This module can construct and run tests by using assertEqual(a, b) assert methods to check for and report failures.</p>
+<p>If the unittest unit testing framework is correct, then the script produces an output that looks like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">----------------------------------------------------------------------</span>
+<span class="n">Ran</span> <span class="mi">2</span> <span class="n">tests</span> <span class="ow">in</span> <span class="mf">1.314</span><span class="n">s</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="leetcode.mocktest.SolutionCase.test_twoSum">
+<span class="sig-name descname"><span class="pre">test_twoSum</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/leetcode/mocktest.html#SolutionCase.test_twoSum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#leetcode.mocktest.SolutionCase.test_twoSum" title="Permalink to this definition">¶</a></dt>
+<dd><ol class="arabic simple">
+<li><p>Two Sum</p></li>
+</ol>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="leetcode.mocktest.SolutionCase.test_minNumberOfSemesters">
+<span class="sig-name descname"><span class="pre">test_minNumberOfSemesters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/leetcode/mocktest.html#SolutionCase.test_minNumberOfSemesters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#leetcode.mocktest.SolutionCase.test_minNumberOfSemesters" title="Permalink to this definition">¶</a></dt>
+<dd><ol class="arabic simple" start="1494">
+<li><p>Parallel Courses II</p></li>
+</ol>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="leetcode.mocktest.SolutionCase.test_convertToTitle">
+<span class="sig-name descname"><span class="pre">test_convertToTitle</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/leetcode/mocktest.html#SolutionCase.test_convertToTitle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#leetcode.mocktest.SolutionCase.test_convertToTitle" title="Permalink to this definition">¶</a></dt>
+<dd><ol class="arabic simple" start="168">
+<li><p>Excel Sheet Column Title</p></li>
+</ol>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="leetcode.mocktest.SolutionCase.test_isMatch">
+<span class="sig-name descname"><span class="pre">test_isMatch</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/leetcode/mocktest.html#SolutionCase.test_isMatch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#leetcode.mocktest.SolutionCase.test_isMatch" title="Permalink to this definition">¶</a></dt>
+<dd><ol class="arabic simple" start="10">
+<li><p>Regular Expression Matching</p></li>
+</ol>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="leetcode.mocktest.SolutionCase.test_romanToInt">
+<span class="sig-name descname"><span class="pre">test_romanToInt</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/leetcode/mocktest.html#SolutionCase.test_romanToInt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#leetcode.mocktest.SolutionCase.test_romanToInt" title="Permalink to this definition">¶</a></dt>
+<dd><ol class="arabic simple" start="13">
+<li><p>Roman to Integer</p></li>
+</ol>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-leetcode.impl.solution">
+<span id="the-solution-module"></span><h2>The “solution” module<a class="headerlink" href="#module-leetcode.impl.solution" title="Permalink to this heading">¶</a></h2>
+<p>Use the Solution class to represent Leedcode problems</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="leetcode.impl.solution.Solution">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">leetcode.impl.solution.</span></span><span class="sig-name descname"><span class="pre">Solution</span></span><a class="reference internal" href="_modules/leetcode/impl/solution.html#Solution"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#leetcode.impl.solution.Solution" title="Permalink to this definition">¶</a></dt>
+<dd><p>A <a class="reference internal" href="#module-leetcode.impl.solution" title="leetcode.impl.solution"><code class="xref py py-class docutils literal notranslate"><span class="pre">solution</span></code></a> object is the leetcode quiz module</p>
+<p>This module is to implementate the leetcode problems</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="leetcode.impl.solution.Solution.convertToTitle">
+<span class="sig-name descname"><span class="pre">convertToTitle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">columnNumber</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/leetcode/impl/solution.html#Solution.convertToTitle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#leetcode.impl.solution.Solution.convertToTitle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Excel Sheet Column Title</p>
+<p>Given an integer columnNumber, return its corresponding column title as it appears in an Excel sheet.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>columnNumber</strong> (<em>int</em>) – Execel sheet</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>its corresponding column title</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="leetcode.impl.solution.Solution.isMatch">
+<span class="sig-name descname"><span class="pre">isMatch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/leetcode/impl/solution.html#Solution.isMatch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#leetcode.impl.solution.Solution.isMatch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Regular Expression Matching</p>
+<p>Given an input string s and a pattern p, implement regular expression matching with support for ‘.’ and ‘*’ where:</p>
+<p>‘.’ Matches any single character.
+‘*’ Matches zero or more of the preceding element.
+The matching should cover the entire input string (not partial).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>s</strong> (<em>string</em>) – input string</p></li>
+<li><p><strong>p</strong> (<em>string</em>) – pattern character</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>whehter the matching pattern cover the entire input string</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="leetcode.impl.solution.Solution.maxLength">
+<span class="sig-name descname"><span class="pre">maxLength</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/leetcode/impl/solution.html#Solution.maxLength"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#leetcode.impl.solution.Solution.maxLength" title="Permalink to this definition">¶</a></dt>
+<dd><p>Maximum Length of a Concatencated String with Unique Characters</p>
+<p>You are given an array of strings arr. A string s is formed by the concatenation of a subsequence of arr that has unique characters that has unique characters.</p>
+<p>A subsequence is an array that can be derived from another array of by deleting some or no elements without changing the order of the remaining elements.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>arr</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – array of strings</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the maximum possible length of subsequence</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="leetcode.impl.solution.Solution.minNumberOfSemesters">
+<span class="sig-name descname"><span class="pre">minNumberOfSemesters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dependencies</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/leetcode/impl/solution.html#Solution.minNumberOfSemesters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#leetcode.impl.solution.Solution.minNumberOfSemesters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parallel Courses II</p>
+<p>You are given an integer n, which indicates that there are n courses labeled from 1 to n. You are also given an array relations where relations[i] = [prevCoursei, nextCoursei], representing a prerequisite relationship between course prevCoursei and course nextCoursei: course prevCoursei has to be taken before course nextCoursei. Also, you are given the integer k.</p>
+<p>In one semester, you can take at most k courses as long as you have taken all the prerequisites in the previous semesters for the courses you are taking.</p>
+<p>Return the minimum number of semesters needed to take all courses. The testcases will be generated such that it is possible to take every course.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n</strong> (<em>int</em>) – courses</p></li>
+<li><p><strong>dependencies</strong> (<em>List</em><em>[</em><em>List</em><em>[</em><em>int</em><em>]</em><em>]</em>) – prerequisite relationship between course prevCoursei and course nextCoursei has to be taken before course nextCoursi</p></li>
+<li><p><strong>k</strong> (<em>int</em>) – take at most k courses</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>minimum number of semesters needed to take all courses</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="leetcode.impl.solution.Solution.romanToInt">
+<span class="sig-name descname"><span class="pre">romanToInt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/leetcode/impl/solution.html#Solution.romanToInt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#leetcode.impl.solution.Solution.romanToInt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Roman numerals are represented by seven different symbols: I, V, X, L, C, D and M.</p>
+<p>Symbol       Value
+I             1
+V             5
+X             10
+L             50
+C             100
+D             500
+M             1000</p>
+<p>For example, 2 is written as II in Roman numeral, just two one’s added together. 12 is written as XII, which is simple X + II. The number 27 is written as XXVII, which is XX + V + II.</p>
+<p>Roman numerals are usually written largest to smallest from left to right. However, the numeral for four is not III. Instead, the number four is written as IV. Because the one is before the five we substract it making four. The same principle applies to the number nine, which is written as IX. There are six instances where substraction used:</p>
+<ul class="simple">
+<li><p>I can be placed before V (5) and X (10) to make 4 and 9.</p></li>
+<li><p>X can be placed before L (50) and C (100) to make 40 and 90</p></li>
+<li><p>C can be placed before D (500) and M (1000) to make 400 and 900</p></li>
+</ul>
+<p>Given a roman numeral, convert it to an integer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>s</strong> (<em>string</em>) – Roman numeral</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>integer</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="leetcode.impl.solution.Solution.twoSum">
+<span class="sig-name descname"><span class="pre">twoSum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nums</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/leetcode/impl/solution.html#Solution.twoSum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#leetcode.impl.solution.Solution.twoSum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Two Sum</p>
+<p>Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
+You may assume that each input would have exactly one solution, and you may not use the same element twice.
+You can return the answer in any order.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>num</strong> (<em>List</em><em>[</em><em>int</em><em>]</em>) – array of integers</p></li>
+<li><p><strong>target</strong> (<em>int</em>) – integer target</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>indices of the two numbers such that they add up to target</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>List[int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+      </div>
+      <div class="bottomnav" role="navigation" aria-label="bottom navigation">
+      
+        <p>
+        «&#160;&#160;<a href="guide.html">Example: guide.rst — The leetcode practice guide</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="index.html">Contents</a>
+        </p>
+
+      </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2022, Louis Liu.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
+    </div>
+  </body>
+</html>
