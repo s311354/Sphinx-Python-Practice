@@ -1,4 +1,6 @@
 # Sphinx Python Practice
+[![Documentation Status](https://readthedocs.org/projects/sphinx-python-practice/badge/?version=latest)](https://sphinx-python-practice.readthedocs.io/en/latest/?badge=latest)
+
 
 ## Introduction
 
