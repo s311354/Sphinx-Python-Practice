@@ -16,3 +16,9 @@ The "solution" module
 
 .. automodule:: leetcode.impl.solution
     :members:
+
+The "solution_design" module
+-----------------------------
+
+.. automodule:: leetcode.impl.solution_design
+    :members:
