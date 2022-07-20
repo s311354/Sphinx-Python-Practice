@@ -52,15 +52,15 @@ Solutions list
     1, :func:`~leetcode.impl.solution.Solution.twoSum`, Easy, O(N), O(N), Hashtable
     168, :func:`~leetcode.impl.solution.Solution.convertToTitle`, Medium, O(log N), O(log N), basic
     10, :func:`~leetcode.impl.solution.Solution.isMatch`, Hard, O(NM), O(NM), Dynamic Programming
-    13, :func:`~leetcode.impl.solution.Solution.romanToInt`, Easy, O(N), O(1), Basic
-    1239, :func:`~leetcode.impl.solution.Solution.maxLength`, Medium, O(NM), O(NM), DFS
-    1192, :func:`~leetcode.impl.solution.Solution.criticalConnections`, Hard, , , DFS
-    565, :func:`~leetcode.impl.solution.Solution.arrayNesting`, Medium, , , Basic
-    162, :func:`~leetcode.impl.solution.Solution.findPeakElement`, Medium, O(log N) , , Binary Search
-    657, :func:`~leetcode.impl.solution.Solution.judgeCircle`, Easy, O(N) , O(N), Basic
-    1048, :func:`~leetcode.impl.solution.Solution.longestStrChain`, Medium, , , Stack
-    3, :func:`~leetcode.impl.solution.Solution.lengthOfLongestSubstring`, Medium, , , Stack
-    2260, :func:`~leetcode.impl.solution.Solution.minimumCardPickup`, Medium, , , Hashtable
+    13, :func:`~leetcode.impl.solution.Solution.romanToInt`, Easy, O(N), O(log N), Basic
+    1239, :func:`~leetcode.impl.solution.Solution.maxLength`, Medium, O(N), O(N), DFS
+    1192, :func:`~leetcode.impl.solution.Solution.criticalConnections`, Hard, O(N), O(N + M), DFS
+    565, :func:`~leetcode.impl.solution.Solution.arrayNesting`, Medium, O(N), O(1), Basic
+    162, :func:`~leetcode.impl.solution.Solution.findPeakElement`, Medium, O(log N) , O(1), Binary Search
+    657, :func:`~leetcode.impl.solution.Solution.judgeCircle`, Easy, O(N) , O(1), Basic
+    1048, :func:`~leetcode.impl.solution.Solution.longestStrChain`, Medium, O(N^2), O(N), Stack
+    3, :func:`~leetcode.impl.solution.Solution.lengthOfLongestSubstring`, Medium, O(N), O(N), Two Pointers
+    2260, :func:`~leetcode.impl.solution.Solution.minimumCardPickup`, Medium, O(N), O(N), Two Pointers
     547, :func:`~leetcode.impl.solution.Solution.findCircleNum`, Medium, , , DFS
     207, :func:`~leetcode.impl.solution.Solution.canFinish`, Medium, , , DFS
     300, :func:`~leetcode.impl.solution.Solution.lengthOfLIS`, Medium, , , Dynamic Programming
