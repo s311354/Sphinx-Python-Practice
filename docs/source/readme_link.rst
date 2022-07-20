@@ -7,6 +7,40 @@ Official Big-O Cheat Sheet
 .. image:: images/bigo_cheat.png
     :width: 1000
 
+How to calculate the time and space complexity?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The depth of recursion can affect the space, required by an algorithm. Each recursive function call usually needs to allocate some additional memory (for temproary data) to process its argument, so a recursive algorithm will require space O(depth of recursion).
+
+The examples of linear sum algorithm and binary sum algorithm::
+
+    def linear_sum(S: List[int], stop: int) -> int:
+        """ Using linear recursion to calculate sum of all elements of the array """
+
+        # time:O(N) space:O(N)
+
+        if (stop == 1):
+            return S[0]
+        else:
+            return linear_sum(S, stop-1) + S[stop-1]
+
+    def binary_sum(S: List[int], start: int, stop: int) -> int:
+        """  Using binary recursion to calculate sum of all elements of array
+        Return the sum of the numbers in implicit slice S[start:stop]. """
+
+        # time:O(N) space:O(log n)
+
+        if start >= stop:                      # zero elements in slice
+            return 0
+        elif start == stop-1:                  # one element in slice
+            return S[start]
+        else:                                  # two or more elements in slice
+            mid = (start + stop) // 2
+
+        return binary_sum(S, start, mid) + binary_sum(S, mid, stop)
+
+The binary sum algorithm uses O(log n) improves over the linear sum algorithm uses O(n).
+
 Solutions list 
 ---------------------
 
@@ -53,6 +87,10 @@ Solutions list
     2281, :func:`~leetcode.impl.solution.Solution.totalStrength`, Hard, , , Stack
     100, :func:`~leetcode.impl.solution.Solution.isSameTree`, Easy, , , Tree Node
     2134, :func:`~leetcode.impl.solution.Solution.minSwaps`, Medium, , , Sliding Window
+    1920, :func:`~leetcode.impl.solution.Solution.buildArray`, Easy, O(N), O(1), Basic
+    1480, :func:`~leetcode.impl.solution.Solution.runningSum`, Easy, O(N), O(1), Basic
+
+
 
 .. mdinclude:: ../../README.md
 
