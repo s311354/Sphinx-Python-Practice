@@ -82,12 +82,13 @@ class Solution(object):
         :param num:  array of integers
         :type  num:  List[int]
         :param target:  integer target
-        :type  target:  inEasyt
+        :type  target:  int
 
         :return:  indices of the two numbers such that they add up to target
         :rtype:   List[int]
-
         """
+
+        # time:O(N) space:O(N)
 
         store = defaultdict(int)
 
@@ -207,14 +208,16 @@ class Solution(object):
 
         :return:  its corresponding column title
         :rtype:  int
-
         """
+
+        # time:O(log N)  space:O(log N)
 
         ans = ""
         while columnNumber:
             columnNumber -= 1
-            ans = chr(65 + columnNumber % 26) + ans
+            ans += chr(65 + columnNumber % 26)
             columnNumber //= 26
+
         return ans
 
     def isMatch(self, s: str, p: str) -> bool:
@@ -237,10 +240,9 @@ class Solution(object):
 
         """
 
-        len_s, len_p = len(s), len(p)
+        # time:O(NM) space:O(NM)
 
-        # [len(p) + 1 x len(s) + 1] possible value of state, if match, then True
-        # [pattern][text]
+        len_s, len_p = len(s), len(p)
         dp = [[False] * (len_p + 1) for _ in range(len_s + 1)]
 
         dp[0][0] = True
@@ -258,6 +260,7 @@ class Solution(object):
 
         # best possible
         return dp[len_s][len_p]
+
         """
         len_s, len_p = len(s), len(p)
 
@@ -317,6 +320,9 @@ class Solution(object):
         :rtype:   int
 
         """
+
+        # time:O(N) space:O(log N)
+
         r = {'I': 1, 'V': 5, 'X': 10, 'L': 50, 'C': 100, 'D': 500, 'M': 1000}
 
         total = 0
@@ -372,12 +378,16 @@ class Solution(object):
 
         return self.maxlen
         """ 
+
+        # time:O(N) space:O(N)
+
         self.ans, temp = 0, ""
 
         def dfs_length(arr, temp):
 
             self.ans = max(self.ans, len(temp))
 
+            # determine whether or not the concatencated string is unique character
             for i in range(len(arr)):
                 if len(temp) + len(arr[i]) != len(set(temp + arr[i])):
                     continue
@@ -441,13 +451,17 @@ class Solution(object):
         return critConns
 
         """
+
+        # time:O(N) space:O(N + M)
+
+        # Tarjan's algorithm
         # build undirected graph
         graph = defaultdict(list)
+        low_link, results = defaultdict(int), []
+
         for sor, dst in connections:
             graph[sor].append(dst)
             graph[dst].append(sor)
-
-        low_link, results = defaultdict(int), []
 
         def dfs_visit(node, from_node=None):
             if node in low_link:
@@ -493,6 +507,9 @@ class Solution(object):
         :return:  the longest length of a set s[k]
         :rtype:  int
         """
+
+        # time:O(N) space:O(1)
+
         ans = 0
 
         for i in range(len(nums)):
@@ -523,6 +540,9 @@ class Solution(object):
         :rtype:  int
 
         """
+
+        # time:O(log N) space:O(1)
+
         start = 0
         end = len(nums) - 1
 
@@ -554,6 +574,8 @@ class Solution(object):
         :rtype:  bool
         """
 
+        # time:O(N) space:O(1)
+
         d = Counter(moves)
         return d['U'] == d['D'] and d['L'] == d['R']
 
@@ -565,8 +587,7 @@ class Solution(object):
         wordA is a predecessor of wordB if and only if we can insert exactly one letter anywhere in wordA without changing the order of the other characters to make 
         it equal to wordB.
 
-        For example, "abc" is a predecessor of "abac", while "cba" is not a 
-        predecessor of "bcad".
+        For example, "abc" is a predecessor of "abac", while "cba" is not a predecessor of "bcad".
 
         A word chain is a sequence of words [word1, word2, ..., wordk] with k >= 1, where word1 is a predecessor of word2, word2 is a predecessor of word3, 
         and so on. A single word is trivially a word chain with k == 1.
@@ -579,6 +600,8 @@ class Solution(object):
         :return:  the length of the longest possible word chain with words choosen from the given list of words
         :rtype:   int
         """
+
+        # time:O(N^2) space:O(N)
 
         if not words:
             return 0
@@ -598,6 +621,7 @@ class Solution(object):
                 if newWord in ref:
                     ref[word] = max(ref[word], ref[newWord] + 1)
 
+        # longest str chain
         lengthwordchain = sorted(ref.items(), key=lambda elem: elem[1])
 
         return lengthwordchain[-1][1]
@@ -613,6 +637,8 @@ class Solution(object):
         :return:  the length of the longest substring without repeating characters
         :rtype:  int
         """
+        """
+        # time:O(N^2) space:O(1)
 
         maxCount = 0
 
@@ -622,6 +648,7 @@ class Solution(object):
 
             # Substring
             for j in range(i+1, len(s)):
+                # with repeating characters
                 if(s[j] in subStr):
                     break
 
@@ -631,6 +658,22 @@ class Solution(object):
             maxCount = max(maxCount, currentCount)
 
         return maxCount
+        """
+
+        # time:O(N) space:O(N)
+
+        dic = defaultdict(str) # hashtable (key: character, value: the length of the substring)
+        longest, start = 0, 0
+
+        for i, c in enumerate(s):
+            # with repeating characters
+            if c in dic and dic[c] >= start:
+                start = dic[c] + 1
+            dic[c] = i
+
+            longest = max(longest, i - start + 1)
+
+        return longest
 
     def minimumCardPickup(self, cards: List[int]) -> int:
         """ 2260. Minimum Consecutive Cards to Pick Up
@@ -645,18 +688,22 @@ class Solution(object):
         :return:  the minimum number of consecutive cards
         :rtype:  int
         """
-        matchedcard = {}
+
+        # time:O(N) space:O(N)
+
+        matchedcard = defaultdict(int) # hashtable (key: card, value: number of consecutive cards)
         ans = math.inf
 
-        # Pair of matching cards among picked cards
+        # Iterate through the array cards
         for i in range(len(cards)):
+
+            # have pair of matching cards
             if cards[i] in matchedcard:
-                # number of consecutive cards
-                ans = min(i - matchedcard[cards[i]] + 1, ans)
+                ans = min(ans, i - matchedcard[cards[i]] + 1)
 
             matchedcard[cards[i]] = i
 
-        return ans if ans != math.inf else -1
+        return ans if ans != math.inf else - 1
 
     def findCircleNum(self, isConnected: List[List[int]]) -> int:
         """ 547. Number of Provinces (Medium)
@@ -677,6 +724,9 @@ class Solution(object):
         :return:  the total number of provinces
         :rtype:  int
         """
+
+        # time:O(N^2) space:O(N^2)
+
         rows = len(isConnected)
         group = []
         count = 0
@@ -3366,3 +3416,54 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
                     right -= 1 # Our sum is too big, so we try to decrease the sum
 
         return triplets
+
+    def buildArray(self, nums: List[int]) -> List[int]:
+        """ 1920. Build Array from Permutationn
+
+        Given a zero-based permutation nums (0-indexed), build an array ans of the same length where ans[i] = nums[nums[i]] for each 0 <= i < nums.length and return it.
+
+        A zero-based permutation nums is an array of distinct integers from 0 to nums.length - 1 (inclusive).
+
+        :param nums:  a zero-based permutation nums
+        :type  nums:  List[int]
+
+        :return:  build an array of the same length where asn[i] = nums[nums[i]]
+        :rtype:  List[int]
+        """
+        """
+        # time:O(N) space:O(N)
+        return [nums[i] for i in nums]
+        """
+
+        # time:o(n) space:o(1)
+        n = len(nums)
+        # a = qb + r where  b=a//q & r = a % q
+        for i in range(len(nums)):
+            # initial value + final value where a = r + qb
+            nums[i] = nums[i] + n*(nums[nums[i]] % n)
+
+        for i in range(len(nums)):
+            # b = a//q
+            nums[i] = nums[i]//n
+
+        return nums
+
+    def runningSum(self, nums: List[int]) -> List[int]:
+        """ 1480. Running Sum of 1d Array (Easy)
+
+        Given an array nums. We define a running sum of an array as runningSum[i] = sum(nums[0]…nums[i]).
+
+        Return the running sum of nums.
+
+        :param nums:  an array nums
+        :type  nums:  List[int]
+
+        :return:  sum of an array as runningSum[i] = sum(nums[0]...nums[i])
+        :rtype:  List[int]
+        """
+        # time:O(N) space:O(1)
+        for i in range(1, len(nums)):
+            nums[i] += nums[i-1]
+        return nums
+
+
