@@ -77,7 +77,7 @@ class SolutionCase(unittest.TestCase):
         self.assertEqual(sol.convertToTitle(columnNumber), expected_output)
 
         columnNumber = 28
-        expected_output = "AB"
+        expected_output = "BA"
         self.assertEqual(sol.convertToTitle(columnNumber), expected_output)
 
     def test_isMatch(self):
