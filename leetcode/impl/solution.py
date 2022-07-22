@@ -708,12 +708,12 @@ class Solution(object):
     def findCircleNum(self, isConnected: List[List[int]]) -> int:
         """ 547. Number of Provinces (Medium)
 
-        There are n cities. Some of them are connected, while some are not. If city a is connected directly with city b, and city b is 
+        There are n cities. Some of them are connected, while some are not. If city a is connected directly with city b, and city b is
         connected directly with city c, then city a is connected indirectly with city c.
 
         A province is a group of directly or indirectly connected cities and no other cities outside of the group.
 
-        You are given an n x n matrix isConnected where isConnected[i][j] = 1 if the ith city and the jth city are directly connected, 
+        You are given an n x n matrix isConnected where isConnected[i][j] = 1 if the ith city and the jth city are directly connected,
         and isConnected[i][j] = 0 otherwise.
 
         Return the total number of provinces.
@@ -727,18 +727,19 @@ class Solution(object):
 
         # time:O(N^2) space:O(N^2)
 
-        rows = len(isConnected)
-        group = []
+        rows = len(isConnected) # the depth of graph
+        group = [] 
         count = 0
 
         def dfs_connected(node):
-            for idx, val in enumerate(isConnected[node]):
-                # a group of directly connected cities
-                if val == 1 and idx not in group:
-                    group.append(idx)
-                    dfs_connected(idx)
+            for city, val in enumerate(isConnected[node]):
+                # directly connect neighbor cities
+                if val == 1 and city not in group:
+                    group.append(city)
+                    dfs_connected(city)
 
         for node in range(rows):
+            # count the number of provinces
             if node not in group:
                 dfs_connected(node)
                 count += 1
@@ -764,6 +765,9 @@ class Solution(object):
         :return:  whether or not you can finish all courses.
         :rtype:  bool
         """
+
+        # time:O(N^2) space:O(N^2)
+
         graph = defaultdict(list)
         marks = defaultdict(int)
 
@@ -3466,4 +3470,52 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
             nums[i] += nums[i-1]
         return nums
 
+    def findKthLargest(self, nums: List[int], k: int) -> int:
+        """ 215. Kth Largest Element in an Array (Medium)
 
+        Given an integer array nums and an integer k, return the kth largest element in the array.
+
+        Note that it is the kth largest element in the sorted order, not the kth distinct element.
+
+        You must solve it in O(n) time complexity.
+
+        :param nums:  an integer array nums
+        :type  nums:  List[int]
+
+        :param k:  an integer
+        :type  k:  int
+
+        :return:  the kth largest element
+        :rtype:   intn
+        """
+        def swap(i, j):
+            nums[i], nums[j] = nums[j], nums[i]
+
+        def find_pivot_idx(start, end):
+            pivot_idx = start + (end - start) // 2
+            swap(pivot_idx, end)
+
+            pivot_val = nums[end]
+            end_of_larger_idx = start - 1
+
+            for i in range(start, end):
+                if nums[i] >= pivot_val:
+                    swap(i, end_of_larger_idx + 1)
+                    end_of_larger_idx += 1
+            swap(end, end_of_larger_idx + 1)
+
+            return end_of_larger_idx + 1
+
+        def kth_largest(start, end, k):
+            pivot_idx = find_pivot_idx(start, end)
+
+            if pivot_idx - start + 1 == k:
+                return nums[pivot_idx]
+            elif pivot_idx - start + 1 > k:
+                return kth_largest(start, pivot_idx - 1, k)
+            else:
+                return kth_largest(pivot_idx + 1, end, k - (pivot_idx - start + 1))
+
+        start, end = 0, len(nums) - 1
+
+        return kth_largest(start, end, k)

@@ -77,7 +77,7 @@ class SolutionCase(unittest.TestCase):
         self.assertEqual(sol.convertToTitle(columnNumber), expected_output)
 
         columnNumber = 28
-        expected_output = "AB"
+        expected_output = "BA"
         self.assertEqual(sol.convertToTitle(columnNumber), expected_output)
 
     def test_isMatch(self):
@@ -1029,6 +1029,15 @@ class SolutionCase(unittest.TestCase):
         K = 3
         expected_output = 12
         self.assertEqual(sol.function2(A, K), expected_output)
+
+    def test_findKthLargest(self):
+        """docstring for findKthLargest"""
+        sol = solution.Solution()
+
+        nums = [3,2,1,5,6,4]
+        k = 2
+        expected_output = 5
+        self.assertEqual(sol.findKthLargest(nums, k), expected_output)
 
 
 if __name__ == '__main__':
