@@ -708,12 +708,12 @@ class Solution(object):
     def findCircleNum(self, isConnected: List[List[int]]) -> int:
         """ 547. Number of Provinces (Medium)
 
-        There are n cities. Some of them are connected, while some are not. If city a is connected directly with city b, and city b is 
+        There are n cities. Some of them are connected, while some are not. If city a is connected directly with city b, and city b is
         connected directly with city c, then city a is connected indirectly with city c.
 
         A province is a group of directly or indirectly connected cities and no other cities outside of the group.
 
-        You are given an n x n matrix isConnected where isConnected[i][j] = 1 if the ith city and the jth city are directly connected, 
+        You are given an n x n matrix isConnected where isConnected[i][j] = 1 if the ith city and the jth city are directly connected,
         and isConnected[i][j] = 0 otherwise.
 
         Return the total number of provinces.
@@ -727,18 +727,19 @@ class Solution(object):
 
         # time:O(N^2) space:O(N^2)
 
-        rows = len(isConnected)
-        group = []
+        rows = len(isConnected) # the depth of graph
+        group = [] 
         count = 0
 
         def dfs_connected(node):
-            for idx, val in enumerate(isConnected[node]):
-                # a group of directly connected cities
-                if val == 1 and idx not in group:
-                    group.append(idx)
-                    dfs_connected(idx)
+            for city, val in enumerate(isConnected[node]):
+                # directly connect neighbor cities
+                if val == 1 and city not in group:
+                    group.append(city)
+                    dfs_connected(city)
 
         for node in range(rows):
+            # count the number of provinces
             if node not in group:
                 dfs_connected(node)
                 count += 1
@@ -764,6 +765,9 @@ class Solution(object):
         :return:  whether or not you can finish all courses.
         :rtype:  bool
         """
+
+        # time:O(N^2) space:O(N^2)
+
         graph = defaultdict(list)
         marks = defaultdict(int)
 
@@ -775,6 +779,7 @@ class Solution(object):
 
             marks[course] = 1
 
+            # confirm whether or not all courses can finish
             for neighbor in graph[course]:
                 if marks[neighbor] == 0:
                     if not dfs_course(neighbor, graph, marks):
@@ -806,22 +811,24 @@ class Solution(object):
 
         :return:  the longest strictly increasing subsequence
         :rtype:  int
-
         """
+
+        # time:O(N^2) space:O(N)
+
         size = len(nums)
 
-        # possible value of state
+        # possible value of state 
+        # initialize the possible value of state
         dp = [1 for _ in range(size)]
 
-        # for each subsequence ending at index i
+        # iterate each state
         for i in range(size):
-
-            # find the rule and police function
+            # find the rule and police function for each subsequence ending at index i
             for k in range(i):
                 if nums[k] < nums[i]:
                     dp[i] = max(dp[k] + 1, dp[i])
 
-        return max(dp)
+        return dp[-1]
 
     def originalDigits(self, s: str) -> str:
         """ 423. Reconstruct Original Digits from English (Medium)
@@ -982,6 +989,10 @@ class Solution(object):
         :rtype:  int
 
         """
+
+        # time:O(N) space:O(N + log(N))
+
+        row, col = len(grid) - 1, len(grid[0]) - 1
         pathsum = defaultdict(int)
 
         def dfs_path(row, col):
@@ -1001,7 +1012,7 @@ class Solution(object):
             return pathsum[(row, col)]
 
         # begin from bottom right
-        return dfs_path(len(grid)-1, len(grid[0])-1)
+        return dfs_path(row, col)
 
     def searchRange(self, nums: List[int], target: int) -> List[int]:
         """ 34. Find First and Last Position of Element in Sorted Array (Medium)
@@ -1019,6 +1030,9 @@ class Solution(object):
         :rtype:  List[int]
 
         """
+        """
+        # time:O(1) space:O(N)
+
         elem = []
         # reverse nums
         reverse = nums[::-1]
@@ -1027,17 +1041,43 @@ class Solution(object):
             # first position
             elem.append(nums.index(target))
             # last position
-            a = reverse.index(target) + 1
-            elem.append(len(nums) - a)
+            elem.append(len(nums) - reverse.index(target) - 1)
         else:
             elem.append(-1)
             elem.append(-1)
 
         return elem
+        """
+
+        # time:O(log(N)) space:O(1)
+
+        # binary search
+        start, end = 0, len(nums) - 1
+        while start <= end:
+            mid = start + (end - start) // 2
+
+            if nums[mid] == target:
+                first = mid - 1
+                last = mid + 1
+
+                while first >= 0 and nums[mid] == nums[first]:
+                    first -= 1
+                while last <= end and nums[mid] == nums[last]:
+                    last += 1
+
+                return [first + 1, last - 1]
+
+            elif target < nums[mid]:
+                end = mid - 1
+            else:
+                start = mid + 1
+
+        return [-1, -1]
 
     def maxSubArray(self, nums: List[int]) -> int:
-        """ 53. Maximum Subarray docstring for maxSubArray (Easy)"""
-        """ Given an integer array nums, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.
+        """ 53. Maximum Subarray (Easy)
+
+        Given an integer array nums, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.
 
         A subarray is a contiguous part of an array.
 
@@ -1046,8 +1086,9 @@ class Solution(object):
 
         :return:  the contiguous subarray
         :rtype:  int
-
         """
+
+        # time:O(N) space:O(1)
 
         curr_max = nums[0]
         curr_sum = nums[0]
@@ -1084,6 +1125,9 @@ class Solution(object):
         :return:  canonical path
         :rtype:  str
         """
+
+        # time:O(N) space:O(N)
+
         path = path.split('/')
 
         stack = []
@@ -1128,6 +1172,11 @@ class Solution(object):
         return subset
 
         """
+
+        # time:O(N*2^N) space:O(N*2^N)
+        # 2^n is the number of subsets we need to store
+        # n is the max number of elements a subset could have
+
         ans, temp = [], []
 
         def backtracking(nums, temp, ans):
@@ -1163,6 +1212,9 @@ class Solution(object):
         :return:  the number of ways to decode it
         :rtype:  int
         """
+
+        # time:O(N) space:O(N)
+
         if not s or s[0] == '0':
             return 0
 
@@ -1177,10 +1229,9 @@ class Solution(object):
             dp[1] = 1
 
         for i in range(2, len(s) + 1):
-
             # find the rule and police function
             # the number of way to decode (dp) depends only on digits (s[i-1:i] or s[i-2: i]). 
-            # so seek a rule with two conditions
+
             # one digit (0 ~ 9)
             if 0 < int(s[i-1:i]) <= 9:
                 dp[i] = dp[i - 1] + dp[i]
@@ -1210,10 +1261,12 @@ class Solution(object):
         """ 1763. Longest Nice Substring (Easy)
 
         A string s is nice if, for every letter of the alphabet that s contains, it appears both in uppercase and lowercase. 
+
         For example, "abABB" is nice because 'A' and 'a' appear, and 'B' and 'b' appear. However, "abA" is not 
         because 'b' appears, but 'B' does not.
 
         Given a string s, return the longest substring of s that is nice. If there are multiple, return the substring of the earliest occurrence. 
+
         If there are none, return an empty string.
 
         :param s:  string
@@ -1222,6 +1275,9 @@ class Solution(object):
         :return:  the longest substring
         :rtype:   str
         """
+
+        # time:O(N*log N) space:O(N)
+
         def dfs_substring(start: int, end: int) -> str:
             chars = set(s[start: end])
 
@@ -3466,4 +3522,93 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
             nums[i] += nums[i-1]
         return nums
 
+    def findKthLargest(self, nums: List[int], k: int) -> int:
+        """ 215. Kth Largest Element in an Array (Medium)
 
+        Given an integer array nums and an integer k, return the kth largest element in the array.
+
+        Note that it is the kth largest element in the sorted order, not the kth distinct element.
+
+        You must solve it in O(n) time complexity.
+
+        :param nums:  an integer array nums
+        :type  nums:  List[int]
+
+        :param k:  an integer
+        :type  k:  int
+
+        :return:  the kth largest element
+        :rtype:   intn
+        """
+        def swap(i, j):
+            nums[i], nums[j] = nums[j], nums[i]
+
+        def find_pivot_idx(start, end):
+            pivot_idx = start + (end - start) // 2
+            swap(pivot_idx, end)
+
+            pivot_val = nums[end]
+            end_of_larger_idx = start - 1
+
+            for i in range(start, end):
+                if nums[i] >= pivot_val:
+                    swap(i, end_of_larger_idx + 1)
+                    end_of_larger_idx += 1
+            swap(end, end_of_larger_idx + 1)
+
+            return end_of_larger_idx + 1
+
+        def kth_largest(start, end, k):
+            pivot_idx = find_pivot_idx(start, end)
+
+            if pivot_idx - start + 1 == k:
+                return nums[pivot_idx]
+            elif pivot_idx - start + 1 > k:
+                return kth_largest(start, pivot_idx - 1, k)
+            else:
+                return kth_largest(pivot_idx + 1, end, k - (pivot_idx - start + 1))
+
+        start, end = 0, len(nums) - 1
+
+        return kth_largest(start, end, k)
+
+    def myAtoi(self, s: str) -> int:
+        """ 8. String to Integer (atoi) (Medium)
+
+        Implement the myAtoi(string s) function, which converts a string to a 32-bit signed integer (similar to C/C++'s atoi function).
+
+        The algorithm for myAtoi(string s) is as follows:
+
+        - Read in and ignore any leading whitespace.
+        - Check if the next character (if not already at the end of the string) is '-' or '+'. Read this character in if it is either. This determines if the final result is negative or positive respectively. Assume the result is positive if neither is present.
+        - Read in next the characters until the next non-digit character or the end of the input is reached. The rest of the string is ignored.
+        - Convert these digits into an integer (i.e. "123" -> 123, "0032" -> 32). If no digits were read, then the integer is 0. Change the sign as necessary (from step 2).
+        - If the integer is out of the 32-bit signed integer range [-231, 231 - 1], then clamp the integer so that it remains in the range. Specifically, integers less than -231 should be clamped to -231, and integers greater than 231 - 1 should be clamped to 231 - 1.
+
+        Return the integer as the final result.
+
+        :param s:  a string
+        :type  s:  str
+
+        :return:  a 32-bit signed integer
+        :rtype:  int
+        """
+        # time:O(N) space:O(1)
+
+        length = len(s)
+        i, sign, res = 0, '+', 0
+
+        # ignoring whitespace
+        while i < length and s[i] == ' ':
+            i = i + 1
+
+        # ignoring sign and check if the next character is '-' or '+'
+        if i < length and s[i] in ('-', '+'):
+            sign = s[i]
+            i += 1
+
+        while i < length and s[i].isdigit():
+            res = res*10 + int(s[i])
+            i += 1
+
+        return min(res, 2 ** 31 - 1) if sign == '+' else max(-res, -(2 ** 31))

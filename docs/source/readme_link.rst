@@ -61,16 +61,16 @@ Solutions list
     1048, :func:`~leetcode.impl.solution.Solution.longestStrChain`, Medium, O(N^2), O(N), Stack
     3, :func:`~leetcode.impl.solution.Solution.lengthOfLongestSubstring`, Medium, O(N), O(N), Two Pointers
     2260, :func:`~leetcode.impl.solution.Solution.minimumCardPickup`, Medium, O(N), O(N), Two Pointers
-    547, :func:`~leetcode.impl.solution.Solution.findCircleNum`, Medium, , , DFS
-    207, :func:`~leetcode.impl.solution.Solution.canFinish`, Medium, , , DFS
-    300, :func:`~leetcode.impl.solution.Solution.lengthOfLIS`, Medium, , , Dynamic Programming
-    64, :func:`~leetcode.impl.solution.Solution.minPathSum`, Medium, , , DFS
-    34, :func:`~leetcode.impl.solution.Solution.searchRange`, Medium, , , Stack
-    53, :func:`~leetcode.impl.solution.Solution.maxSubArray`, Easy, , , Basic
-    71, :func:`~leetcode.impl.solution.Solution.simplifyPath`, Medium, , , Stack
-    78, :func:`~leetcode.impl.solution.Solution.subsets`, Medium, , , Backtracking
-    91, :func:`~leetcode.impl.solution.Solution.numDecodings`, Medium, , , Dynamic Programming
-    1763, :func:`~leetcode.impl.solution.Solution.longestNiceSubstring`, Easy, , , DFS
+    547, :func:`~leetcode.impl.solution.Solution.findCircleNum`, Medium, O(N^2), O(N^2), DFS
+    207, :func:`~leetcode.impl.solution.Solution.canFinish`, Medium, O(N^2), O(N^2), DFS
+    300, :func:`~leetcode.impl.solution.Solution.lengthOfLIS`, Medium, O(N^2), O(N), Dynamic Programming
+    64, :func:`~leetcode.impl.solution.Solution.minPathSum`, Medium, O(NM), O(NM), DFS
+    34, :func:`~leetcode.impl.solution.Solution.searchRange`, Medium, O(log N), O(1), Stack
+    53, :func:`~leetcode.impl.solution.Solution.maxSubArray`, Easy, O(N), O(1), Basic
+    71, :func:`~leetcode.impl.solution.Solution.simplifyPath`, Medium, O(N), O(N), Stack
+    78, :func:`~leetcode.impl.solution.Solution.subsets`, Medium, O(N*2^N), O(N*2^N), Backtracking
+    91, :func:`~leetcode.impl.solution.Solution.numDecodings`, Medium, O(N), O(N), Dynamic Programming
+    1763, :func:`~leetcode.impl.solution.Solution.longestNiceSubstring`, Easy, O(N* log N), O(N), Divide and Conquer
     217, :func:`~leetcode.impl.solution.Solution.containDuplicate`, Easy, , , Hashtable
     283, :func:`~leetcode.impl.solution.Solution.moveZeroes`, Easy, , , Fast and Slow Pointers
     36, :func:`~leetcode.impl.solution.Solution.isValidSudoku`, Medium, , , BFS
@@ -89,7 +89,8 @@ Solutions list
     2134, :func:`~leetcode.impl.solution.Solution.minSwaps`, Medium, , , Sliding Window
     1920, :func:`~leetcode.impl.solution.Solution.buildArray`, Easy, O(N), O(1), Basic
     1480, :func:`~leetcode.impl.solution.Solution.runningSum`, Easy, O(N), O(1), Basic
-
+    215, :func:`~leetcode.impl.solution.Solution.findKthLargest`, Medium, O(N), O(1), Quick Select
+    8, :func:`~leetcode.impl.solution.Solution.myAtoi`, Medium, O(N), O(1), Basic
 
 
 .. mdinclude:: ../../README.md

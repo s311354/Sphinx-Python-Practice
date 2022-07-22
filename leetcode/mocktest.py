@@ -1030,6 +1030,27 @@ class SolutionCase(unittest.TestCase):
         expected_output = 12
         self.assertEqual(sol.function2(A, K), expected_output)
 
+    def test_findKthLargest(self):
+        """docstring for findKthLargest"""
+        sol = solution.Solution()
+
+        nums = [3,2,1,5,6,4]
+        k = 2
+        expected_output = 5
+        self.assertEqual(sol.findKthLargest(nums, k), expected_output)
+
+    def test_myAtoi(self):
+        """docstring for myAtoi"""
+        sol = solution.Solution()
+    
+        s = "42"
+        expected_output = 42
+        self.assertEqual(sol.myAtoi(s), expected_output)
+
+        s = "-91283472332"
+        expected_output = -2147483648
+        self.assertEqual(sol.myAtoi(s), expected_output)
+
 
 if __name__ == '__main__':
     unittest.main()
