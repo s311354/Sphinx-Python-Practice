@@ -1,4 +1,3 @@
-
 Recap Python Basic Conception and Alogrithm
 ================================================
 
