@@ -1307,28 +1307,19 @@ class Solution(object):
         :param List[int]:  an integer array nums
         :type  List[int]:  List[int]
 
-        :return:  Whether if any value appears at least twice in the array
+        :return:  Whether or not any value appears at least twice in the array
         :rtype:   bool
         """
 
-        """ Time Limit Exceeded
-        dict = []
+        # time:O(N) space:O(N)
 
-        for num in nums:
-            if num in stack:
-                return True
-            else:
-                stack.append(num)
-
-        return False
-        """
-        dict = defaultdict(int)
+        contain = defaultdict(int)
 
         for i in range(0, len(nums)):
-            if nums[i] in dict:
+            if nums[i] in contain:
                 return True
             else:
-                dict[nums[i]] = i
+                contain[nums[i]] = i
 
         return False
 
@@ -1345,6 +1336,9 @@ class Solution(object):
         :return:  integer array nums that being move all o's to the end of it while maintaing the relative order of the non-zero elements
         :rtype:  List[int]
         """
+
+        # time:O(N) space:O(1)
+
         slow = fast = 0
 
         while fast < len(nums):
@@ -1363,11 +1357,11 @@ class Solution(object):
 
         Determine if a 9 x 9 Sudoku board is valid. Only the filled cells need to be validated according to the following rules:
 
-        Each row must contain the digits 1-9 without repetition.
-        Each column must contain the digits 1-9 without repetition.
-        Each of the nine 3 x 3 sub-boxes of the grid must contain the digits 1-9 without repetition.
-        Note:
+        - Each row must contain the digits 1-9 without repetition.
+        - Each column must contain the digits 1-9 without repetition.
+        - Each of the nine 3 x 3 sub-boxes of the grid must contain the digits 1-9 without repetition.
 
+        Note:
         A Sudoku board (partially filled) could be valid but is not necessarily solvable.
         Only the filled cells need to be validated according to the mentioned rules.
 
@@ -1377,8 +1371,10 @@ class Solution(object):
         :return:  Determine if Sudoku board is valid
         :rtype:  bool
         """
+
+        # time:O(N^2) space:O(N)
+
         def checkbox(row, col):
-            """docstring for checkbox"""
             visited = defaultdict(int)
             for i in range(row, row+3):
                 for j in range(col, col+3):
@@ -1389,7 +1385,6 @@ class Solution(object):
             return True
 
         def checkhorizontalline(row):
-            """docstring for checkhorizontalline"""
             visited = defaultdict(int)
             for i in range(9):
                 if board[row][i] == '.':
@@ -1402,7 +1397,6 @@ class Solution(object):
             return True
 
         def checkverticalline(col):
-            """docstring for checkverticalline"""
             visited = defaultdict(int)
             for i in range(9):
                 if board[i][col] == '.':
@@ -1440,19 +1434,22 @@ class Solution(object):
         :param s:  string
         :type  s:  str
 
-        :return:  Determine if string halves are alike
+        :return:  Determine if string halves are alike (the same number of vowels)
         :rtype:  bool
         """
+
+        # time:O(N) space:O(1)
+
         size = len(s)
         midpoint = size//2
         # stack
-        a, b = s[:midpoint], s[midpoint:]
+        front, end = s[:midpoint], s[midpoint:]
 
         def countVowels(s):
             vowel = set("aeiouAEIOU")
             return sum(1 for char in s if char in vowel)
 
-        return countVowels(a) == countVowels(b)
+        return countVowels(front) == countVowels(end)
 
     def maxProfitII(self, prices: List[int]) -> int:
         """ 122. Best Time to Buy and Sell Stock II docstring for maxProfit (Medium)
@@ -1470,12 +1467,17 @@ class Solution(object):
         :return:  the maximum profit you can achieve
         :rtype:  int
         """
+
+        # time:O(N) space:O(1)
+
         total = 0
         start = prices[0]
+
         for price in prices[1:]:
             if price > start:
                 total += price - start
             start = price
+
         return total
 
     def maxProfit(self, prices: List[int]) -> int:
@@ -1495,6 +1497,8 @@ class Solution(object):
         :return:  maximum profit you can achieve from this transaction
         :rtype:  int
         """
+
+        # time:O(N) space:O(1)
 
         # possible value of state
         dp_hold, dp_not_hold = -math.inf, 0
@@ -1529,6 +1533,9 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         :return:  the maximum profit you can achieve
         :rtype:  int
         """
+
+        # time:O(N) space:O(1)
+
         dp_hold, dp_sell = -math.inf, 0
 
         for stock_price in prices:
@@ -1549,11 +1556,11 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
             bce
             cae
 
-            You want to delete the columns that are not sorted lexicographically. 
-            In the above example (0-indexed), columns 0 ('a', 'b', 'c') and 2 ('c', 'e', 'e') are 
-            sorted while column 1 ('b', 'c', 'a') is not, so you would delete column 1.
+        You want to delete the columns that are not sorted lexicographically. 
+        In the above example (0-indexed), columns 0 ('a', 'b', 'c') and 2 ('c', 'e', 'e') are 
+        sorted while column 1 ('b', 'c', 'a') is not, so you would delete column 1.
 
-            Return the number of columns that you will delete.
+        Return the number of columns that you will delete.
 
         :param strs:  array of n string
         :type  strs:  List[str]
@@ -1562,14 +1569,14 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         :rtype:  int
         """
 
+        # time:O(NM) space:O(1)
+
         count = 0
 
         # stock
-        # row
-        for i in range(len(strs[0])):
+        for i in range(len(strs[0])): # row
             temp = ""
-            # column
-            for j in range(len(strs)):
+            for j in range(len(strs)): # column
                 temp += strs[j][i]
 
             # not sorted lexicographically column
@@ -2137,38 +2144,6 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
             if haystack[i:i+len(needle)] == needle:
                 return i
         return -1
-
-    def myAtoi(self, s: str) -> int:
-        """ 8. String to Integer (atoi) """
-        """ Implement the myAtoi(string s) function, which converts a string to a 32-bit signed integer (similar to C/C++'s atoi function).
-
-        :param param:  string
-        :type  param:  str
-
-        :return: 32-bit signed integer
-        :rtype:  int
-        """
-        def str2num(string):
-            num = 0
-            for s in string:
-                if not s.isdigit():
-                    break
-                num = 10 * num + int(s)
-
-            return num
-
-        if s == "":
-            return 0
-
-        if s[0] != "+" and s[0] != "-" and not s[0].isdigit():
-            return 0
-        else:
-            if s[0] in ["+", "-"]:
-                sign = s[0]
-                res = str2num(s[1:])
-                return min(res, 2**31 - 1) if sign == "+" else max(0-res, -2**31)
-            else:
-                return min(str2num(s), 2**31 - 1)
 
     def Search(self, nums: List[int], target: int) -> int:
         """ 33. Search in Rotated Sorted Array """
@@ -3593,6 +3568,34 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         :return:  a 32-bit signed integer
         :rtype:  int
         """
+
+        """
+
+        # time:O(N) space:O(1)
+
+        def str2num(string):
+            num = 0
+            for s in string:
+                if not s.isdigit():
+                    break
+                num = 10 * num + int(s)
+
+            return num
+
+        if s == "":
+            return 0
+
+        if s[0] != "+" and s[0] != "-" and not s[0].isdigit():
+            return 0
+        else:
+            if s[0] in ["+", "-"]:
+                sign = s[0]
+                res = str2num(s[1:])
+                return min(res, 2**31 - 1) if sign == "+" else max( -res, -2**31)
+            else:
+                return min(str2num(s), 2**31 - 1)
+        """
+
         # time:O(N) space:O(1)
 
         length = len(s)
@@ -3612,3 +3615,77 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
             i += 1
 
         return min(res, 2 ** 31 - 1) if sign == '+' else max(-res, -(2 ** 31))
+
+    def isPalindrome(self, s: str) -> bool:
+        """ 125. Valid Palindrome (Easy)
+
+        A phrase is a palindrome if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward. Alphanumeric characters include letters and numbers.
+
+        Given a string s, return true if it is a palindrome, or false otherwise.
+
+        :param s:  a string
+        :type  s:  str
+
+        :return:  whether or not a string is palindrome
+        :rtype:  bool
+        """
+
+        # time:O(log N) space:O(1)
+
+        start, end = 0, len(s) - 1
+        while (start < end):
+            if not s[start].isalnum():
+                start += 1
+            elif not s[end].isalnum():
+                end -= 1
+            elif s[start].lower() != s[end].lower():
+                return False
+            else:
+                start += 1
+                end -= 1
+        return True
+
+        """
+        # time:O(N) space:O(1)
+
+        s1 = ''
+        for i in s:
+            if i.isalnum():
+                s1 += i.lower()
+
+        return s1[::-1] == s1
+        """
+
+    def isPalindromeNum(self, x: int) -> bool:
+        """ 9. Parlindrome Number (Easy)
+        Given an integer x, return true if x is palindrome integer.
+
+        An integer is a palindrome when it reads the same backward as forward.
+
+        For example, 121 is a palindrome while 123 is not.
+
+        :param x:  an integer
+        :type  x:  int
+
+        :return:  whether or not an integer is palindrome
+        :rtype:  bool
+        """
+
+        # time:O(N) space:O(1)
+
+        tmp = x
+        if tmp < 0:
+            return False
+
+        num = 0
+        while tmp != 0:
+            num = (num * 10) + (tmp % 10)
+            tmp = tmp // 10
+        return x == num
+
+        """
+        # time:O(1) space:O(1)
+        return str(x) == (str(x)[::-1])
+        """
+
+

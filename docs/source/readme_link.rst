@@ -71,14 +71,14 @@ Solutions list
     78, :func:`~leetcode.impl.solution.Solution.subsets`, Medium, O(N*2^N), O(N*2^N), Backtracking
     91, :func:`~leetcode.impl.solution.Solution.numDecodings`, Medium, O(N), O(N), Dynamic Programming
     1763, :func:`~leetcode.impl.solution.Solution.longestNiceSubstring`, Easy, O(N* log N), O(N), Divide and Conquer
-    217, :func:`~leetcode.impl.solution.Solution.containDuplicate`, Easy, , , Hashtable
-    283, :func:`~leetcode.impl.solution.Solution.moveZeroes`, Easy, , , Fast and Slow Pointers
-    36, :func:`~leetcode.impl.solution.Solution.isValidSudoku`, Medium, , , BFS
-    1704, :func:`~leetcode.impl.solution.Solution.halvesAreAlike`, Easy, , , Two Pointers
-    122, :func:`~leetcode.impl.solution.Solution.maxProfitII`, Medium, , , Basic
-    121, :func:`~leetcode.impl.solution.Solution.maxProfit`, Easy, , , Dynamic Programming
-    714, :func:`~leetcode.impl.solution.Solution.maxProfitwithfee`, Medium, , , Dynamic Programming
-    944, :func:`~leetcode.impl.solution.Solution.minDeletionSize`, Easy, , , Basic
+    217, :func:`~leetcode.impl.solution.Solution.containDuplicate`, Easy, O(N), O(N), Hashtable
+    283, :func:`~leetcode.impl.solution.Solution.moveZeroes`, Easy, O(N), O(1), Fast and Slow Pointers
+    36, :func:`~leetcode.impl.solution.Solution.isValidSudoku`, Medium, O(N^2), O(N), BFS
+    1704, :func:`~leetcode.impl.solution.Solution.halvesAreAlike`, Easy, O(N), O(1), Two Pointers
+    122, :func:`~leetcode.impl.solution.Solution.maxProfitII`, Medium, O(N), O(1), Basic
+    121, :func:`~leetcode.impl.solution.Solution.maxProfit`, Easy, O(N), O(1), Dynamic Programming
+    714, :func:`~leetcode.impl.solution.Solution.maxProfitwithfee`, Medium, O(N), O(1), Dynamic Programming
+    944, :func:`~leetcode.impl.solution.Solution.minDeletionSize`, Easy, O(NM), O(1), Basic
     44, :func:`~leetcode.impl.solution.Solution.WildcardisMatch`, Hard, , , Dynamic Programming
     2280, :func:`~leetcode.impl.solution.Solution.minimumLines`, Medium, , , Basic
     496, :func:`~leetcode.impl.solution.Solution.nextGreaterElement`, Easy, , , Stack
@@ -91,6 +91,7 @@ Solutions list
     1480, :func:`~leetcode.impl.solution.Solution.runningSum`, Easy, O(N), O(1), Basic
     215, :func:`~leetcode.impl.solution.Solution.findKthLargest`, Medium, O(N), O(1), Quick Select
     8, :func:`~leetcode.impl.solution.Solution.myAtoi`, Medium, O(N), O(1), Basic
+
 
 
 .. mdinclude:: ../../README.md

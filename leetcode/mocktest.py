@@ -806,14 +806,6 @@ class SolutionCase(unittest.TestCase):
         expected_output = 2
         self.assertEqual(sol.strStr(haystack, needle), expected_output)
 
-    def test_myAtoi(self):
-        """docstring for myAtoi"""
-        sol = solution.Solution()
-
-        s = "-42"
-        expected_output = -42
-        self.assertEqual(sol.myAtoi(s), expected_output)
-
     def test_Search(self):
         """docstring for search"""
         sol = solution.Solution()

@@ -192,7 +192,6 @@ Textual data in Python is handled with str objects, or strings.
 
 str(object='') return a string version of object. If object is not provided, returns the empty string. Otherwise, the behavior of str() depends on whether encoding or errors is given.
 
-
 The standard library covers a number of other modules that provide various text related utilities:
 
 + str.upper(): return a copy of the string with all the cased characters coverted to uppercase.
@@ -200,8 +199,6 @@ The standard library covers a number of other modules that provide various text 
 + str.lower(): return a copy of the string with all the cased characters coverted to lowercase.
 
 + str.find(sub[, start[, end]]): return the lowest index in the string where substring sub is found within the slice s[start:end].
-
-+ str.isdigit(): return True if all characters in the string are digits and there is at least one characters, False otherwise.
 
 + str.split(sep=None, maxsplit=-1): return a list of the words in the string, using sep as the delimiter string.
 
@@ -214,6 +211,11 @@ The standard library covers a number of other modules that provide various text 
 
 + str.index(sub[, start[, end]]): like find(), but raise ValueError when the substring is not found.
 
++ str.isalnum(): return True if all characters in the string are alphanumeric and there is at least one character, False otherwise.
+
++ str.isalpha(): return True if all characters in the string are alphabetic and there is at least one character, False otherwise.
+
++ str.isdigit(): return True if all characters in the string are digits and there is at least one characters, False otherwise.
 
 See the `Python str page <https://docs.python.org/3.7/library/stdtypes.html?highlight=strip#str>`_ for more info.
 
