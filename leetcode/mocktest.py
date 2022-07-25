@@ -567,6 +567,11 @@ class SolutionCase(unittest.TestCase):
         expected_output = False
         self.assertEqual(sol.WildcardisMatch(s, p), expected_output)
 
+        s = "aab"
+        p = "c*a*b"
+        expected_output = False
+        self.assertEqual(sol.WildcardisMatch(s, p), expected_output)
+
     def test_nextGreaterElement(self):
         """docstring for nextGreaterElement"""
         sol = solution.Solution()
@@ -1043,6 +1048,47 @@ class SolutionCase(unittest.TestCase):
         expected_output = -2147483648
         self.assertEqual(sol.myAtoi(s), expected_output)
 
+    def test_minimumLines(self):
+        """docstring for minimumLines"""
+        sol = solution.Solution()
+
+        stockPrices = [[3,4],[1,2],[7,8],[2,3]]
+        expected_output = 1
+        self.assertEqual(sol.minimumLines(stockPrices=stockPrices), expected_output)
+
+    def test_nextGreaterElement(self):
+        """docstring for nextGreaterElement(nums1, nums2)"""
+        sol = solution.Solution()
+
+        nums1 = [2,4]
+        nums2 = [1,2,3,4]
+        expected_output = [3,-1]
+        self.assertEqual(sol.nextGreaterElement(nums1, nums2), expected_output)
+
+    def test_buildArray(self):
+        """docstring for buildArray"""
+        sol = solution.Solution()
+
+        nums = [0,2,1,5,3,4]
+        expected_output = [0,1,2,4,5,3]
+        self.assertEqual(sol.buildArray(nums), expected_output)
+
+    def test_runningSum(self):
+        """docstring for runningSum"""
+        sol = solution.Solution()
+
+        nums = [1,2,3,4]
+        expected_output = [1,3,6,10]
+        self.assertEqual(sol.runningSum(nums), expected_output)
+
+    def test_kClosest(self):
+        """docstring for kClosest"""
+        sol = solution.Solution()
+
+        points = [[3,3],[5,-1],[-2,4]]
+        k = 2
+        expected_output = [[3,3],[-2,4]]
+        self.assertEqual(sol.kClosest(points, k), expected_output)
 
 if __name__ == '__main__':
     unittest.main()

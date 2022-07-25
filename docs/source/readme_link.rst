@@ -4,7 +4,14 @@ Readme File
 Official Big-O Cheat Sheet
 ------------------------------
 
+Here is the Offical Big-O Sheat Poster:
+
 .. image:: images/bigo_cheat.png
+    :width: 1000
+
+Here is the Common Data Structure Operations:
+
+.. image:: images/common_data_struct.png
     :width: 1000
 
 How to calculate the time and space complexity?
@@ -49,7 +56,7 @@ Solutions list
     :stub-columns: 0
 
     #, Title, Level, Time, Space Note, Tags
-    1, :func:`~leetcode.impl.solution.Solution.twoSum`, Easy, O(N), O(N), Hashtable
+    1, :func:`~leetcode.impl.solution.Solution.twoSum`, Easy, O(N), O(N), HashMap
     168, :func:`~leetcode.impl.solution.Solution.convertToTitle`, Medium, O(log N), O(log N), basic
     10, :func:`~leetcode.impl.solution.Solution.isMatch`, Hard, O(NM), O(NM), Dynamic Programming
     13, :func:`~leetcode.impl.solution.Solution.romanToInt`, Easy, O(N), O(log N), Basic
@@ -71,7 +78,7 @@ Solutions list
     78, :func:`~leetcode.impl.solution.Solution.subsets`, Medium, O(N*2^N), O(N*2^N), Backtracking
     91, :func:`~leetcode.impl.solution.Solution.numDecodings`, Medium, O(N), O(N), Dynamic Programming
     1763, :func:`~leetcode.impl.solution.Solution.longestNiceSubstring`, Easy, O(N* log N), O(N), Divide and Conquer
-    217, :func:`~leetcode.impl.solution.Solution.containDuplicate`, Easy, O(N), O(N), Hashtable
+    217, :func:`~leetcode.impl.solution.Solution.containDuplicate`, Easy, O(N), O(N), HashMap
     283, :func:`~leetcode.impl.solution.Solution.moveZeroes`, Easy, O(N), O(1), Fast and Slow Pointers
     36, :func:`~leetcode.impl.solution.Solution.isValidSudoku`, Medium, O(N^2), O(N), BFS
     1704, :func:`~leetcode.impl.solution.Solution.halvesAreAlike`, Easy, O(N), O(1), Two Pointers
@@ -79,18 +86,18 @@ Solutions list
     121, :func:`~leetcode.impl.solution.Solution.maxProfit`, Easy, O(N), O(1), Dynamic Programming
     714, :func:`~leetcode.impl.solution.Solution.maxProfitwithfee`, Medium, O(N), O(1), Dynamic Programming
     944, :func:`~leetcode.impl.solution.Solution.minDeletionSize`, Easy, O(NM), O(1), Basic
-    44, :func:`~leetcode.impl.solution.Solution.WildcardisMatch`, Hard, , , Dynamic Programming
-    2280, :func:`~leetcode.impl.solution.Solution.minimumLines`, Medium, , , Basic
-    496, :func:`~leetcode.impl.solution.Solution.nextGreaterElement`, Easy, , , Stack
-    503, :func:`~leetcode.impl.solution.Solution.nextGreaterElementsII`, Medium, , , Stack
-    739, :func:`~leetcode.impl.solution.Solution.dailyTemperatures`, Medium, , , Stack
-    2281, :func:`~leetcode.impl.solution.Solution.totalStrength`, Hard, , , Stack
-    100, :func:`~leetcode.impl.solution.Solution.isSameTree`, Easy, , , Tree Node
-    2134, :func:`~leetcode.impl.solution.Solution.minSwaps`, Medium, , , Sliding Window
+    44, :func:`~leetcode.impl.solution.Solution.WildcardisMatch`, Hard, O(NM), O(N), Dynamic Programming
+    2280, :func:`~leetcode.impl.solution.Solution.minimumLines`, Medium, O(N log N), O(1), Basic
+    496, :func:`~leetcode.impl.solution.Solution.nextGreaterElement`, Easy, O(N + M), O(M), Stack
+    503, :func:`~leetcode.impl.solution.Solution.nextGreaterElementsII`, Medium, O(N), O(N), Stack
+    739, :func:`~leetcode.impl.solution.Solution.dailyTemperatures`, Medium, O(N), O(N), Stack
+    2281, :func:`~leetcode.impl.solution.Solution.totalStrength`, Hard, O(N^2), O(1), Basic
+    100, :func:`~leetcode.impl.solution.Solution.isSameTree`, Easy, O(N), O(N), Tree Node
+    2134, :func:`~leetcode.impl.solution.Solution.minSwaps`, Medium, O(N), O(1), Sliding Window
     1920, :func:`~leetcode.impl.solution.Solution.buildArray`, Easy, O(N), O(1), Basic
     1480, :func:`~leetcode.impl.solution.Solution.runningSum`, Easy, O(N), O(1), Basic
     215, :func:`~leetcode.impl.solution.Solution.findKthLargest`, Medium, O(N), O(1), Quick Select
-    8, :func:`~leetcode.impl.solution.Solution.myAtoi`, Medium, O(N), O(1), Basic
+    973, :func:`~leetcode.impl.solution.Solution.kClosest`, Medium, O(N log N), O(1), Quick Select
 
 
 

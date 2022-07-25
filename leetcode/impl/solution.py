@@ -1626,21 +1626,44 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
 
         return dp[-1][-1]
         """
-        
+        """
+        # time:O(NM) space:O(NM)
+
         len_s, len_p = len(s), len(p)
 
+        # possible value of state ([string][pattern])
         dp = [[False] * (len_p + 1) for _ in range(len_s + 1)]
 
         dp[0][0] = True
 
         for i in range(0, len_s + 1):
             for j in range(1, len_p + 1):
+                # finding a rule and determine the police function
                 if p[j-1] == "*":
                     dp[i][j] = dp[i][j-1] or (i > 0 and dp[i-1][j])
                 else:
                     dp[i][j] = i > 0 and dp[i-1][j-1] and (p[j-1] == s[i-1] or p[j-1] == "?")
 
         return dp[-1][-1]
+        """
+
+        # time:O(NM) space:O(N)
+
+        len_s, len_p = len(s), len(p)
+
+        dp = [True] + [False]*len_s
+
+        for i in range(len_p):
+            if p[i] == "*":
+                for j in range(len_s):
+                    dp[j+1] = dp[j+1] or dp[j]
+            else:
+                for j in range(len_s-1, -1, -1):
+                    dp[j+1] = (p[i] == s[j] or p[i] == '?') and dp[j]
+
+                dp[0] = False
+
+        return dp[-1]
 
     def minimumLines(self, stockPrices: List[List[int]]) -> int:
         """ 2280. Minimum Lines to Represent a Line Chart (Medium)
@@ -1657,6 +1680,8 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         :return:  the minimum number of lines needed to represent the line chart
         :rtype:  int
         """
+
+        # time:O(N * log N) space:O(1)
 
         if len(stockPrices) == 1:
             return 0
@@ -1693,9 +1718,12 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         :param nums2:  integer arrays
         :type  nums2:  List[int]
 
-        :return:  an array is the next greater element
+        :return:  an array is the next greater element determined by nums1 and nums2
         :rtype:  Line[int]
         """
+
+        # time:O(N + M) space:O(M)
+
         ans = [] # stack
 
         for i in nums1:
@@ -1723,19 +1751,22 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         :return:  the next greater number for every element in nums
         :rtype:  List[int]
         """
-        s = []
+
+        # time:O(N) space:O(N)
+
+        stack = []
         size = len(nums)
         # defaule stack
         res = [-1 for i in range(size)]
 
         for i in range(2 * size):
-            i = i % size
+            i = i % size # circular
 
-            while len(s) != 0 and nums[s[-1]] < nums[i]:
-                item = s.pop()
+            while stack and nums[stack[-1]] < nums[i]:
+                item = stack.pop()
                 res[item] = nums[i]
 
-            s.append(i)
+            stack.append(i)
 
         return res
 
@@ -1751,9 +1782,13 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         :return: an array is the number of days you have to wait after the ith day to get warmer temperature.
         :rtype:  List[int]
         """
+
+        # time:O(N) space:O(N)
+
         # Stack (LIFO)
         stack = []
-        res = [0] * len(temperatures)
+        # defaule stack
+        res = [0 for _ in range(len(temperatures))]
 
         for index, temperature in enumerate(temperatures):
             while stack and temperature > stack[-1][1]:
@@ -1788,8 +1823,12 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         :return:  the sum of the total strengths of all contiguous groups of wizards
         :rtype:  int
         """
+
+        # time:O(N^2) space:O(1)
+
         total_strength = 0
         length_sub = 1
+
         while length_sub <= len(strength):
             for i in range(len(strength) - length_sub + 1):
                 total_strength += sum(strength[i: i + length_sub])*min(strength[i: i + length_sub])
@@ -1797,6 +1836,29 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
             length_sub += 1
 
         return total_strength % (1e9 + 7)
+
+        """
+        # time:O(N) space:O(1)
+        total_strength, mod = 0, 10 ** 9 + 7
+        ac, stack, acc = 0, [-1], [0]
+        strength += [0]
+
+        for indx, val in enumerate(strength):
+            ac += val
+            acc.append(ac + acc[-1])
+
+            while stack and strength[stack[-1]] > val:
+                i = stack.pop()
+                left = stack[-1]
+                lacc = acc[i] - acc[max(left, 0)]
+                racc = acc[indx] - acc[i]
+                ln, rn = i - left, indx - i
+                total_strength += strength[i] * (racc * ln - lacc * rn) % mod
+
+            stack.append(indx)
+
+        return total_strength % mod
+        """
 
     def isSameTree(self, p: Optional[TreeNode], q: Optional[TreeNode]) -> bool:
         """ 100. Same Tree (Easy)
@@ -1814,6 +1876,9 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         :return:  Whether two binary trees are considered the same
         :rtype:  bool
         """
+
+        # time:O(N) space:O(N)
+
         def is_same(node1, node2):
             if not node1 and not node2:
                 return True
@@ -1822,6 +1887,7 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
 
             if node1.val != node2.val:
                 return False
+
             return is_same(node1.left, node2.left) and is_same(node1.right, node2.right)
 
         return is_same(p, q)
@@ -1841,8 +1907,12 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         :return:  the minimum number of swaps required to group all 1's present in the array together at any location
         :rtype:  int
         """
+        """
+        # time:O(2N) space:O(N)
+
         # width of the window
         width = sum(num == 1 for num in nums)
+        # circular array
         nums += nums
         res = width
 
@@ -1850,11 +1920,25 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         curr_zeros = sum(num == 0 for num in nums[:width])
 
         for i in range(width, len(nums)):
-            curr_zeros -= (nums[i - width] == 0) #remove the leftmost 0 if exists
-            curr_zeros += (nums[i] == 0) #add the rightmost 0 if exists
-            res = min(res, curr_zeros) #update if needed
+            if nums[i - width] == 0: curr_zeros -= 1
+            if nums[i] == 0: curr_zeros += 1
+
+            # minimum swaps
+            res = min(res, curr_zeros)
 
         return res
+        """
+
+        # time:O(N) space:O(1)
+
+        n, ones = len(nums), sum(nums)
+        window = max_window = sum(nums[i] for i in range(ones))
+
+        for i in range(n - 1):
+            window += nums[(ones + i) % n] - nums[i]
+            max_window = max(max_window, window)
+
+        return ones - max_window
 
     def merge(self, intervals: List[List[int]]) -> List[List[int]]:
         """ 56. Merge Intervals (Medium) """
@@ -3402,7 +3486,11 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         :return:  unique closest points to the origin
         :rtype:   List[List[int]]
         """
-        points.sort(key=lambda point: point[0] ** 2 + point[1] ** 2)  
+
+        # time:O(N log N) space:O(1)
+        # Basic Sorting
+        points.sort(key=lambda point: point[0] ** 2 + point[1] ** 2)
+
         return points[:k]
 
     def threeSum(self, nums: List[int]) -> List[List[int]]:
@@ -3449,7 +3537,7 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         return triplets
 
     def buildArray(self, nums: List[int]) -> List[int]:
-        """ 1920. Build Array from Permutationn
+        """ 1920. Build Array from Permutationn (Easy)
 
         Given a zero-based permutation nums (0-indexed), build an array ans of the same length where ans[i] = nums[nums[i]] for each 0 <= i < nums.length and return it.
 
@@ -3458,7 +3546,7 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         :param nums:  a zero-based permutation nums
         :type  nums:  List[int]
 
-        :return:  build an array of the same length where asn[i] = nums[nums[i]]
+        :return:  build an array of the same length where asn[i] = nums[nums[i]] (zero-based permutation)
         :rtype:  List[int]
         """
         """
@@ -3466,8 +3554,10 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         return [nums[i] for i in nums]
         """
 
-        # time:o(n) space:o(1)
+        # time:O(N) space:O(1)
+
         n = len(nums)
+
         # a = qb + r where  b=a//q & r = a % q
         for i in range(len(nums)):
             # initial value + final value where a = r + qb
@@ -3515,20 +3605,27 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         :return:  the kth largest element
         :rtype:   intn
         """
+
+        # time:O(N) space:O(1)
+
+        start, end = 0, len(nums) - 1
+
         def swap(i, j):
             nums[i], nums[j] = nums[j], nums[i]
 
         def find_pivot_idx(start, end):
             pivot_idx = start + (end - start) // 2
-            swap(pivot_idx, end)
 
+            swap(pivot_idx, end)
             pivot_val = nums[end]
+
             end_of_larger_idx = start - 1
 
             for i in range(start, end):
                 if nums[i] >= pivot_val:
                     swap(i, end_of_larger_idx + 1)
                     end_of_larger_idx += 1
+
             swap(end, end_of_larger_idx + 1)
 
             return end_of_larger_idx + 1
@@ -3540,10 +3637,8 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
                 return nums[pivot_idx]
             elif pivot_idx - start + 1 > k:
                 return kth_largest(start, pivot_idx - 1, k)
-            else:
+            else: # (pivot_idx - start + 1 < k)
                 return kth_largest(pivot_idx + 1, end, k - (pivot_idx - start + 1))
-
-        start, end = 0, len(nums) - 1
 
         return kth_largest(start, end, k)
 

@@ -45,6 +45,36 @@ This module implements specialized container datatypes providing alternatives to
 Sequence Types - **list**, **tuple**
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+The common sequence operation are supported by most sequence types, both mutable and immutable, and shows in the following table:
+
+
+.. list-table:: Common Sequence Operations
+    :header-rows: 1
+    :stub-columns: 0
+
+    * - Operations
+      - Result
+    * - x in s
+      - True if an item of s is equal to x, else False
+    * - len(s)
+      - length of s
+    * - min(s)
+      - smallest item of s
+    * - max(s)
+      - largest item of s
+    * - s.index(x[, i[, j]])
+      - index of the first occurence of x in s (at ot after index i and before index j)
+
+The example using common operations::
+
+    >>> stack = [i for i in range(5) ]
+    >>> len(stack)
+    5 
+    >>> stack.index(1)
+    1
+
+See the `Python Common Sequence Operations page <https://docs.python.org/3.7/library/stdtypes.html#common-sequence-operations>`_ for more info.
+
 Lists
 '''''''''''''
 
