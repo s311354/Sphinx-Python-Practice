@@ -1173,14 +1173,13 @@ class Solution(object):
 
         """
 
-        # time:O(N*2^N) space:O(N*2^N)
+        # time:O(N) space:O(N)
         # 2^n is the number of subsets we need to store
         # n is the max number of elements a subset could have
 
         ans, temp = [], []
 
         def backtracking(nums, temp, ans):
-            """docstring for helper"""
             for i in range(len(nums)):
                 backtracking(nums[i+1:], temp + [nums[i]], ans)
 
@@ -3487,11 +3486,23 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         :rtype:   List[List[int]]
         """
 
+        # time:O(N) space:O(1)
+
+        for i in range(len(points)):
+            distance = points[i][0] ** 2 + points[i][1] ** 2
+            points[i] = [distance, points[i][0], points[i][1]]
+
+        heapq.heapify(points)
+
+        return [heapq.heappop(points)[1:] for _ in range(k)]
+
+        """
         # time:O(N log N) space:O(1)
         # Basic Sorting
         points.sort(key=lambda point: point[0] ** 2 + point[1] ** 2)
 
         return points[:k]
+        """
 
     def threeSum(self, nums: List[int]) -> List[List[int]]:
         """ 15. 3Sum (Medium)

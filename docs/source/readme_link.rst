@@ -97,8 +97,7 @@ Solutions list
     1920, :func:`~leetcode.impl.solution.Solution.buildArray`, Easy, O(N), O(1), Basic
     1480, :func:`~leetcode.impl.solution.Solution.runningSum`, Easy, O(N), O(1), Basic
     215, :func:`~leetcode.impl.solution.Solution.findKthLargest`, Medium, O(N), O(1), Quick Select
-    973, :func:`~leetcode.impl.solution.Solution.kClosest`, Medium, O(N log N), O(1), Quick Select
-
+    973, :func:`~leetcode.impl.solution.Solution.kClosest`, Medium, O(N log N), O(1), Priority Queue
 
 
 .. mdinclude:: ../../README.md

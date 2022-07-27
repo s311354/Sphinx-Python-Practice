@@ -293,7 +293,10 @@ See the `Python map page <https://docs.python.org/3.7/library/functions.html#map
 Heap queue algorithm (heapq)
 ------------------------------------
 
-This module provides an implementation of the heap queue algorithm, also known as the priority queue algorithm.
+Heapq
+^^^^^^
+
+This module provides an implementation of the heap queue algorithm, also known as the **priority queue** algorithm.
 
 This implementation uses arrays for which heap[k] <= heap[2*k + 1] and heap[k] <= heap[2*k+2] for all k, counting elements from zero. These make it possible to view that heap[0] is the smallest item, and heap.sort() maintains the heap invariant!
 
@@ -301,13 +304,11 @@ Heaps are binary trees for which every parent node has a value less than or equa
 
 The example of using heapq::
 
-    >>> In [17]: heapq.heappush(heap, (3, 1, 2, 0))
-    >>> In [18]: heapq.heappush(heap, (1, 1, 0, 0))
-    >>> In [19]: heap
-    Out[19]: [(1, 1, 0, 0), (3, 1, 2, 0)]
-
-Heapq
-^^^^^^
+    >>> heapq.heappush(heap, (3, 1, 2, 0))
+    >>> heapq.heappush(heap, (1, 1, 0, 0))
+    >>> heap
+    [(1, 1, 0, 0), (3, 1, 2, 0)]
+    [(1, 1, 0, 0), (3, 1, 2, 0)]
 
 The API below differs from textbook heap algorithm in two aspects: 
 
