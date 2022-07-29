@@ -1036,6 +1036,27 @@ class SolutionCase(unittest.TestCase):
         expected_output = 5
         self.assertEqual(sol.findKthLargest(nums, k), expected_output)
 
+        nums = [3,2,3,1,2,4,5,5,6]
+        k = 4
+        expected_output = 4
+        self.assertEqual(sol.findKthLargest(nums, k), expected_output)
+
+        nums = [2,1]
+        k = 1
+        expected_output = 2
+        self.assertEqual(sol.findKthLargest(nums, k), expected_output)
+
+        nums = [3,2,1,5,6,4]
+        k = 2
+        expected_output = 5
+        self.assertEqual(sol.findKthLargest(nums, k), expected_output)
+
+        nums = [5,2,4,1,3,6,0]
+        k = 2
+        expected_output = 5
+#         self.assertEqual(sol.findKthLargest(nums, k), expected_output)
+
+
     def test_myAtoi(self):
         """docstring for myAtoi"""
         sol = solution.Solution()
@@ -1089,6 +1110,17 @@ class SolutionCase(unittest.TestCase):
         k = 2
         expected_output = [[3,3],[-2,4]]
         self.assertEqual(sol.kClosest(points, k), expected_output)
+
+    def test_topKFrequent(self):
+        """docstring for topKFrequent"""
+        sol = solution.Solution()
+   
+        nums = [1,1,1,1,2,2,2,3,3,4,5]
+        k = 2
+        expected_output = [1,2]
+        self.assertEqual(sol.topKFrequent(nums, k), expected_output)
+
+
 
 if __name__ == '__main__':
     unittest.main()

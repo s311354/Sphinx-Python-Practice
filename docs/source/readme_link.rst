@@ -69,7 +69,7 @@ Solutions list
     3, :func:`~leetcode.impl.solution.Solution.lengthOfLongestSubstring`, Medium, O(N), O(N), Two Pointers
     2260, :func:`~leetcode.impl.solution.Solution.minimumCardPickup`, Medium, O(N), O(N), Two Pointers
     547, :func:`~leetcode.impl.solution.Solution.findCircleNum`, Medium, O(N^2), O(N^2), DFS
-    207, :func:`~leetcode.impl.solution.Solution.canFinish`, Medium, O(N^2), O(N^2), DFS
+    207, :func:`~leetcode.impl.solution.Solution.canFinish`, Medium, O(N + M), O(N + M), Topological Sorting
     300, :func:`~leetcode.impl.solution.Solution.lengthOfLIS`, Medium, O(N^2), O(N), Dynamic Programming
     64, :func:`~leetcode.impl.solution.Solution.minPathSum`, Medium, O(NM), O(NM), DFS
     34, :func:`~leetcode.impl.solution.Solution.searchRange`, Medium, O(log N), O(1), Stack

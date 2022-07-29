@@ -12,6 +12,7 @@ import requests
 import json
 import heapq
 import math
+import random
 
 
 class ListNode:
@@ -766,14 +767,10 @@ class Solution(object):
         :rtype:  bool
         """
 
-        # time:O(N^2) space:O(N^2)
+        # time:O(N + M) space:O(N + M)
 
         graph = defaultdict(list)
         marks = defaultdict(int)
-
-        # create graph
-        for course, prereq in prerequisites:
-            graph[prereq].append(course)
 
         def dfs_course(course: int, graph: dict, marks: dict) -> bool:
 
@@ -790,6 +787,10 @@ class Solution(object):
             # finish the prerequisites and course
             marks[course] = 2
             return True
+
+        # create graph
+        for course, prereq in prerequisites:
+            graph[prereq].append(course)
 
         for course in range(numCourses):
             if marks[course] == 0:
@@ -2779,8 +2780,9 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         return i == len(s)
 
     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
-        """ 347. Top K Frequent Elements """
-        """ Given an integer array nums and an integer k, return the k most frequent elements. You may return the answer in any order
+        """ 347. Top K Frequent Elements
+
+        Given an integer array nums and an integer k, return the k most frequent elements. You may return the answer in any order
 
         :param :  integer array
         :type  : int
@@ -2788,6 +2790,9 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         :return:  the k most frequent elements
         :rtype:  List[int]
         """
+
+        """
+        # time:O(N log N) space:O(2N)
         myHash = Counter(nums)
 
         array = [[key, value] for key, value in myHash.items()]
@@ -2800,6 +2805,50 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
             res.append(array[i][0])
 
         return res
+        """
+
+        # time:O(N) space:O(N)
+
+        ct = Counter(nums)
+        keys = list(ct.keys())
+
+        start, end = 0, len(keys) - 1
+
+        def swap(i, j):
+            keys[i], keys[j] = keys[j], keys[i]
+
+        def find_pivot_idx(start, end):
+            pivot_index = start + (end - start) // 2
+            swap(pivot_index, end)
+
+            pivot_val = ct[keys[end]]
+            end_of_larger_idx = start
+
+            # Move all elements that are smaller than or equal to the pivot to the left and vice versa
+            for i in range(start, end):
+                if ct[keys[i]] > pivot_val:
+                    swap(i, end_of_larger_idx)
+                    end_of_larger_idx += 1
+
+            swap(end, end_of_larger_idx)
+            return end_of_larger_idx
+
+        def topk_select(start, end, k):
+
+            if start == end:
+                return keys[:k]
+
+            # Pick a pivot point
+            pivot_index = find_pivot_idx(start, end)
+
+            if pivot_index == k:
+                return keys[:k]
+            elif pivot_index < k:
+                return topk_select(pivot_index + 1, end, k)
+            else:
+                return topk_select(start, pivot_index - 1, k)
+
+        return topk_select(start, end, k)
 
     def firstUniqChar(self, s: str) -> int:
         """ 387. First Unique Character in a String
@@ -3486,6 +3535,7 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         :rtype:   List[List[int]]
         """
 
+        """
         # time:O(N) space:O(1)
 
         for i in range(len(points)):
@@ -3497,12 +3547,76 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         return [heapq.heappop(points)[1:] for _ in range(k)]
 
         """
+        """
         # time:O(N log N) space:O(1)
         # Basic Sorting
         points.sort(key=lambda point: point[0] ** 2 + point[1] ** 2)
 
         return points[:k]
         """
+
+        # time:O(N^2) space:O(N)
+        # Quick Select (Quick Sorting)
+
+        def calc_distance(point):
+            return point[0]**2 + point[1]**2
+
+        def quickselect(left, right):
+            # pick pivot at random, swap it to the right (random pivot improves performance substantially)
+            rand_index = random.randrange(left, right + 1)
+            points[rand_index], points[right] = points[right], points[rand_index]
+
+            # initalize pivot and p
+            pivot_distance = calc_distance(points[right])
+            p = left
+
+            # iterate points in the range [l, r] (non inclusive of r)
+            for i in range(left, right):
+                # if current point dist <= pivot distance
+                if calc_distance(points[i]) <= pivot_distance:
+                    # swap point with current p location
+                    points[p], points[i] = points[i], points[p]
+                    p += 1
+
+            # swap our pivot which located in r, to its correct position
+            points[p], points[right] = points[right], points[p]
+
+            # we want to return closest K points, which means that our p should actually be equal to index of k-1
+            if p > k-1:
+                return quickselect(left, p - 1)
+            elif p < k-1:
+                return quickselect(p+1, right)
+
+            # now we return the first k elements
+            return points[:k]
+
+        return quickselect(0, len(points) - 1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     def threeSum(self, nums: List[int]) -> List[List[int]]:
         """ 15. 3Sum (Medium)
@@ -3630,26 +3744,33 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
             swap(pivot_idx, end)
             pivot_val = nums[end]
 
-            end_of_larger_idx = start - 1
+            # assign end of larger index
+            end_of_larger_idx = start
 
+            # Move all elements that are larger than or equal to the pivot to the left and vice versa
             for i in range(start, end):
                 if nums[i] >= pivot_val:
-                    swap(i, end_of_larger_idx + 1)
+                    swap(i, end_of_larger_idx)
                     end_of_larger_idx += 1
 
-            swap(end, end_of_larger_idx + 1)
+            swap(end, end_of_larger_idx)
 
-            return end_of_larger_idx + 1
+            return end_of_larger_idx
 
         def kth_largest(start, end, k):
+            # Pick a pivot point
             pivot_idx = find_pivot_idx(start, end)
 
-            if pivot_idx - start + 1 == k:
-                return nums[pivot_idx]
-            elif pivot_idx - start + 1 > k:
+            # If the position of pivot is equal to k, then we can find the kth largest value at pivot point
+            if pivot_idx == k:
+                return nums[pivot_idx - 1]
+            # If not, perform quick select on the left partition or right partition depending on the kth largest element in the position after/befor k
+            elif pivot_idx < k: # the kth largest element in the position before k
+                # quick selection on the right partition
+                return kth_largest(pivot_idx + 1, end, k)
+            else: # (pivot_idx - start + 1 < k), the kth largest element in the position after k
+                # quick selection on the left partition
                 return kth_largest(start, pivot_idx - 1, k)
-            else: # (pivot_idx - start + 1 < k)
-                return kth_largest(pivot_idx + 1, end, k - (pivot_idx - start + 1))
 
         return kth_largest(start, end, k)
 
