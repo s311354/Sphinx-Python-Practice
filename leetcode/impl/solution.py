@@ -2817,38 +2817,31 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         def swap(i, j):
             keys[i], keys[j] = keys[j], keys[i]
 
-        def find_pivot_idx(start, end):
+        def quickselect(start, end, k):
             pivot_index = start + (end - start) // 2
             swap(pivot_index, end)
 
             pivot_val = ct[keys[end]]
             end_of_larger_idx = start
 
-            # Move all elements that are smaller than or equal to the pivot to the left and vice versa
+            # Move all elements that are larger than or equal to the pivot to the left and vice versa
             for i in range(start, end):
-                if ct[keys[i]] > pivot_val:
+                if ct[keys[i]] >= pivot_val:
                     swap(i, end_of_larger_idx)
                     end_of_larger_idx += 1
 
             swap(end, end_of_larger_idx)
-            return end_of_larger_idx
 
-        def topk_select(start, end, k):
+            if end_of_larger_idx < k - 1:
+                # quick selection on the right partition
+                return quickselect(end_of_larger_idx + 1, end, k)
+            elif end_of_larger_idx > k - 1:
+                # quick selection on the left partition
+                return quickselect(start, end_of_larger_idx - 1, k)
 
-            if start == end:
-                return keys[:k]
+            return keys[:end_of_larger_idx + 1]
 
-            # Pick a pivot point
-            pivot_index = find_pivot_idx(start, end)
-
-            if pivot_index == k:
-                return keys[:k]
-            elif pivot_index < k:
-                return topk_select(pivot_index + 1, end, k)
-            else:
-                return topk_select(start, pivot_index - 1, k)
-
-        return topk_select(start, end, k)
+        return quickselect(start, end, k)
 
     def firstUniqChar(self, s: str) -> int:
         """ 387. First Unique Character in a String
@@ -3537,7 +3530,7 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
 
         """
         # time:O(N) space:O(1)
-
+        # Method 1: heap
         for i in range(len(points)):
             distance = points[i][0] ** 2 + points[i][1] ** 2
             points[i] = [distance, points[i][0], points[i][1]]
@@ -3547,76 +3540,51 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         return [heapq.heappop(points)[1:] for _ in range(k)]
 
         """
+
         """
         # time:O(N log N) space:O(1)
-        # Basic Sorting
+        # Method 2: Basic Sorting
         points.sort(key=lambda point: point[0] ** 2 + point[1] ** 2)
 
         return points[:k]
         """
 
-        # time:O(N^2) space:O(N)
+        # time:O(N) space:O(1)
         # Quick Select (Quick Sorting)
+        start, end = 0, len(points) - 1
 
         def calc_distance(point):
             return point[0]**2 + point[1]**2
 
-        def quickselect(left, right):
-            # pick pivot at random, swap it to the right (random pivot improves performance substantially)
-            rand_index = random.randrange(left, right + 1)
-            points[rand_index], points[right] = points[right], points[rand_index]
+        def swap(i, j):
+            points[i], points[j] = points[j], points[i]
+
+        def quickselect(start, end, k):
+            pivot = start + (end - start) // 2
+            swap(pivot, end)
 
             # initalize pivot and p
-            pivot_distance = calc_distance(points[right])
-            p = left
+            pivot_distance = calc_distance(points[end])
+            end_of_smaller_idx = start
 
             # iterate points in the range [l, r] (non inclusive of r)
-            for i in range(left, right):
-                # if current point dist <= pivot distance
+            for i in range(start, end):
+                # move the value smaller or equal than the pivot distance to the left side
                 if calc_distance(points[i]) <= pivot_distance:
-                    # swap point with current p location
-                    points[p], points[i] = points[i], points[p]
-                    p += 1
+                    swap(end_of_smaller_idx, i)
+                    end_of_smaller_idx += 1
 
-            # swap our pivot which located in r, to its correct position
-            points[p], points[right] = points[right], points[p]
+            swap(end_of_smaller_idx, end)
 
             # we want to return closest K points, which means that our p should actually be equal to index of k-1
-            if p > k-1:
-                return quickselect(left, p - 1)
-            elif p < k-1:
-                return quickselect(p+1, right)
+            if end_of_smaller_idx > k-1:
+                return quickselect(start, end_of_smaller_idx - 1, k)
+            elif end_of_smaller_idx < k-1:
+                return quickselect(end_of_smaller_idx+1, end, k)
 
-            # now we return the first k elements
             return points[:k]
 
-        return quickselect(0, len(points) - 1)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        return quickselect(start, end, k)
 
     def threeSum(self, nums: List[int]) -> List[List[int]]:
         """ 15. 3Sum (Medium)
@@ -3738,7 +3706,7 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         def swap(i, j):
             nums[i], nums[j] = nums[j], nums[i]
 
-        def find_pivot_idx(start, end):
+        def quickselect(start, end, k):
             pivot_idx = start + (end - start) // 2
 
             swap(pivot_idx, end)
@@ -3755,24 +3723,16 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
 
             swap(end, end_of_larger_idx)
 
-            return end_of_larger_idx
-
-        def kth_largest(start, end, k):
-            # Pick a pivot point
-            pivot_idx = find_pivot_idx(start, end)
-
-            # If the position of pivot is equal to k, then we can find the kth largest value at pivot point
-            if pivot_idx == k:
-                return nums[pivot_idx - 1]
-            # If not, perform quick select on the left partition or right partition depending on the kth largest element in the position after/befor k
-            elif pivot_idx < k: # the kth largest element in the position before k
+            if end_of_larger_idx < k - 1:
                 # quick selection on the right partition
-                return kth_largest(pivot_idx + 1, end, k)
-            else: # (pivot_idx - start + 1 < k), the kth largest element in the position after k
+                return quickselect(end_of_larger_idx + 1, end, k)
+            elif end_of_larger_idx > k - 1:
                 # quick selection on the left partition
-                return kth_largest(start, pivot_idx - 1, k)
+                return quickselect(start, end_of_larger_idx - 1, k)
 
-        return kth_largest(start, end, k)
+            return nums[end_of_larger_idx]
+
+        return quickselect(start, end, k)
 
     def myAtoi(self, s: str) -> int:
         """ 8. String to Integer (atoi) (Medium)

@@ -1051,10 +1051,10 @@ class SolutionCase(unittest.TestCase):
         expected_output = 5
         self.assertEqual(sol.findKthLargest(nums, k), expected_output)
 
-        nums = [5,2,4,1,3,6,0]
+        nums = [5,2,6,4,1,3,0]
         k = 2
         expected_output = 5
-#         self.assertEqual(sol.findKthLargest(nums, k), expected_output)
+        self.assertEqual(sol.findKthLargest(nums, k), expected_output)
 
 
     def test_myAtoi(self):
