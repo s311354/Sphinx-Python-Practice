@@ -1056,7 +1056,6 @@ class SolutionCase(unittest.TestCase):
         expected_output = 5
         self.assertEqual(sol.findKthLargest(nums, k), expected_output)
 
-
     def test_myAtoi(self):
         """docstring for myAtoi"""
         sol = solution.Solution()
@@ -1120,7 +1119,41 @@ class SolutionCase(unittest.TestCase):
         expected_output = [1,2]
         self.assertEqual(sol.topKFrequent(nums, k), expected_output)
 
+    def test_threeSum(self):
+        """docstring for threeSum"""
+        sol = solution.Solution()
 
+        nums = [-1,0,1,2,-1,-4]
+        expected_output = [[-1,-1,2],[-1,0,1]]
+        self.assertEqual(sol.threeSum(nums), expected_output)
+
+    def test_isPalindrome(self):
+        """docstring for isPalindrome"""
+        sol = solution.Solution()
+    
+        s = "race a car"
+        expected_output = False
+        self.assertEqual(sol.isPalindrome(s), expected_output)
+
+        s = " "
+        expected_output = True
+        self.assertEqual(sol.isPalindrome(s), expected_output)
+
+    def test_isPalindromeNum(self):
+        """docstring for isPalindromeNum"""
+        sol = solution.Solution()
+
+        x = 121
+        expected_output = True
+        self.assertEqual(sol.isPalindromeNum(x), expected_output)
+
+    def test_isPathCrossing(self):
+        """docstring for isPathCrossing"""
+        sol = solution.Solution()
+    
+        path = "NESWW"
+        expected_output = True
+        self.assertEqual(sol.isPathCrossing(path), expected_output)
 
 if __name__ == '__main__':
     unittest.main()

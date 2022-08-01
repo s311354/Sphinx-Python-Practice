@@ -101,7 +101,7 @@ class Solution(object):
                 return [store[rest], i]
 
     def minNumberOfSemesters(self, n: int, dependencies: List[List[int]], k: int) -> int:
-        """ 1496. Parallel Courses II (HARD)
+        """ 1494. Parallel Courses II (HARD)
 
         You are given an integer n, which indicates that there are n courses labeled from 1 to n. You are also given an array relations where
         relations[i] = [prevCoursei, nextCoursei], representing a prerequisite relationship between course prevCoursei and course nextCoursei:
@@ -125,6 +125,8 @@ class Solution(object):
         :return:  minimum number of semesters needed to take all courses
         :rtype:  int
         """
+
+
         # Compute in-degree and adjacency graph for each node
         in_degree = [0] * n
         graph = defaultdict(list)
@@ -3128,10 +3130,12 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         return True
 
     def wordPattern(self, pattern: str, s: str) -> bool:
-        """ 290. Word Pattern """
-        """ Given a pattern and a string s, find if s follows the same pattern.
+        """ 290. Word Pattern
 
-        Here follow means a full match, such that there is a bijection between a letter in pattern and a non-empty word in s.
+        Given a pattern and a string s, find if s follows the same pattern.
+
+        Here follow means a full match, such that there is a bijection between
+        letter in pattern and a non-empty word in s.
 
         :param pattern:  pattern
         :type  pattern:  str
@@ -3142,6 +3146,7 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         :return:  if there is a bijection between a letter in pattern and a non-empty word in s
         :rtype:  bool
         """
+
         words, res = s.split(' '), {}
 
         if len(pattern) != len(words): return False
@@ -3589,7 +3594,8 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
     def threeSum(self, nums: List[int]) -> List[List[int]]:
         """ 15. 3Sum (Medium)
 
-        Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] such that i != j, i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0.
+        Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] such that i != j, i != k,
+        and j != k, and nums[i] + nums[j] + nums[k] == 0.
 
         Notice that the solution set must not contain duplicate triplets.
 
@@ -3599,12 +3605,16 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         :return:  all the triplets
         :rtype:   List[List[int]]
         """
-        nums.sort() # We sort nums first to more easily find duplicate numbers
-        triplets = [] # We will store all the valid triplets in here
+
+        # time:O(N^2) space:O(N)
+
+        nums.sort()
+        triplets = []
 
         for i in range(len(nums)):
+            # must not contain duplicate triplets
             if i > 0 and nums[i - 1] == nums[i]:
-                continue # Skip duplicates
+                continue
 
             left = i + 1
             right = len(nums) - 1
@@ -3612,9 +3622,11 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
             while left < right:
                 curSum = nums[i] + nums[left] + nums[right]
                 if curSum == 0:
+
                     triplets.append([nums[i], nums[left], nums[right]])
                     left += 1
                     right -= 1
+
                     # Skip all duplicates on left side
                     while left < right and nums[left - 1] == nums[left]:
                         left += 1
@@ -3622,10 +3634,11 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
                     # Skip all duplicates on right side
                     while left < right and nums[right + 1] == nums[right]:
                         right -= 1
+
                 elif curSum < 0:
-                    left += 1 # Our sum is too small, so we try to increase the sum
+                    left += 1
                 else:
-                    right -= 1 # Our sum is too big, so we try to decrease the sum
+                    right -= 1
 
         return triplets
 
@@ -3642,6 +3655,7 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         :return:  build an array of the same length where asn[i] = nums[nums[i]] (zero-based permutation)
         :rtype:  List[int]
         """
+
         """
         # time:O(N) space:O(N)
         return [nums[i] for i in nums]
@@ -3818,7 +3832,7 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         """
 
         # time:O(log N) space:O(1)
-
+        # Two Pointers
         start, end = 0, len(s) - 1
         while (start < end):
             if not s[start].isalnum():
@@ -3858,8 +3872,9 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         :rtype:  bool
         """
 
+        """
         # time:O(N) space:O(1)
-
+        # Mathematical Approach
         tmp = x
         if tmp < 0:
             return False
@@ -3869,10 +3884,58 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
             num = (num * 10) + (tmp % 10)
             tmp = tmp // 10
         return x == num
+        """
+
+        # time:O(log N) space:O(1)
+        # Two Pointers
+        if x < 0:
+            return False
+
+        s = str(x)
+        start, end = 0, len(s) - 1
+        while (start < end):
+            if not s[start].isalnum():
+                start += 1
+            elif not s[end].isalnum():
+                end -= 1
+            elif s[start].lower() != s[end].lower():
+                return False
+            else:
+                start += 1
+                end -= 1
+        return True
 
         """
         # time:O(1) space:O(1)
         return str(x) == (str(x)[::-1])
         """
 
+    def isPathCrossing(self, path: str) -> bool:
+        """ 1496. Path Crossing
 
+        Given a string path, where path[i] = 'N', 'S', 'E' or 'W', each representing moving one unit north, south, east, or west, respectively. You start at the origin (0, 0) on a 2D plane and walk on the path specified by path.
+
+        Return true if the path crosses itself at any point, that is, if at any time you are on a location you have previously visited. Return false otherwise.
+
+        :param path:  a string path, where path[i] = 'N', 'S', 'E', or 'W'
+        :type  path:  str
+
+        :return:  wheher or not the path crosses itself at any point
+        :rtype:  bool
+        """
+
+        # time:O(N) space:O(N)
+        x, y = 0, 0
+        d = {'N':(0, 1), 'S':(0, -1), 'E':(1, 0), 'W':(-1, 0)}
+        seen = {(0,0)}
+
+        for direction in path:
+            x += d[direction][0]
+            y += d[direction][1]
+
+            if (x, y) in seen:
+                return True
+            else:
+                seen.add((x, y))
+
+        return False
