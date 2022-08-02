@@ -3130,7 +3130,7 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         return True
 
     def wordPattern(self, pattern: str, s: str) -> bool:
-        """ 290. Word Pattern
+        """ 290. Word Pattern (Easy)
 
         Given a pattern and a string s, find if s follows the same pattern.
 
@@ -3147,24 +3147,33 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         :rtype:  bool
         """
 
-        words, res = s.split(' '), {}
+        # time:O(N) space:O(N)
 
-        if len(pattern) != len(words): return False
+        string = s.split(' ')
 
-        if len(set(pattern)) != len(set(words)): return False
+        if len(pattern) != len(string):
+            return False
 
-        for i in range(len(words)):
-            if words[i] not in res:
-                res[words[i]] = pattern[i]
-            else:
-                if res[words[i]] != pattern[i]:
+        map = defaultdict(str)
+
+        for i in range(len(pattern)):
+            # check if s follows the same pattern
+            if pattern[i] in map.keys():
+                if string[i] != map[pattern[i]]:
                     return False
+            else:
+                # check if two words are mapping to one char
+                if string[i] in map.values():
+                    return False
+
+                map[pattern[i]] = string[i]
 
         return True
 
     def lengthOfLastWord(self, s: str) -> int:
-        """ 58. Length of Last Word """
-        """ Given a string s consisting of words and spaces, return the length of the last word in the string.
+        """ 58. Length of Last Word (Easy)
+
+        Given a string s consisting of words and spaces, return the length of the last word in the string.
 
         A word is a maximal substring consisting of non-space characters only.
 
@@ -3174,11 +3183,17 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         :return:  the length if the last word in the string
         :rtype:  int
         """
-        return len(s.split().split(' ')[-1])
+        # time:O(1) space:O(N)
+        words = s.split()
+
+        if words:
+            return len(words[-1])
+        return 0
 
     def longestCommonPrefix(self, strs: List[str]) -> str:
-        """ 14. Longest Common Prefix """
-        """ Write a function to find the longest common prefix string amongst an array of strings.
+        """ 14. Longest Common Prefix (Easy)
+
+        Write a function to find the longest common prefix string amongst an array of strings.
 
         If there is no common prefix, return an empty string "".
 
@@ -3188,14 +3203,35 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         :return:  the longest common prefix string amongst an array of strings
         :rtype:   str
         """
+
+        """
+        # time:O(NM) space:O(1)
+        result = ""
+        shortest, longest = min(strs), max(strs)
+
+        for i in range(len(shortest)):
+            if shortest[i] == longest[i]:
+                result += shortest[i]
+            else:
+                break
+
+        return result
+        """
+
+        # time:O(NM) space:O(1)
+        # find the smallest length in the array of strings
+        minlen = len(strs[0])
+        for i in range(len(strs)):
+            minlen = min(minlen, len(strs[i]))
+
         res = ''
 
-        for i in range(len(strs[0])):
-            for s in strs:
-                if i == len(s) or s[i] != strs[0][i]:
+        for i in range(minlen):
+            char = strs[0][i]
+            for j in range(1, len(strs)):
+                if strs[j][i] != char:
                     return res
-
-                res += strs[0][i]
+            res += char
 
         return res
 

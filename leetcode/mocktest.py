@@ -1155,5 +1155,36 @@ class SolutionCase(unittest.TestCase):
         expected_output = True
         self.assertEqual(sol.isPathCrossing(path), expected_output)
 
+    def test_wordPattern(self):
+        """docstring for wordPattern(pattern, s"""
+        sol = solution.Solution()
+   
+        pattern = "abba"
+        s = "dog cat cat dog"
+        expected_output = True
+        self.assertEqual(sol.wordPattern(pattern, s), expected_output)
+
+    def test_lengthOfLastWord(self):
+        """docstring for lengthOfLastWord(s)"""
+        sol = solution.Solution()
+
+        s = "Hello World"
+        expected_output = 5
+        self.assertEqual(sol.lengthOfLastWord(s), expected_output)
+
+    def test_longestCommonPrefix(self):
+        """docstring for longestCommonPrefix"""
+        sol = solution.Solution()
+
+        strs = ["dog","racecar","car"]
+        expected_output = ""
+        self.assertEqual(sol.longestCommonPrefix(strs), expected_output)
+
+        strs = ["short", "potato", "shortbutlongestword"]
+        expected_output = ""
+        self.assertEqual(sol.longestCommonPrefix(strs), expected_output)
+        # min(str) = "potato". this is tricky
+
+
 if __name__ == '__main__':
     unittest.main()
