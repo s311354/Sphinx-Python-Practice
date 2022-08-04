@@ -1185,6 +1185,23 @@ class SolutionCase(unittest.TestCase):
         self.assertEqual(sol.longestCommonPrefix(strs), expected_output)
         # min(str) = "potato". this is tricky
 
+    def test_mincostTickets(self):
+        """docstring for mincostTickets"""
+        sol = solution.Solution()
+
+        days = [1,4,6,7,8,20]
+        costs = [2,7,15]
+        expected_output = 11
+        self.assertEqual(sol.mincostTickets(days, costs), expected_output)
+
+    def test_minStops(self):
+        """docstring for minStops"""
+        sol = solution.Solution()
+
+        start = 1
+        final = 4
+        expected_output = 3
+        self.assertEqual(sol.minStops(start, final), expected_output)
 
 if __name__ == '__main__':
     unittest.main()
