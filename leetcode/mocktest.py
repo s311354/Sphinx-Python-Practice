@@ -1194,14 +1194,6 @@ class SolutionCase(unittest.TestCase):
         expected_output = 11
         self.assertEqual(sol.mincostTickets(days, costs), expected_output)
 
-    def test_minStops(self):
-        """docstring for minStops"""
-        sol = solution.Solution()
-
-        start = 1
-        final = 4
-        expected_output = 3
-        self.assertEqual(sol.minStops(start, final), expected_output)
 
 if __name__ == '__main__':
     unittest.main()
