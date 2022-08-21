@@ -99,16 +99,16 @@ Solutions list
     215, :func:`~leetcode.impl.solution.Solution.findKthLargest`, Medium, O(N), O(1), Quick Select
     973, :func:`~leetcode.impl.solution.Solution.kClosest`, Medium, O(N log N), O(1), Quick Select
     15, :func:`~leetcode.impl.solution.Solution.threeSum`, Medium, O(N^2), O(N), Two Pointers
-    8. :func:`~leetcode.impl.solution.Solution.myAtoi`, Medium, O(N), O(1), Basic
-    125. :func:`~leetcode.impl.solution.Solution.isPalindrome`, Easy, O(log N), O(1), Two Pointers
-    9. :func:`~leetcode.impl.solution.Solution.isPalindromeNum`, Easy, O(log N), O(1), Two Pointers
-    1496. :func:`~leetcode.impl.solution.Solution.isPathCrossing`, Easy, O(N), O(N), HashMap
-    290. :func:`~leetcode.impl.solution.Solution.wordPattern`, Easy, O(N), O(N), HashMap
-    58. :func:`~leetcode.impl.solution.Solution.lengthOfLastWord`, Easy, O(1), O(N), Basic
-    14. :func:`~leetcode.impl.solution.Solution.longestCommonPrefix`, Easy, O(NM), O(1), Basic
-    373. :func:`~leetcode.impl.solution.Solution.kSmallestPairs`, Medium, O(N*log N) , O(N), BFS
-    704. :func:`~leetcode.impl.solution.Solution.search`, Easy, O(log N) , O(1), Binary Search
-    733. :func:`~leetcode.impl.solution.Solution.floodFill`, Easy, O(N*M) , O(N*M), DFS
+    8, :func:`~leetcode.impl.solution.Solution.myAtoi`, Medium, O(N), O(1), Basic
+    125, :func:`~leetcode.impl.solution.Solution.isPalindrome`, Easy, O(log N), O(1), Two Pointers
+    9, :func:`~leetcode.impl.solution.Solution.isPalindromeNum`, Easy, O(log N), O(1), Two Pointers
+    1496, :func:`~leetcode.impl.solution.Solution.isPathCrossing`, Easy, O(N), O(N), HashMap
+    290, :func:`~leetcode.impl.solution.Solution.wordPattern`, Easy, O(N), O(N), HashMap
+    58, :func:`~leetcode.impl.solution.Solution.lengthOfLastWord`, Easy, O(1), O(N), Basic
+    14, :func:`~leetcode.impl.solution.Solution.longestCommonPrefix`, Easy, O(NM), O(1), Basic
+    373, :func:`~leetcode.impl.solution.Solution.kSmallestPairs`, Medium, O(N*log N) , O(N), BFS
+    704, :func:`~leetcode.impl.solution.Solution.search`, Easy, O(log N) , O(1), Binary Search
+    733, :func:`~leetcode.impl.solution.Solution.floodFill`, Easy, O(N*M) , O(N*M), DFS
 
 .. mdinclude:: ../../README.md
 
