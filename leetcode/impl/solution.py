@@ -3236,7 +3236,7 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         return res
 
     def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
-        """ 23. Merge k Sorted Lists
+        """ 23. Merge k Sorted Lists (Hard)
 
         You are given an array of k linked-lists lists, each linked-list is sorted in ascending order.
 
@@ -3319,29 +3319,31 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         :return:  the k pair (u1, v1), (u2, v2). ..., (uk, vk)
         :rtype:  List[List[int]]
         """
-        heap = []
 
-        len1, len2 = len(nums1), len(nums2)
-        i = 0
+        # time:O(N*log(N)) space:O(N)
+        nums1.sort(), nums2.sort()
 
-        while i < len1 and i < k:
-            # heap sorted in sums (sums, nums1, nums2, index of array 2)
-            heapq.heappush(heap, (nums1[i] + nums2[0], nums1[i], nums2[0], 0))
-            i += 1
+        res = []
+        m, n, visited = len(nums1), len(nums2), set()
+        if m == 0 or n == 0:
+            return []
 
-        result = []
+        parent = [(nums1[0]+nums2[0], (0, 0))]
 
-        # k pairs with the smallest sums (BFS)
-        while k and heap:
-            end = heapq.heappop(heap)
-            result.append([end[1], end[2]])
+        for _ in range(min(k, (m*n))):
+            val, (i, j) = heapq.heappop(parent)
 
-            if end[3] < len2 - 1:
-                heapq.heappush(heap, (end[1] + nums2[end[3] + 1], end[1], nums2[end[3] + 1], end[3] + 1))
+            res.append([nums1[i], nums2[j]])
 
-            k -= 1
+            if i+1 < m and (i+1, j) not in visited:
+                heapq.heappush(parent, (nums1[i+1]+nums2[j], (i+1, j)))
+                visited.add((i+1, j))
 
-        return result
+            if j+1 < n and (i, j+1) not in visited:
+                heapq.heappush(parent, (nums1[i]+nums2[j+1], (i, j+1)))
+                visited.add((i, j+1))
+
+        return res
 
     def function1(self, A: List[int]) -> List[int]:
         """docstring for function1"""
@@ -3419,6 +3421,8 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         :return:  index of target
         :rtype:  int
         """
+
+        # time:O(log N) space:O(1)
         left, right = 0, len(nums)-1
 
         while left <= right:
@@ -3432,7 +3436,7 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         return -1
 
     def floodFill(self, image: List[List[int]], sr: int, sc: int, color: int) -> List[List[int]]:
-        """ 733. Flood Fill
+        """ 733. Flood Fill (Easy)
 
         An image is represented by an m x n integer grid image where image[i][j] represents the pixel value of the image.
 
@@ -3457,9 +3461,13 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         :return:  the modified image after performing the flood fill
         :rtype:   List[List[int]]
         """
+
+        # time:O(N*M) space:O(N*M)
+
         def dfs(image, m, n, oldValue, newValue):
             if m < 0 or m > len(image)-1 or n < 0 or n > len(image[0])-1 or image[m][n] == newValue:
                 return
+
             if image[m][n] == oldValue:
                 image[m][n] = newValue
                 dfs(image, m-1, n, oldValue, newValue)
@@ -3469,6 +3477,7 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
             return
 
         dfs(image, sr, sc, image[sr][sc], color)
+
         return image
 
     def hasCycle(self, head: Optional[ListNode]) -> bool:
@@ -3909,6 +3918,7 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         """
 
         """
+
         # time:O(N) space:O(1)
         # Mathematical Approach
         tmp = x
@@ -3963,7 +3973,7 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
         # time:O(N) space:O(N)
         x, y = 0, 0
         d = {'N':(0, 1), 'S':(0, -1), 'E':(1, 0), 'W':(-1, 0)}
-        seen = {(0,0)}
+        seen = {(0, 0)}
 
         for direction in path:
             x += d[direction][0]

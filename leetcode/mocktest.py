@@ -1176,7 +1176,7 @@ class SolutionCase(unittest.TestCase):
         """docstring for longestCommonPrefix"""
         sol = solution.Solution()
 
-        strs = ["dog","racecar","car"]
+        strs = ["dog", "racecar", "car"]
         expected_output = ""
         self.assertEqual(sol.longestCommonPrefix(strs), expected_output)
 
@@ -1184,6 +1184,17 @@ class SolutionCase(unittest.TestCase):
         expected_output = ""
         self.assertEqual(sol.longestCommonPrefix(strs), expected_output)
         # min(str) = "potato". this is tricky
+
+    def test_floodFill(self):
+        """docstring for floodFill"""
+        sol = solution.Solution()
+
+        image = [[1,1,1],[1,1,0],[1,0,1]]
+        sr = 1
+        sc = 1
+        color = 2
+        expected_output = [[2,2,2],[2,2,0],[2,0,1]]
+        self.assertEqual(sol.floodFill(image, sr, sc, color), expected_output)
 
 
 if __name__ == '__main__':
