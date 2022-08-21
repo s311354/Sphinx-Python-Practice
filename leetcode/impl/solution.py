@@ -110,7 +110,7 @@ class Solution(object):
         In one semester, you can take at most k courses as long as you have taken all the prerequisites in the previous semesters
         for the courses you are taking.
 
-        Return the minimum number of semesters needed to take all courses. The testcases will be generated such that it is 
+        Return the minimum number of semesters needed to take all courses. The testcases will be generated such that it is
         possible to take every course.
 
         :param n:  courses
@@ -3985,3 +3985,47 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
                 seen.add((x, y))
 
         return False
+
+    def mincostTickets(self, days: List[int], costs: List[int]) -> int:
+        """ 983. Minimum Cost For Tickets (Medium)
+
+        You have planned some train traveling one year in advance. The days of the year
+        in which you will travel are given as an integer array days. Each day is an integer from 1 to 365.
+
+        Train tickets are sold in three different ways:
+
+        - a 1-day pass is sold for costs[0] dollars,
+        - a 7-day pass is sold for costs[1] dollars, and
+        - a 30-day pass is sold for costs[2] dollars.
+
+        The passes allow that many days of consecutive travel.
+
+        Return the minimum number of dollars you need to travel every day in the given list of days.
+
+        :param days:  the days of the year in which you will travel are given as an integer array days
+        :type  days:  List[int]
+
+        :return: the minimum number of dollars you need to travel every day in the given list of days
+        :rtype:  int
+        """
+
+        # time:O(N) space:O(N)
+        costForDays = [0 for _ in range(days[-1] + 1)]
+
+        curIdx = 0
+
+        for day in range(1, len(costForDays)):
+            if day < days[curIdx]:
+                costForDays[day] = costForDays[day - 1]
+                continue
+
+            cost_extra_1 = costForDays[day - 1] + costs[0]
+            cost_extra_7 = costForDays[max(0, day - 7)] + costs[1]
+            cost_extra_30 = costForDays[max(0, day - 30)] + costs[2]
+
+            costForDays[day] = min(cost_extra_1, cost_extra_7, cost_extra_30)
+
+            curIdx += 1
+
+        return costForDays[-1]
+

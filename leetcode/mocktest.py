@@ -1196,6 +1196,15 @@ class SolutionCase(unittest.TestCase):
         expected_output = [[2,2,2],[2,2,0],[2,0,1]]
         self.assertEqual(sol.floodFill(image, sr, sc, color), expected_output)
 
+    def test_mincostTickets(self):
+        """docstring for mincostTickets"""
+        sol = solution.Solution()
+
+        days = [1,4,6,7,8,20]
+        costs = [2,7,15]
+        expected_output = 11
+        self.assertEqual(sol.mincostTickets(days, costs), expected_output)
+
 
 if __name__ == '__main__':
     unittest.main()
