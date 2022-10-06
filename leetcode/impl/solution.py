@@ -4028,4 +4028,3 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
             curIdx += 1
 
         return costForDays[-1]
-

@@ -433,3 +433,20 @@ The example using lru_cache to computing Fibonacci numbers to implement a dynami
 
     >>> [fib(n) for n in range(16)]
     [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610]
+
+Common pathname manipulation (os.path)
+--------------------------------------
+
+This module implements some useful functions on pathnames.
+
+There are several versions of this module in the standard library:
+
++ os.path.getsize(path): Return the size, in bytes, of path.
+
++ os.path.join(path, paths): join one or more path components intelligently. The return value is the concatenation of path and any members of paths with exactly one directory separator.
+
++ os.path.isdir(path): Return True if path is an existing directory.
+
++ os.path.splitext(path): Split the pathname path into a pair (root, ext) such that root + ext == path, and ext is empty or begins with a period and contains at most one period.
+
+See the `Python os.path page <https://docs.python.org/3.7/library/os.path.html>`_ for more info.
