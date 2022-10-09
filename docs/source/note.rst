@@ -434,8 +434,41 @@ The example using lru_cache to computing Fibonacci numbers to implement a dynami
     >>> [fib(n) for n in range(16)]
     [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610]
 
+
+os - Miscellaneous operating system interfaces
+------------------------------------------------
+
+This module provides a portable way of using operating system dependent functionality.
+
+Notes on the availability of these functions:
+
++ The design of all built-in operation system dependent modules of Python is such that as long as the same functionality is available, it uses the same interface; for example, the function os.stat(path) returns stat information about path in the same format (which happens to have originated with the POSIX interface).
+
++ Extensions peculiar to a particular operating system are also available through the os module, but using them is of course a threat to portability.
+
++ All functions accepting path or file names accept both bytes and string objects, and result in an object of the same type, if a path or file name is returned.
+
+Process Parameters
+^^^^^^^^^^^^^^^^^^^
+
+These functions and data items provide information and operate on the current process and user.
+
++ os.getenv(key, default= None): Return the value of the environment varialbe key if it exists, or default if it doesn't. key, default and the result are str.
+
++ os.cddir(path)
+
++ os.write(fd, str): Write the bytestring in str to file descriptor fd. Return the number of bytes actually written.
+
++ os.getcwd(): Return a string representing the current working directory
+
++ os.mkdir(path, mode=0o777, *, dir_fd=None): Create a directory named path with numeric mode mode
+
++ os.popen(cmd, mode='r', buffering=-1): Open a pipe to or from command cmd, The return value is an open file object connected to the pipe, which can be read or written depending on whether mode is 'r' (default) or 'w'. The buffering argument has the same meaning as the corresponding argument to the built-in open() function. The returned file object reads or writes text strings rather than bytes.
+
+...
+
 Common pathname manipulation (os.path)
---------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This module implements some useful functions on pathnames.
 
