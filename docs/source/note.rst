@@ -455,22 +455,46 @@ These functions and data items provide information and operate on the current pr
 
 + os.getenv(key, default= None): Return the value of the environment varialbe key if it exists, or default if it doesn't. key, default and the result are str.
 
-+ os.cddir(path)
++ os.getenvb(key, default=None): Retrun the value of the environment varialbe key if it exists, or default if it doesn't. key, default and the result are bytes.
+
++ os.chdir(path)
+
++ os.uname(): Retruns information identifying the current operating system. The return value iscontent an object with five attributes (sysname, nodename, release, version, machine)
+
++ os.unsetenv(key): Unset (delete) the environment variable named key. Such changes to the environment affect subprocesses started with os.system(), popen() or fork() and execv().
+
+See the `Python os Process Parameters page <https://docs.python.org/3.7/library/os.html#process-parameters>`_ for more info.
+
+File Descriptor Operations
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+These functions operate on I/O streams referenced using file descriptors.
+
++ os.close(fd): Close file descriptor fd
 
 + os.write(fd, str): Write the bytestring in str to file descriptor fd. Return the number of bytes actually written.
+
++ ...
+
+See the `Python os File Descriptor Operations page <https://docs.python.org/3.7/library/os.html#file-descriptor-operations>`_ for more info.
+
+Files and Directories
+^^^^^^^^^^^^^^^^^^^^^^
+
+On some Unix platforms, many of these functions support one or more of these feature.
+
++ os.access(path, mode, \*, dir_fd=None, effective_ids=False, follow_symlinks=True): Use the real uid/gid to test for access to path. Note that most operations will use the effective uid/gid, therefore this routine can be used in a suid/sgid environment to test if the invoking user has the specified access to path.
 
 + os.getcwd(): Return a string representing the current working directory
 
 + os.mkdir(path, mode=0o777, \*, dir_fd=None): Create a directory named path with numeric mode mode
 
-+ os.popen(cmd, mode='r', buffering=-1): Open a pipe to or from command cmd, The return value is an open file object connected to the pipe, which can be read or written depending on whether mode is 'r' (default) or 'w'. The buffering argument has the same meaning as the corresponding argument to the built-in open() function. The returned file object reads or writes text strings rather than bytes.
-
 + os.walk(top, topdown=True, onerror=None, followlinks=False): Generate the file names in a directory tree by walking the tree either top-down or bottom-up. For each directory in the tree rooted at directory top (including top itself), it yields a 3-tuple (dirpath, dirnames, filenames). dirpath is a string, the path to the directory. dirnames is a list of the names of the subdirectories in dirpath (excluding '.' and '..'). filenames is a list of the names of the non-directory files in dirpath. Note that the names in the lists contain no path components.
 
-The example using os.walk to display the number of bytes taken by non-directory files in each directory under the starting directory::
+The eaxmple using os.walk to display the number of bytes taken by non-directory files in each directory under the starting directory::
 
     >>> import os
-    >>> import os.path import join, getsize
+    >>> from os.path import join, getsize
     >>> for root, dirs, files in os.walk('source'):
     >>>     print(root, "consumes", end=" ")
     >>>     print(sum(getsize(join(root, name)) for name in files), end=" ")
@@ -478,6 +502,26 @@ The example using os.walk to display the number of bytes taken by non-directory 
     source consumes 73 bytes in 1 non-directory files
     source/_posts consumes 26775 bytes in 6 non-directory files
     ...
+
++ ...
+
+See the `Python os Files and Directories page <https://docs.python.org/3.7/library/os.html#files-and-directories>`_ for more info.
+
+Porcess Management
+^^^^^^^^^^^^^^^^^^^
+
+These functions may be used to create and manage processes.
+
++ os.popen(cmd, mode='r', buffering=-1): Open a pipe to or from command cmd, The return value is an open file object connected to the pipe, which can be read or written depending on whether mode is 'r' (default) or 'w'. The buffering argument has the same meaning as the corresponding argument to the built-in open() function. The returned file object reads or writes text strings rather than bytes.
+
++ os.wait(): Wait for completion of a child process, and return a tuple containing its pid and exit status indication: a 16-bit number, whose low bytes is the singal number that killed the process, and whose high byte is the exit status (if the signal number is zero); the high bit of the low byte is set if a core file was produced.
+
++ ...
+
+See the `Python os Process Management page <https://docs.python.org/3.7/library/os.html#process-management>`_ for more info.
+
+Inheritance of File Descriptors
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 + os.stat(path, \*, dir_fd=None, follow_syslinks=True): Get the status of a file or a file descriptor. Perform the equivalent of stat() system call on the given path. path may be specified as either a string or bytes - directly or indirectly through the PathLike interface - or as an open file descriptor. Return a stat_result object.
 
@@ -490,7 +534,18 @@ The example using os.stat to display the size of the file in bytes, if it is a r
 
 + ...
 
-See the `Python os page <https://docs.python.org/3.7/library/os.html>`_ for more info.
+See the `Python os Inheritance of File Descriptors page <https://docs.python.org/3.7/library/os.html#inheritance-of-file-descriptors>`_ for more info.
+
+Miscellaneous System Information
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
++ os.cpu_count(): Return the number of CPUs in the system. Return None if undetermined.
+
++ os.sep: The character used by the operating system to separate pathname components. This is '/' for POSIX and '\\' for Windows. Note the knowing this is not sufficient to be able to parse or concatenate pathnames pathnames - use os.path.split() and os.path.join() - but it is occasionally useful.
+
++ ...
+
+See the `Python os Miscellaneous System Information page <https://docs.python.org/3.7/library/os.html#miscellaneous-system-information>`_ for more info.
 
 Common pathname manipulation (os.path)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -510,3 +565,50 @@ There are several versions of this module in the standard library:
 + ...
 
 See the `Python os.path page <https://docs.python.org/3.7/library/os.path.html>`_ for more info.
+
+Concurrent.futures - Launching parallel tasks
+------------------------------------------------
+
+The concurrent.futures module provides a high-level interface for asynchronously executing callables. 
+
+The asynchronous execution can be performed with threads, using ThreadPoolExecutor, or separate processes, using ProcessPoolExecutor. Both implement the same interface, which is defined by the abstract Executor class.
+
+ThreadPoolExecutor
+^^^^^^^^^^^^^^^^^^^
+
+ThreadPoolExecutor is an Executor subclass that uses a pool of threads to execute calls asynchronously.
+
+class concurrent.futures.ThreadPoolExecutor(max_workers=None, thread_name_prefix='', initializer=None, initargs())
+
+    An Executor subclass that uses a pool of at most max_workers threads to execute calls asynchronously.
+
+The example using ThreadPoolExecutor to ensure threads are operating each future with its URL::
+
+    >>> import concurrent.futures
+    >>> import urllib.request
+    >>> URLS = ['http://www.foxnews.com/',
+    >>>         'http://www.cnn.com/',
+    >>>         'http://some-made-up-domain.com/']
+    >>> # Retrieve a single page and report the URL and contents
+    >>> def load_url(url, timeout):
+    >>>     with urllib.request.urlopen(url, timeout=timeout) as conn:
+    >>>         return conn.read()
+    >>> # We can use a with statement to ensure threads are cleaned up promptly
+    >>> with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+    >>>     # Start the load operations and mark each future with its URL
+    >>>     future_to_url = {executor.submit(load_url, url, 60): url for url in URLS}
+    >>>     for future in concurrent.futures.as_completed(future_to_url):
+    >>>         url = future_to_url[future]
+    >>>         try:
+    >>>             data = future.result()
+    >>>         except Exception as exc:
+    >>>             print('%r generated an exception: %s' % (url, exc))
+    >>>         else:
+    >>>             print('%r page is %d bytes' % (url, len(data)))
+    'http://www.cnn.com/' page is 1142986 bytes
+    'http://www.foxnews.com/' page is 292598 bytes
+    'http://some-made-up-domain.com/' generated an exception: HTTP Error 403: Forbidden
+
+See the `Python concurrent.futures page <https://docs.python.org/3.7/library/concurrent.futures.html>`_ for more info.
+
+
