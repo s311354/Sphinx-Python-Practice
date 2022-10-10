@@ -461,11 +461,36 @@ These functions and data items provide information and operate on the current pr
 
 + os.getcwd(): Return a string representing the current working directory
 
-+ os.mkdir(path, mode=0o777, *, dir_fd=None): Create a directory named path with numeric mode mode
++ os.mkdir(path, mode=0o777, \*, dir_fd=None): Create a directory named path with numeric mode mode
 
 + os.popen(cmd, mode='r', buffering=-1): Open a pipe to or from command cmd, The return value is an open file object connected to the pipe, which can be read or written depending on whether mode is 'r' (default) or 'w'. The buffering argument has the same meaning as the corresponding argument to the built-in open() function. The returned file object reads or writes text strings rather than bytes.
 
-...
++ os.walk(top, topdown=True, onerror=None, followlinks=False): Generate the file names in a directory tree by walking the tree either top-down or bottom-up. For each directory in the tree rooted at directory top (including top itself), it yields a 3-tuple (dirpath, dirnames, filenames). dirpath is a string, the path to the directory. dirnames is a list of the names of the subdirectories in dirpath (excluding '.' and '..'). filenames is a list of the names of the non-directory files in dirpath. Note that the names in the lists contain no path components.
+
+The example using os.walk to display the number of bytes taken by non-directory files in each directory under the starting directory::
+
+    >>> import os
+    >>> import os.path import join, getsize
+    >>> for root, dirs, files in os.walk('source'):
+    >>>     print(root, "consumes", end=" ")
+    >>>     print(sum(getsize(join(root, name)) for name in files), end=" ")
+    >>>     print("bytes in", len(files), "non-directory files")
+    source consumes 73 bytes in 1 non-directory files
+    source/_posts consumes 26775 bytes in 6 non-directory files
+    ...
+
++ os.stat(path, \*, dir_fd=None, follow_syslinks=True): Get the status of a file or a file descriptor. Perform the equivalent of stat() system call on the given path. path may be specified as either a string or bytes - directly or indirectly through the PathLike interface - or as an open file descriptor. Return a stat_result object.
+
+The example using os.stat to display the size of the file in bytes, if it is a regular file or a symbolic link::
+
+    >>> import os
+    >>> statinfo = os.stat('Gemfile')
+    >>> statinfo.st_size
+    60
+
++ ...
+
+See the `Python os page <https://docs.python.org/3.7/library/os.html>`_ for more info.
 
 Common pathname manipulation (os.path)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -481,5 +506,7 @@ There are several versions of this module in the standard library:
 + os.path.isdir(path): Return True if path is an existing directory.
 
 + os.path.splitext(path): Split the pathname path into a pair (root, ext) such that root + ext == path, and ext is empty or begins with a period and contains at most one period.
+
++ ...
 
 See the `Python os.path page <https://docs.python.org/3.7/library/os.path.html>`_ for more info.
