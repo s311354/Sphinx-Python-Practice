@@ -491,13 +491,13 @@ On some Unix platforms, many of these functions support one or more of these fea
 
 + os.walk(top, topdown=True, onerror=None, followlinks=False): Generate the file names in a directory tree by walking the tree either top-down or bottom-up. For each directory in the tree rooted at directory top (including top itself), it yields a 3-tuple (dirpath, dirnames, filenames). dirpath is a string, the path to the directory. dirnames is a list of the names of the subdirectories in dirpath (excluding '.' and '..'). filenames is a list of the names of the non-directory files in dirpath. Note that the names in the lists contain no path components.
 
-The eaxmple using os.walk to display the number of bytes taken by non-directory files in each directory under the starting directory::
+The eaxmple using os.walk to display the sum of bytes taken by non-directory files in each directory under the starting directory::
 
     >>> import os
     >>> from os.path import join, getsize
-    >>> for root, dirs, files in os.walk('source'):
-    >>>     print(root, "consumes", end=" ")
-    >>>     print(sum(getsize(join(root, name)) for name in files), end=" ")
+    >>> for dirpath, dirnames, filenames in os.walk('source'):
+    >>>     print(dirpath, "consumes", end=" ")
+    >>>     print(sum(getsize(join(dirpath, name)) for name in filenames), end=" ")
     >>>     print("bytes in", len(files), "non-directory files")
     source consumes 73 bytes in 1 non-directory files
     source/_posts consumes 26775 bytes in 6 non-directory files
@@ -543,6 +543,20 @@ Miscellaneous System Information
 
 + os.sep: The character used by the operating system to separate pathname components. This is '/' for POSIX and '\\' for Windows. Note the knowing this is not sufficient to be able to parse or concatenate pathnames pathnames - use os.path.split() and os.path.join() - but it is occasionally useful.
 
+The example using os.sep to travel only the first level of directory::
+
+    In [1]: import os
+    In [2]: for dirpath, dirnames, filenames in os.walk('.') :
+       ...:     for name in dirnames:
+       ...:         depth = os.path.relpath(dirpath, name) .count (os.sep)
+       ...:         if depth == 0:
+       ...:             print(name)
+
+    Pictures
+    _pycache
+    twse
+    duu
+
 + ...
 
 See the `Python os Miscellaneous System Information page <https://docs.python.org/3.7/library/os.html#miscellaneous-system-information>`_ for more info.
@@ -554,9 +568,22 @@ This module implements some useful functions on pathnames.
 
 There are several versions of this module in the standard library:
 
++ os.path.join(path, paths): join one or more path components intelligently. The return value is the concatenation of path and any members of paths with exactly one directory separator.
+
 + os.path.getsize(path): Return the size, in bytes, of path.
 
-+ os.path.join(path, paths): join one or more path components intelligently. The return value is the concatenation of path and any members of paths with exactly one directory separator.
+The example using os.path.getsize to get the size, in bytes, of files in current directory::
+
+    In [1]: import os
+    In [2]: from os.path import getsize, join
+    In [3]: for dirpath, dirnames, filenames in os.walk('.') :
+       ...:     for name in filenames:
+       ...:         print(join(dirpath, name), " consumes", end=" ")
+       ...:         print(getsize(join(dirpath, name)))
+       ...:         print(" bytes")))
+
+    ./duu/README.md consumes 2244 bytes
+    ...
 
 + os.path.isdir(path): Return True if path is an existing directory.
 
@@ -610,5 +637,3 @@ The example using ThreadPoolExecutor to ensure threads are operating each future
     'http://some-made-up-domain.com/' generated an exception: HTTP Error 403: Forbidden
 
 See the `Python concurrent.futures page <https://docs.python.org/3.7/library/concurrent.futures.html>`_ for more info.
-
-
