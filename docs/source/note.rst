@@ -587,6 +587,14 @@ There are several versions of this module in the standard library:
 
 + os.path.getsize(path): Return the size, in bytes, of path.
 
++ os.path.normpath(path): Normalize a pathname by collapsing redundant separators and up-level reference so that A//B, A/B/, A/./B and A/foo/../B all become A/B. This string manipulation may change the meaning of a path that cotains symbolic links.
+
++ os.path.realpath(path, \*, strict=False): Return the canonical path of the specified filename, eliminating any symbolic links encountered in the path (if they are supported by the operating system)
+
++ os.path.relpath(path, start=os.curdir): Return a relative filepath to path either from the current directory or from an optional start directory. This is a path computation: the filesystem is not accessed to confirm the existence or nature of path or start.
+
++ os.path.split(path): Split the pathname path into a pair, (head, tail) where tail is the last pathname component and head is everything leading up to that. The tail part will never contain a slash, if path ends in a slash, tail will be empty. If there is no slash in path, head will be empty. If path is empty, both head and tail are empty. Trailing slashes are stripped from head unless it is the root (one or more slashes only). In all cases, join(head, tail) returns a path to the same location as path (but the strings may differ).
+
 The example using os.path.getsize to get the size, in bytes, of files in current directory::
 
     In [1]: import os
@@ -602,7 +610,14 @@ The example using os.path.getsize to get the size, in bytes, of files in current
 
 + os.path.isdir(path): Return True if path is an existing directory.
 
-+ os.path.splitext(path): Split the pathname path into a pair (root, ext) such that root + ext == path, and ext is empty or begins with a period and contains at most one period.
++ os.path.splitext(path): Split the pathname path into a pair (root, ext) such that root + ext == path, and extension, ext, is empty or begins with a period and contains at most one period.
+
+The example using os.path.splitext() to split the pathname path::
+
+    In [1]: from os.path import splitext
+    In [2]: splitext('404.md')
+    Out [2]: splitext('404', '.md')
+
 
 + ...
 
