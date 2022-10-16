@@ -556,6 +556,21 @@ The example using os.sep to travel only the first level of directory::
     _pycache
     twse
     duu
+    ...
+
+
+The other example using os.sep to travel only the second level of files::
+
+    In [1]: import os
+    In [2]: for dirpath, dirnames, filenames in os.walk('.') :
+       ...:     for name in filenames:
+       ...:         depth = os.path.relpath(dirpath, name).count(os.sep)
+       ...:         if depth == 1:
+       ...:             print(name)
+
+    index.md
+    index.md
+    ...
 
 + ...
 
