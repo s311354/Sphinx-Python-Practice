@@ -263,6 +263,16 @@ Range example::
     >>> list(range(1, 11))
     [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
+The example using range to initialize a list of lists::
+
+    >>> row = 3
+    >>> matrix = [[] for _ in range(row)]
+    >>> matrix[0].append(1)
+    >>> matrix[0].append(2)
+    >>> matrix[1].append(3)
+    >>> matrix[1].append(4)
+    >>> matrix
+    [[1, 2], [3, 4]]
 
 See the `Python ranges page <https://docs.python.org/3.7/library/stdtypes.html?highlight=range#ranges>`_ for more info.
 
