@@ -467,7 +467,7 @@ These functions and data items provide information and operate on the current pr
 
 + os.getenvb(key, default=None): Retrun the value of the environment varialbe key if it exists, or default if it doesn't. key, default and the result are bytes.
 
-+ os.chdir(path)
+
 
 + os.uname(): Retruns information identifying the current operating system. The return value iscontent an object with five attributes (sysname, nodename, release, version, machine)
 
@@ -496,6 +496,22 @@ On some Unix platforms, many of these functions support one or more of these fea
 + os.access(path, mode, \*, dir_fd=None, effective_ids=False, follow_symlinks=True): Use the real uid/gid to test for access to path. Note that most operations will use the effective uid/gid, therefore this routine can be used in a suid/sgid environment to test if the invoking user has the specified access to path.
 
 + os.getcwd(): Return a string representing the current working directory
+
++ os.chdir(path): Change the current working directory to path
+
++ os.listdir(path='.'): Return a list containing the names of the entries in the directory given by path. The list is in arbitrary order, and does not include the special entries '.' and '..' even if they are present in the directory.
+
++ os.scandir(path='.'): Return an iterator of os.DirEntry objects corresponding to the entries in the directory given by path. The entries are yielded in arbitrary order, and the special entries '.' and '..' are not included. Using os.scandir() instead of os.listdir() can significantly increase the performance of code that also needs file type of file attribute information, such as is_dir()/is_file()/stat()/name/path/... , because os.DirEntry objects expose this information if the operation system provides it when scanning a directory.
+
+The example using os.scandir to display all the file in the given path that don't start with '.'::
+
+    >>> with os.scandir('.') as it:
+    >>>     for entry in it:
+    >>>         if not entry.name.startswith('.') and entry.is_file():
+    >>>             print(entry.name)
+    >>> 404.md
+    >>> some.csv
+    >>> ...
 
 + os.mkdir(path, mode=0o777, \*, dir_fd=None): Create a directory named path with numeric mode mode
 
