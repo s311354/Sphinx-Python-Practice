@@ -1205,6 +1205,14 @@ class SolutionCase(unittest.TestCase):
         expected_output = 11
         self.assertEqual(sol.mincostTickets(days, costs), expected_output)
 
+    def test_uniquePathsWithObstacles(self):
+        """docstring for uniquePathsWithObstacles"""    #, Title, Level, Time, Space Note, Tags
+        sol = solution.Solution()
+
+        obstacleGrid = [[0,0,0],[0,1,0],[0,0,0]]
+        expected_output = 2
+        self.assertEqual(sol.uniquePathsWithObstacles(obstacleGrid), expected_output)
+
 
 if __name__ == '__main__':
     unittest.main()
