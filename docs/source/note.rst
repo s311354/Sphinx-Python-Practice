@@ -171,7 +171,7 @@ Return a *new dictionary-like object*. defaultdict is a subclass of the built-in
 
 When each key is encountered for the first time, it is not already in the mapping; so an entry is automatically created using the default_factory function which returns an empty list. The list.append() operation then attaches the value to the new list. When keys are encountered again, the look-up proceeds normally (returning the list for that key) and the list.append() operation adds another value to the list.
 
-The example using list as the default_factory::
+The simple example using list as the default_factory::
 
     >>> from collections import defaultdict
     >>> s = [('yellow', 1), ('blue', 2), ('yellow', 3), ('blue', 4), ('red', 1)]
@@ -181,6 +181,12 @@ The example using list as the default_factory::
     ...
     >>> sorted(d.items())
     [('blue', [2, 4]), ('red', [1]), ('yellow', [1, 3])]
+    >>> list(d.keys())
+    ['blue', 'red', 'yellow']
+    >>> list(d.values())
+    [[2, 4], [1], [1, 3]]
+    >>> list(d.values())[list(d.keys()).index('blue')]
+    [2, 4]
 
     >>> d = defaultdict(list)
     >>> for k, v in s:
