@@ -58,7 +58,7 @@ $ pip install .
 
 ### Build Documentations
 
-Please check the [`README`](doc/README.md) in [`doc`](doc/) for details.
+Please check the [`README`](docs/README.md) in [`docs`](docs/) for details.
 
 ### Tips to Improve Skills
 
