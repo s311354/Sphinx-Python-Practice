@@ -34,7 +34,7 @@ class ListNode:
         if self.next:
             self.next.PrintListNode()
         return self.val
-#         print(self.val)
+        print(self.val)
 
 
 class TreeNode:
@@ -731,7 +731,7 @@ class Solution(object):
         # time:O(N^2) space:O(N^2)
 
         rows = len(isConnected) # the depth of graph
-        group = [] 
+        group = []
         count = 0
 
         def dfs_connected(node):
@@ -4028,3 +4028,135 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
             curIdx += 1
 
         return costForDays[-1]
+
+    def pivotIndex(self, nums: List[int]) -> int:
+        """ 724. Find Pivot Index
+
+        Given an array of integers nums, calculate the pivot index of this array.
+
+        The pivot index is the index where the sum of all the numbers strictly to the left of the index is equal to the sum of all the numbers strictly to the index's right.
+
+        If the index is on the left edge of the array. then the left sum is 0 because there are no elements to the left. This also applies to the right edge of the array.
+
+        Return the leftmost pivot index. If no such index exists, return -1.
+
+
+        :param nums:  an array of integers
+        :type  nums:  List[int]
+
+        :return:  the leftmost pivot index
+        :rtype:  int
+        """
+
+        S = sum(nums)
+        leftsum = 0
+
+        for i, x in enumerate(nums):
+            if leftsum == (S - leftsum - x):
+                return i
+            leftsum += x
+
+        return -1
+
+    def pivotInteger(self, n: int) -> int:
+        """ 2485. Find the Pivot Integer
+
+        Given a positive integer n, find the pivot integer x such that:
+
+        The sum of all elements between 1 and x inclusively equals the sum of all elements between x and n inclusively.
+
+        Return the pivot integer x. If no such integer exists, return -1. It is guaranteed that there will be at most one pivot index for the given input.
+
+        :param n:  a positive integer n
+        :type  n:  int
+
+        :return:  the pivot integer
+        :rtype:   int
+        """
+        S = (1 + n) * n / 2
+        leftsum = 0
+
+        if S == 1:
+            return 1
+
+        for x in range(n):
+            if leftsum == (S - leftsum - x):
+                return x
+
+            leftsum += x
+
+        return -1
+
+    def appendCharacters(self, s: str, t: str) -> int:
+        """ 2486. Append Characters to String to Make Subsequence
+
+        You are given two strings s and t consisting of only lowercase English letters.
+
+        Return the minimum number of characters that need to be appended to the end of s so that t becomes a subsequence of s
+
+        A subsequence is a string that can be derived from anothers string by deleting some or no characters without changing the order of the remaining characters
+
+        :param s:  string consisting of only lowercase
+        :type  s:  str
+
+        :param t:  string consisting of only lowercase
+        :type  t:  str
+
+        :return:  the minimum number of characters that need to be appended to the end of s so that t becomes a subsequence of s
+        :rtype:  int
+        """
+
+        N = len(s)
+        M = len(t)
+
+        count = 0
+        si = 0
+        for ti in range(M):
+            while si < N and s[si] != t[ti]:
+                si += 1
+
+            if si < N and s[si] == t[ti]:
+                si += 1
+            else:
+                # append characters
+                count += 1
+
+        return count
+
+    def removeNodes(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        """ 2487. Remove Nodes From Linked List
+
+        You are given the head of a linked list.
+
+        Remove every node which has a node with a strictly greater value anywhere to the right side of it.
+
+        Return the head of the modified linkde list.
+
+        :param head:  the head od linked list
+        :type  head:  Optional[ListNode]
+
+        :return:  the head of the modified linked list
+        :rtype:   Optional[ListNode]
+        """
+        array = []
+        current = head
+        while current is not None:
+            array.append(current.val)
+            current = current.next
+
+        # strictly greater value anywhere to the right side of it
+        ans = []
+        for x in reversed(array):
+            if len(ans) == 0 or x >= ans[-1]:
+                ans.append(x)
+        ans.reverse()
+
+        # Modified Linked list
+        newHead = ListNode(-1)
+        current = newHead
+        for x in ans:
+            current.next = ListNode(x)
+            current = current.next
+
+        return newHead.next
+

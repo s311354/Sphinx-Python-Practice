@@ -282,7 +282,7 @@ The example using range to initialize a list of lists::
 
 See the `Python ranges page <https://docs.python.org/3.7/library/stdtypes.html?highlight=range#ranges>`_ for more info.
 
-Built-in Functions (enumerate, map)
+Built-in Functions (enumerate, reversed)
 ----------------------------------------------------------
 
 The Python interpreter has a number of functions and types built into it that are always available.
@@ -299,12 +299,12 @@ The example using enumerate objects that have a List::
 
 See the `Python enumerate page <https://docs.python.org/3.7/library/functions.html?highlight=enumerate#enumerate>`_ for more info.
 
-Map
-^^^^^^
+Reversed
+^^^^^^^^^^^^^^^^^^^^
 
-map(function, iterable, ...) return an iterator that applies function to every item of iterable, yielding the result. If additional iterable arguments are passed, function must take that many arguments and is applied to the items from all iterables in parallel, With multiple iterables, the iterator stops when the shortest iterable is exhausted.
+Return a reverse iterator. seq must be an object which has a __reversed__() method or supports the sequence protocol.
 
-See the `Python map page <https://docs.python.org/3.7/library/functions.html#map>`_ for more info.
+See the `Python reversed page <https://docs.python.org/3/library/functions.html?highlight=reversed#reversed>`_ for more info.
 
 Heap queue algorithm (heapq)
 ------------------------------------
@@ -699,3 +699,9 @@ The example using ThreadPoolExecutor to ensure threads are operating each future
     'http://some-made-up-domain.com/' generated an exception: HTTP Error 403: Forbidden
 
 See the `Python concurrent.futures page <https://docs.python.org/3.7/library/concurrent.futures.html>`_ for more info.
+
+Argparse - Parser for command-line options, arguments and sub-commands
+------------------------------------------------------------------------
+
+The argparse module makes it easy to write user-friendly command-line interfaces. The program defines what arguments it requires, and argparse will figure out how to parse those out of sys.argv.
+

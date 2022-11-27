@@ -1213,6 +1213,66 @@ class SolutionCase(unittest.TestCase):
         expected_output = 2
         self.assertEqual(sol.uniquePathsWithObstacles(obstacleGrid), expected_output)
 
+    def test_pivotIndex(self):
+        """docstring for pivotIndex"""
+        sol = solution.Solution()
+
+        nums = [1,7,3,6,5,6]
+        expected_output = 3
+        self.assertEqual(sol.pivotIndex(nums), expected_output)
+
+    def test_pivotInteger(self):
+        """docstring for pi"""
+        sol = solution.Solution()
+
+        n = 8
+        expected_output = 6
+        self.assertEqual(sol.pivotInteger(n), expected_output)
+
+        n = 1
+        expected_output = 1
+        self.assertEqual(sol.pivotInteger(n), expected_output)
+
+        n = 4
+        expected_output = -1
+        self.assertEqual(sol.pivotInteger(n), expected_output)
+
+    def test_appendCharacters(self):
+        """docstring for appendCharacters"""
+        sol = solution.Solution()
+
+        s = 'coaching'
+        t = 'coding'
+        expected_output = 4
+        self.assertEqual(sol.appendCharacters(s, t), expected_output)
+
+        s = 'abcde'
+        t = 'a'
+        expected_output = 0
+        self.assertEqual(sol.appendCharacters(s, t), expected_output)
+
+        s = 'z'
+        t = 'abcde'
+        expected_output = 5
+        self.assertEqual(sol.appendCharacters(s, t), expected_output)
+
+
+    def test_removeNodes(self):
+        """docstring for removeNthFromEnd"""
+        sol = solution.Solution()
+
+        head = [5, 2, 13, 3, 8]
+        Node = solution.ListNode(head[0])
+        for item in range(1, len(head)):
+            Node.insert(head[item])
+
+        output = [13, 8]
+        expected_output = solution.ListNode(output[0])
+        for item in range(1, len(output)):
+            expected_output.insert(output[item])
+
+        self.assertEqual(sol.removeNodes(Node).PrintListNode(), expected_output.PrintListNode())
+
 
 if __name__ == '__main__':
     unittest.main()
