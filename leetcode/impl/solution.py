@@ -404,7 +404,8 @@ class Solution(object):
     def criticalConnections(self, n: int, connections: List[List[int]]) -> List[List[int]]:
         """ 1192. Critical Connections in a Network (HARD)
 
-        There are n servers numbered from 0 to n - 1 connected by undirected server-to-server connections forming a network where connections[i] = [ai, bi] represents a connection between servers ai and bi. Any server can reach other servers directly or indirectly through the network.
+        There are n servers numbered from 0 to n - 1 connected by undirected server-to-server connections forming a network where connections[i] = [ai, bi]
+        represents a connection between servers ai and bi. Any server can reach other servers directly or indirectly through the network.
 
         A critical connection is a connection that, if removed, will make some servers unable to reach some other server.
 
@@ -4160,3 +4161,107 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
 
         return newHead.next
 
+    def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
+        """ 4. Median of Two Sorted Arrays
+
+        Given two sorted arrays nums1 and nums2 of size m and n respectively, return the median of the two sorted arrays.
+
+        The overall run time complexity should be O(log (m+n)).
+
+        :param nums1:  sorted array
+        :type  nums1:  List[int]
+
+        :param nums2:  sorted array
+        :type  nums2:  List[int]
+
+        :return:  the median of the two sorted arrays
+        :rtype:   float
+        """
+
+        if len(nums2) < len(nums1):
+            nums1, nums2 = nums2, nums1
+
+        m, n = len(nums1), len(nums2)
+        left, right = 0, m-1
+
+        while True:
+            pointer1 = left + (right-left) // 2
+            pointer2 = (m+n)//2 - pointer1 - 2
+
+            left1 = nums1[pointer1] if pointer1 in range(m) else -math.inf
+            left2 = nums2[pointer2] if pointer2 in range(n) else -math.inf
+            right1 = nums1[pointer1+1] if pointer1+1 in range(m) else math.inf
+            right2 = nums2[pointer2+1] if pointer2+1 in range(n) else math.inf
+
+            if left1 <= right2 and left2 <= right1:
+                if (m+n) % 2 == 0:
+                    return (max(left1, left2) + min(right1, right2)) / 2
+                else:
+                    return min(right1, right2)
+            elif left1 > right2:
+                right = pointer1 - 1
+            else:
+                left = pointer1 + 1
+
+    def countSubarrays(self, nums: List[int], k: int) -> int:
+        """ 2488. Count Subarrays With Median K
+
+        You are given an array nums of size n consisting of distinct integers from 1 to n and a positive integer k.
+
+        Return the number of non-empty subarrays in nums that have a median equal to k.
+
+        Note:
+        - The median of an array is the middle element after sorting the array in ascending order. If the array is of even length, the median is the left middle element.
+        - For example, the median of [2,3,1,4] is 2, and the median of [8,4,3,5,1] is 4.
+        - A subarray is a contiguous part of an array.
+
+        :param nums:  an array nums of size n consisting of distinct integers from 1 to n
+        :type  nums:  List[int]
+
+        :return: the number of non-empty subarrays in nums that have a median equal to k
+        :rtype:  int
+        """
+        N = len(nums)
+
+        index = nums.index(k)
+
+        delta_left = 0
+        delta_right = 0
+
+        left = collections.Counter()
+        right = collections.Counter()
+
+        left[0] = 1
+        right[0] = 1
+
+        for i in range(index - 1, -1, -1):
+            if nums[i] < k:
+                delta_left -= 1
+
+            else:
+                delta_left += 1
+            
+            left[delta_left] += 1
+
+
+        for i in range(index + 1, N):
+            if nums[i] < k:
+                delta_right -= 1
+            else:
+                delta_right += 1
+            right[delta_right] += 1
+
+        count = 0
+
+        for i in left.keys():
+            if i > 0:
+                count += left[i] * right[-i]
+                count += left[i] * right[-i+1]
+
+        for i in right.keys():
+            if i > 0:
+                count += left[-i] * right[i]
+                count += left[-i+1] * right[i]
+
+        count += left[0] * right[0]
+        return count

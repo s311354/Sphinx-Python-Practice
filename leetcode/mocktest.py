@@ -1273,6 +1273,29 @@ class SolutionCase(unittest.TestCase):
 
         self.assertEqual(sol.removeNodes(Node).PrintListNode(), expected_output.PrintListNode())
 
+    def test_findMedianSortedArrays(self):
+        """docstring for findMedianSortedArrays"""
+        sol = solution.Solution()
+
+        nums1 = [1,3]
+        nums2 = [2]
+        expected_output = 2.00000
+        self.assertEqual(sol.findMedianSortedArrays(nums1, nums2), expected_output)
+
+        nums1 = [1,2]
+        nums2 = [3,4]
+        expected_output = 2.50000
+        self.assertEqual(sol.findMedianSortedArrays(nums1, nums2), expected_output)
+
+    def test_countSubarrays(self):
+        """docstring for cou"""
+        sol = solution.Solution()
+
+        nums = [3,2,1,4,5]
+        k = 4
+        expected_output = 3
+        self.assertEqual(sol.countSubarrays(nums, k), expected_output)
+
 
 if __name__ == '__main__':
     unittest.main()
