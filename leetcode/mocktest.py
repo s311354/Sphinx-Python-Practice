@@ -1296,6 +1296,74 @@ class SolutionCase(unittest.TestCase):
         expected_output = 3
         self.assertEqual(sol.countSubarrays(nums, k), expected_output)
 
+    def test_maxEvents(self):
+        """docstring for ma"""
+        sol = solution.Solution()
+
+        events = [[1,2],[2,3],[3,4]]
+        expected_output = 3
+        self.assertEqual(sol.maxEvents(events), expected_output)
+
+        events = [[1,2],[2,3],[3,4],[1,2]]
+        expected_output = 4
+        self.assertEqual(sol.maxEvents(events), expected_output)
+
+    def test_reformatDate(self):
+        """docstring for re"""
+        sol = solution.Solution()
+
+        date = "20th Oct 2052"
+        expected_output = "2052-10-20"
+        self.assertEqual(sol.reformatDate(date), expected_output)
+
+        date = "26th May 1960"
+        expected_output = "1960-05-26"
+        self.assertEqual(sol.reformatDate(date), expected_output)
+
+    def test_daysBetweenDates(self):
+        """docstring for da"""
+        sol = solution.Solution()
+
+
+        date1 = "2019-06-29"
+        date2 = "2019-06-30"
+        expected_output = 1
+        self.assertEqual(sol.daysBetweenDates(date1, date2), expected_output)
+
+        date1 = "2020-01-15"
+        date2 = "2019-12-31"
+        
+        expected_output = 15
+        self.assertEqual(sol.daysBetweenDates(date1, date2), expected_output)
+
+    def test_dayOfTheWeek(self):
+        """docstring for da"""
+        sol = solution.Solution()
+
+        day = 31
+        month = 8
+        year = 2019
+        expected_output = "Saturday"
+        self.assertEqual(sol.dayOfTheWeek(day, month, year), expected_output)
+
+        day = 15
+        month = 8
+        year = 1993
+        expected_output = "Sunday"
+        self.assertEqual(sol.dayOfTheWeek(day, month, year), expected_output)
+
+    def test_da(self):
+        """docstring for da"""
+        sol = solution.Solution()
+
+        date = "2019-01-09"
+        expected_output = 9
+        self.assertEqual(sol.dayOfYear(date), expected_output)
+
+        date = "2019-02-10"
+        expected_output = 41
+        self.assertEqual(sol.dayOfYear(date), expected_output)
+
 
 if __name__ == '__main__':
     unittest.main()

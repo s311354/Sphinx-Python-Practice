@@ -13,7 +13,8 @@ import json
 import heapq
 import math
 import random
-
+import datetime
+from datetime import date
 
 class ListNode:
     def __init__(self, val=0, next=None):
@@ -4240,9 +4241,8 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
 
             else:
                 delta_left += 1
-            
-            left[delta_left] += 1
 
+            left[delta_left] += 1
 
         for i in range(index + 1, N):
             if nums[i] < k:
@@ -4265,3 +4265,132 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
 
         count += left[0] * right[0]
         return count
+
+    def maxEvents(self, events: List[List[int]]) -> int:
+        """ 1353. Maximum Number of Events That Can Be Attended
+
+        You are given an array of events where events[i] = [startDayi, endDayi]. Every event i starts at startDayi and ends at endDayi.
+
+        You can attend an event i at any day d where startTimei <= d <= endTimei. You can only attend one event at any time d.
+
+        Return the maximum number of events you can attend.
+
+        :param events:  an array of events
+        :type  events:  List[List[int]]
+
+        :return:  the maximum number of events you can attend
+        :rtype:   int
+        """
+
+        # time:O(NlogN) space:O(N)
+
+        events.sort(key=lambda x: (x[1], x[0]))
+        attend = set()
+
+        for start, end in events:
+            for day in range(start, end+1):
+                if day not in attend:
+                    attend.add(day)
+                    break
+
+        return len(attend)
+
+    def reformatDate(self, date: str) -> str:
+        """ 1507. Reformat Date
+
+        Given a date string in the form Day Month Year, where:
+        - Day is in the set {"1st", "2nd", "3rd", "4th", ..., "30th", "31st"}.
+        - Month is in the set {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"}.
+        - Year is in the range [1900, 2100].
+
+        Convert the date string to the format YYYY-MM-DD, where:
+        - YYYY denotes the 4 digit year.
+        - MM denotes the 2 digit month.
+        - DD denotes the 2 digit day.
+
+        :param date:  a date string in the form Day Month Year
+        :type  date:  str
+
+        :return:  the date string to the format YYYY-MM-DD
+        :rtype:   str
+        """
+        # time:O(1) space:O(1)
+
+        months = {"Jan": "01", "Feb": "02", "Mar": "03", "Apr": "04", "May": "05", "Jun": "06", "Jul": "07", "Aug": "08", "Sep": "09", "Oct": "10", "Nov": "11", "Dec": "12"}
+
+        if date[1] >= "n" and date[1] <= "t":
+            day = "0" + date[0]
+            month = months[date[4:7]]
+            year = date[8:12]
+        else:
+            day = date[:2]
+            month = months[date[5:8]]
+            year = date[9:13]
+
+        return year+"-"+month+"-"+day
+
+    def daysBetweenDates(self, date1: str, date2: str) -> int:
+        """ 1360. Number of Days Between Two Dates
+
+        Write a program to count the number of days between two dates.
+
+        The two dates are given as strings, their format is YYYY-MM-DD as shown in the examples.
+
+        :param date1:  the date 1
+        :type  date1:  str
+
+        :param date2:  the date 2
+        :type  date2:  str
+
+        :return:  the number of days between two dates
+        :rtype:   int
+        """
+
+        # time:O(1) space:O(1)
+        date1 = datetime.datetime.strptime(date1,'%Y-%m-%d')
+        date2 = datetime.datetime.strptime(date2,'%Y-%m-%d')
+        diff = date2-date1
+
+        return abs(diff.days)
+
+    def dayOfTheWeek(self, day: int, month: int, year: int) -> str:
+        """ 1185. Day of the Week
+
+        Given a date, return the corresponding day of the week for that date.
+        The input is given as three integers representing the day, month and year respectively.
+
+        Return the answer as one of the following values {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"}.
+
+        :param day:   the day
+        :type  day:   int
+
+        :param month:  the month
+        :type  month:  int
+
+        :param year:  the year
+        :type  year:  int
+
+        :return:  the corresponding day of the week for that date
+        :rtype:   str
+        """
+
+        return date(year, month, day).strftime("%A")
+
+    def dayOfYear(self, date: str) -> int:
+        """ 1154. Day of the Year
+
+        Given a string date representing a Gregorian calendar date formatted as YYYY-MM-DD, return the day number of the year.
+
+        :param date:  stringg date
+        :type  date:  str
+
+        :return:  the day number of the year
+        :rtype:   int
+        """
+
+        # time:O(1) space:O(1)
+        y, m, d = (int(x) for x in date.split("-"))
+        days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30]
+
+        # the leap year is year%4 == 0 and year%100 != 0 or year%400 == 0
+        return sum(days[:(m-1)]) + d + (m > 2 and (y%4 == 0 and y%100 != 0 or y%400 == 0))
