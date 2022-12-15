@@ -282,7 +282,7 @@ The example using range to initialize a list of lists::
 
 See the `Python ranges page <https://docs.python.org/3.7/library/stdtypes.html?highlight=range#ranges>`_ for more info.
 
-Built-in Functions (enumerate, reversed)
+Built-in Functions (enumerate, reversed, super)
 ----------------------------------------------------------
 
 The Python interpreter has a number of functions and types built into it that are always available.
@@ -305,6 +305,47 @@ Reversed
 Return a reverse iterator. seq must be an object which has a __reversed__() method or supports the sequence protocol.
 
 See the `Python reversed page <https://docs.python.org/3/library/functions.html?highlight=reversed#reversed>`_ for more info.
+
+Super
+^^^^^^^^^^^^^^^^^^^^
+
+Return a proxy object that delegates method calls to a parent or sibling class of type. This is useful for accessing inherited methods that have been overridden in a class. There are two typical use cases for super. In a class hierarchy with single inheritance, super can be used to refer to parent classes without naming them explicitly, thus making the code *more maintainable*. The second use case is to support cooperative multiple inheritance in a dynamic execution environment.
+
+The typical superclass call looks like::
+
+    >>> class C(B):
+    >>>     def method(self, arg):
+    >>>         super().method(arg) # this does the same thing as: super(C, self).method(arg)
+
+For practical suggestions on how to design cooperative classes using super(), see the example belowing::
+
+    >>> class Root:
+    >>>     def draw(self):
+    >>>         # the delegation chain stops here
+    >>>         assert not hasattr(super(Root, self), 'draw')
+    >>>
+    >>> class Shape(Root):
+    >>>     def __init__(self, shapename, **kwds):
+    >>>         self.shapename = shapename
+    >>>         super().__init__(**kwds)
+    >>>     def draw(self):
+    >>>         print('Drawing.  Setting shape to:', self.shapename)
+    >>>         super().draw()
+    >>>
+    >>> class ColoredShape(Shape):
+    >>>     def __init__(self, color, **kwds):
+    >>>         self.color = color
+    >>>         super().__init__(**kwds)
+    >>>     def draw(self):
+    >>>         print('Drawing.  Setting color to:', self.color)
+    >>>         super().draw()
+    >>>
+    >>> cs = ColoredShape(color='blue', shapename='square')
+    >>> cs.draw()
+    ... Drawing.  Setting color to: blue
+    ... Drawing.  Setting shape to: square
+
+See the `Python's super() considered super page <https://rhettinger.wordpress.com/2011/05/26/super-considered-super/>`_ for more description.
 
 Heap queue algorithm (heapq)
 ------------------------------------
@@ -338,7 +379,7 @@ The following functions are provided:
 
 See the `Python heapq page <https://docs.python.org/3.7/library/heapq.html?highlight=heappush#module-heapq>`_ for more info.
 
-Supporting for type hits (TypeVar, List, Optional)
+Supporting for type hits (TypeVar, List, Union, Optional)
 ----------------------------------------------------------
 
 TypeVar
@@ -371,6 +412,17 @@ The example using List::
 
 See the `Python List page <https://docs.python.org/3.7/library/typing.html?highlight=optional#typing.List>`_ for more info.
 
+Union
+^^^^^^^^
+
+Union type: Union[X, Y] means either X or Y. To define a union, use e.g. Union[int, str].
+
+The example using Union type::
+
+    Union[Union[int, str], float] == Union[int, str, float]
+    Union[int, str] == Union[str, int]
+
+See the `Python Union page <https://docs.python.org/3.7/library/typing.html?highlight=optional#typing.Union>`_ for more info.
 
 Optional
 ^^^^^^^^^
