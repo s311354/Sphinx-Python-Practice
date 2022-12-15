@@ -757,3 +757,24 @@ Argparse - Parser for command-line options, arguments and sub-commands
 
 The argparse module makes it easy to write user-friendly command-line interfaces. The program defines what arguments it requires, and argparse will figure out how to parse those out of sys.argv.
 
+Built-in Exception
+--------------------
+
+In python, all exceptions must be instances of a class that derives from BaseException. In a try statement with an except clause that mentions a particular class, that class also handles any exception classes derived from that class.
+
+Concerte exceptions (TypeError, RuntimeError)
+^^^^^^^^^^^^^^^^^^^^^
+
+The following exceptions are the exceptions that are usually raised.
+
+exception TypeError
+''''''''''''''''''''''''''
+
+Raised when an operation or function is applied to an object of inappropriate type. The associated value is a string giving details about the type mismatch.
+
+exception RuntimeError
+''''''''''''''''''''''''''
+
+This exception is derived from RuntimeError. It is raised when the interpreter detects that the maximum recursion depth is exceeded.
+
+See the `Python Exception page <https://docs.python.org/3.7/library/exceptions.html>`_ for more info.
