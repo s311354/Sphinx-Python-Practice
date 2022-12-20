@@ -155,12 +155,12 @@ class SolutionCase(unittest.TestCase):
         n = 2
         connections = [[0,1]]
         expected_output = [[0,1]]
-#         self.assertEqual(sol.criticalConnections(n, connections), expected_output)
+        self.assertEqual(sol.criticalConnections(n, connections), expected_output)
 
         n = 6
         connections = [[0,1],[1,2],[2,0],[1,3],[3,4],[4,5],[5,3]]
         expected_output = [[1,3]]
-#         self.assertEqual(sol.criticalConnections(n, connections), expected_output)
+        self.assertEqual(sol.criticalConnections(n, connections), expected_output)
 
     def test_arrayNesting(self):
         """565. Array Nesting docstring for arrayNesting"""
@@ -1363,6 +1363,16 @@ class SolutionCase(unittest.TestCase):
         date = "2019-02-10"
         expected_output = 41
         self.assertEqual(sol.dayOfYear(date), expected_output)
+
+    def test_shortestDistance(self):
+        """docstring for shortestDistance"""
+        sol = solution.Solution()
+
+        grid = [[1, 0, 2, 0, 1], [0, 0, 0, 0, 0], [0, 0, 1, 0, 0]]
+        expected_output = 7
+        self.assertEqual(sol.shortestDistance(grid), expected_output)
+
+
 
 
 if __name__ == '__main__':

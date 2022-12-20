@@ -15,6 +15,7 @@ import math
 import random
 import datetime
 from datetime import date
+from queue import Queue
 
 class ListNode:
     def __init__(self, val=0, next=None):
@@ -458,21 +459,10 @@ class Solution(object):
         """
 
         # time:O(N) space:O(N + M)
+        def dfs_visit(node, from_node, visited):
 
-        # Tarjan's algorithm
-        # build undirected graph
-        graph = defaultdict(list)
-        low_link, results = defaultdict(int), []
-
-        for sor, dst in connections:
-            graph[sor].append(dst)
-            graph[dst].append(sor)
-
-        def dfs_visit(node, from_node=None):
-            if node in low_link:
-                return low_link[node]
-
-            cur_id = low_link[node] = len(low_link)
+            low_link[node] = visited
+            visited += 1
 
             # Traversal
             for neigh in graph[node]:
@@ -480,17 +470,28 @@ class Solution(object):
                 if neigh == from_node:
                     continue
 
+                if low_link[neigh] == 0:
+                    dfs_visit(neigh, node, visited)
+
                 # Track the smallest low link value
-                low_link[node] = min(low_link[node], dfs_visit(neigh, node))
+                low_link[node] = min(low_link[node], low_link[neigh])
 
             # Determine critical connection (bridge)
             # according to when the low link value is equal to visited time.
-            if cur_id == low_link[node] and from_node is not None:
-                results.append([from_node, node])
+                if visited == low_link[neigh]:
+                    results.append([node,neigh])
 
-            return low_link[node]
+        # Tarjan's algorithm
+        # build undirected graph
+        graph = defaultdict(list)
+        low_link, results = defaultdict(int), []
+        visited = 1
 
-        dfs_visit(0, None)
+        for sor, dst in connections:
+            graph[sor].append(dst)
+            graph[dst].append(sor)
+
+        dfs_visit(0, None, visited)
 
         return results
 
@@ -4394,3 +4395,78 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
 
         # the leap year is year%4 == 0 and year%100 != 0 or year%400 == 0
         return sum(days[:(m-1)]) + d + (m > 2 and (y%4 == 0 and y%100 != 0 or y%400 == 0))
+
+    def shortestDistance(self, grid: List[List[int]]) -> int:
+        """ 317. Shortest Distance from All Buildings
+
+        You want to build a house on an empty land which reaches all buildings
+        in the shortest amount of distance. You can only move up, down left,
+        and right. You are given a 2D grid of values 0, 1, 2, where:
+
+        - Each 0 marks an empty land which you can pass by freely.
+        - Each 1 marks a building which you cannot pass through.
+        - Each 2 marks an obstacle which you cannot pass through.
+
+        :param grid:  2D grid
+        :type  grid:  List[List[int]]
+
+        :return:  the shortest distance from all buildings
+        :rtype:  int
+        """
+
+        def bfs(i, j):
+            q = Queue()
+            q.put([i, j])
+            step = 0
+            xx, yy = 0, 0
+
+            tmp_grid = [[0]*column for _ in range(row)]
+
+            for x in range(row):
+                for y in range(column):
+                    tmp_grid[x][y] = grid[x][y]
+
+            while not q.empty():
+                curDepth = q.qsize()
+
+                for i in range(curDepth):
+                    xx, yy = q.get()
+
+                    # meet the boundary
+                    if xx == len(grid) or xx < 0 or yy == len(grid[0]) or yy < 0:
+                        continue
+
+                    # only empty land which you can pass by freely
+                    if step != 0 and tmp_grid[xx][yy] != 0:
+                        continue
+
+                    visited[xx][yy] += 1
+                    distance[xx][yy] += step
+                    tmp_grid[xx][yy] = -1
+                    q.put([xx+1, yy])
+                    q.put([xx-1, yy])
+                    q.put([xx, yy+1])
+                    q.put([xx, yy-1])
+
+                step += 1
+
+        row, column = len(grid), len(grid[0])
+        distance = [[0]*column for _ in range(row)]
+        visited = [[0]*column for _ in range(row)]
+        num_building = 0
+        ans = math.inf
+
+        # Search & Traversal
+        for i in range(row):
+            for j in range(column):
+                if grid[i][j] == 1:
+                    num_building += 1
+                    bfs(i, j)
+
+        # Find the shortest distance
+        for i in range(row):
+            for j in range(column):
+                if visited[i][j] == num_building:
+                    ans = min(ans, distance[i][j])
+
+        return ans if ans != math.inf else -1
