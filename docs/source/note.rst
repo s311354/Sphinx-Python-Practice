@@ -763,7 +763,7 @@ Built-in Exception
 In python, all exceptions must be instances of a class that derives from BaseException. In a try statement with an except clause that mentions a particular class, that class also handles any exception classes derived from that class.
 
 Concerte exceptions (TypeError, RuntimeError)
-^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The following exceptions are the exceptions that are usually raised.
 
@@ -778,3 +778,50 @@ exception RuntimeError
 This exception is derived from RuntimeError. It is raised when the interpreter detects that the maximum recursion depth is exceeded.
 
 See the `Python Exception page <https://docs.python.org/3.7/library/exceptions.html>`_ for more info.
+
+pandas - DataFrame
+------------------------------------------------------------------------
+
+The fundamental data structure in pandas is:
+
+DataFrame([data, index, columns, dtype, copy]) Two-dimensional, size-mutable, potentially, heterogeneous tabular data.
+
+Attributes and underlying data
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+See the `Python pandas DataFrame Attributes and underlying data page <https://pandas.pydata.org/docs/reference/frame.html>`_ for more info.
+
+pandas.DataFrame.pivot_table
+'''''''''''''''''''''''''''''''''''
+
+This attribute can create a spreadsheet-style pivot table as a DataFrame. 
+
+This levels in the pivot table will be stored in MultiIndex objects (hierarchical indexes) on the index and columns of the result DataFrame.
+
+Parameters:
+
++ values: column to aggregate, optional
+
++ index: column, Grouper, array, or list of the previous
+
++ aggfunc: function, list of function, dict, [default numpy.mean]
+
++ fill_value: scalar, Values to replace missing values with [default None]
+
++ observed: bool, This only applies if any of the groupers are Categoricals. [default False]
+
++ ...
+
+The example using pandas.DataFrame.pivot_table to get how many time that particular word is::
+
+
+    >>> import pandas as pd
+    >>> df = pd.DataFrame({"Word": ["foo", "foo", "foo", "foo", "foo", "bar", "bar", "bar", "bar"]})
+    >>> print(df.pivot_table(index=["Word"], aggfunc=['size'], fill_value=True, observed=True))
+          size
+    Word
+    bar      1
+    foo      2
+
+
+See the `Python pandas.DataFrame.pivot_table page <https://pandas.pydata.org/docs/reference/frame.html>`_ for more info.
